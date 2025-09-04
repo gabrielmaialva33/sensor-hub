@@ -1,10 +1,13 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this
+repository.
 
 ## Project Overview
 
-SensorHub is a Flutter-based AI-powered comprehensive sensor monitoring application inspired by Pieces. It provides real-time monitoring of device sensors including accelerometer, gyroscope, magnetometer, GPS, battery, light, and proximity sensors with AI analysis capabilities.
+SensorHub is a Flutter-based AI-powered comprehensive sensor monitoring application inspired by
+Pieces. It provides real-time monitoring of device sensors including accelerometer, gyroscope,
+magnetometer, GPS, battery, light, and proximity sensors with AI analysis capabilities.
 
 ## Technology Stack
 
@@ -62,17 +65,21 @@ lib/
 ## Key Components
 
 ### Sensor Data Models
+
 - Abstract `SensorData` base class with common fields (id, timestamp, sensorType)
-- Concrete implementations: `AccelerometerData`, `GyroscopeData`, `MagnetometerData`, `LocationData`, `BatteryData`, `LightData`, `ProximityData`
+- Concrete implementations: `AccelerometerData`, `GyroscopeData`, `MagnetometerData`,
+  `LocationData`, `BatteryData`, `LightData`, `ProximityData`
 - All models include JSON serialization support
 
 ### SensorService
+
 - Singleton service managing all sensor streams
 - Handles permissions, lifecycle, and error handling
 - Provides individual streams for each sensor type
 - Uses broadcast stream controllers for multi-listener support
 
 ### Constants Configuration
+
 - `AppConstants` class contains all configuration values
 - Sensor sampling rates, thresholds, and display settings
 - Activity and environment classification parameters
@@ -83,11 +90,13 @@ lib/
 The app monitors 7 sensor types with specific characteristics:
 
 **Motion Sensors** (high frequency):
+
 - Accelerometer: 10Hz, includes magnitude calculation
 - Gyroscope: 10Hz, rotation data
 - Magnetometer: 5Hz, field strength calculation
 
 **Environment Sensors** (lower frequency):
+
 - Location: 5-second intervals with high accuracy
 - Light: 1Hz with condition classification
 - Proximity: 2Hz with distance measurement
@@ -104,6 +113,7 @@ The app monitors 7 sensor types with specific characteristics:
 ## State Management
 
 The app uses a hybrid approach:
+
 - **Provider**: For simple UI state and dependency injection
 - **Riverpod**: For complex sensor data streams and AI analysis state
 - Stream-based architecture for real-time sensor data updates

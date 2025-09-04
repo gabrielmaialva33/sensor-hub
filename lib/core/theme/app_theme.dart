@@ -7,13 +7,13 @@ class AppTheme {
   static const Color secondaryColor = Color(0xFF10B981); // Emerald
   static const Color accentColor = Color(0xFFF59E0B); // Amber
   static const Color errorColor = Color(0xFFEF4444); // Red
-  
+
   // Dark theme colors
   static const Color darkBackground = Color(0xFF0A0A0B);
   static const Color darkSurface = Color(0xFF1A1A1B);
   static const Color darkCard = Color(0xFF2A2A2B);
   static const Color darkBorder = Color(0xFF3A3A3B);
-  
+
   // Light theme colors
   static const Color lightBackground = Color(0xFFFAFAFC);
   static const Color lightSurface = Color(0xFFFFFFFF);
@@ -34,7 +34,7 @@ class AppTheme {
       useMaterial3: true,
       brightness: Brightness.light,
       fontFamily: GoogleFonts.inter().fontFamily,
-      
+
       colorScheme: const ColorScheme.light(
         primary: primaryColor,
         secondary: secondaryColor,
@@ -47,7 +47,7 @@ class AppTheme {
       ),
 
       scaffoldBackgroundColor: lightBackground,
-      
+
       appBarTheme: AppBarTheme(
         backgroundColor: lightSurface,
         elevation: 0,
@@ -75,21 +75,15 @@ class AppTheme {
           backgroundColor: primaryColor,
           foregroundColor: Colors.white,
           elevation: 0,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
-          ),
-          textStyle: GoogleFonts.inter(
-            fontWeight: FontWeight.w600,
-          ),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+          textStyle: GoogleFonts.inter(fontWeight: FontWeight.w600),
         ),
       ),
 
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
           foregroundColor: primaryColor,
-          textStyle: GoogleFonts.inter(
-            fontWeight: FontWeight.w600,
-          ),
+          textStyle: GoogleFonts.inter(fontWeight: FontWeight.w600),
         ),
       ),
 
@@ -110,17 +104,11 @@ class AppTheme {
         fillColor: lightCard,
       ),
 
-      dividerTheme: const DividerThemeData(
-        color: lightBorder,
-        thickness: 1,
-      ),
+      dividerTheme: const DividerThemeData(color: lightBorder, thickness: 1),
 
       chipTheme: ChipThemeData(
         backgroundColor: lightCard,
-        labelStyle: GoogleFonts.inter(
-          fontSize: 12,
-          color: lightText,
-        ),
+        labelStyle: GoogleFonts.inter(fontSize: 12, color: lightText),
         side: const BorderSide(color: lightBorder),
       ),
     );
@@ -131,7 +119,7 @@ class AppTheme {
       useMaterial3: true,
       brightness: Brightness.dark,
       fontFamily: GoogleFonts.inter().fontFamily,
-      
+
       colorScheme: const ColorScheme.dark(
         primary: primaryColor,
         secondary: secondaryColor,
@@ -144,7 +132,7 @@ class AppTheme {
       ),
 
       scaffoldBackgroundColor: darkBackground,
-      
+
       appBarTheme: AppBarTheme(
         backgroundColor: darkSurface,
         elevation: 0,
@@ -172,21 +160,15 @@ class AppTheme {
           backgroundColor: primaryColor,
           foregroundColor: Colors.white,
           elevation: 0,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
-          ),
-          textStyle: GoogleFonts.inter(
-            fontWeight: FontWeight.w600,
-          ),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+          textStyle: GoogleFonts.inter(fontWeight: FontWeight.w600),
         ),
       ),
 
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
           foregroundColor: primaryColor,
-          textStyle: GoogleFonts.inter(
-            fontWeight: FontWeight.w600,
-          ),
+          textStyle: GoogleFonts.inter(fontWeight: FontWeight.w600),
         ),
       ),
 
@@ -207,17 +189,11 @@ class AppTheme {
         fillColor: darkCard,
       ),
 
-      dividerTheme: const DividerThemeData(
-        color: darkBorder,
-        thickness: 1,
-      ),
+      dividerTheme: const DividerThemeData(color: darkBorder, thickness: 1),
 
       chipTheme: ChipThemeData(
         backgroundColor: darkCard,
-        labelStyle: GoogleFonts.inter(
-          fontSize: 12,
-          color: darkText,
-        ),
+        labelStyle: GoogleFonts.inter(fontSize: 12, color: darkText),
         side: const BorderSide(color: darkBorder),
       ),
     );

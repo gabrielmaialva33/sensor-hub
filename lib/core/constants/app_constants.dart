@@ -2,8 +2,9 @@ class AppConstants {
   // App Info
   static const String appName = 'SensorHub';
   static const String appVersion = '1.0.0';
-  static const String appDescription = 'AI-powered comprehensive sensor monitoring';
-  
+  static const String appDescription =
+      'AI-powered comprehensive sensor monitoring';
+
   // Sensor Types
   static const List<String> availableSensors = [
     'accelerometer',
@@ -18,7 +19,7 @@ class AppConstants {
   // Sensor Display Names
   static const Map<String, String> sensorDisplayNames = {
     'accelerometer': 'Accelerometer',
-    'gyroscope': 'Gyroscope', 
+    'gyroscope': 'Gyroscope',
     'magnetometer': 'Magnetometer',
     'location': 'Location',
     'battery': 'Battery',
@@ -29,7 +30,7 @@ class AppConstants {
   // Sensor Icons
   static const Map<String, String> sensorIcons = {
     'accelerometer': '🏃',
-    'gyroscope': '🔄', 
+    'gyroscope': '🔄',
     'magnetometer': '🧭',
     'location': '📍',
     'battery': '🔋',
@@ -47,12 +48,12 @@ class AppConstants {
   // Sampling Rates (in milliseconds)
   static const Map<String, int> defaultSamplingRates = {
     'accelerometer': 100, // 10Hz
-    'gyroscope': 100,     // 10Hz
-    'magnetometer': 200,  // 5Hz
-    'location': 5000,     // Every 5 seconds
-    'battery': 30000,     // Every 30 seconds
-    'light': 1000,        // 1Hz
-    'proximity': 500,     // 2Hz
+    'gyroscope': 100, // 10Hz
+    'magnetometer': 200, // 5Hz
+    'location': 5000, // Every 5 seconds
+    'battery': 30000, // Every 30 seconds
+    'light': 1000, // 1Hz
+    'proximity': 500, // 2Hz
   };
 
   // Storage Configuration
@@ -84,7 +85,8 @@ class AppConstants {
   // Notification Configuration
   static const String notificationChannelId = 'sensor_monitoring';
   static const String notificationChannelName = 'Sensor Monitoring';
-  static const String notificationChannelDescription = 'Notifications for sensor monitoring status';
+  static const String notificationChannelDescription =
+      'Notifications for sensor monitoring status';
 
   // Export Configuration
   static const List<String> supportedExportFormats = ['json', 'csv', 'pdf'];
@@ -113,22 +115,10 @@ class AppConstants {
 
   // Environment Classification
   static const Map<String, Map<String, double>> environmentThresholds = {
-    'indoor': {
-      'light_lux_max': 500.0,
-      'confidence': 0.7,
-    },
-    'outdoor': {
-      'light_lux_min': 1000.0,
-      'confidence': 0.8,
-    },
-    'dark': {
-      'light_lux_max': 10.0,
-      'confidence': 0.9,
-    },
-    'bright': {
-      'light_lux_min': 5000.0,
-      'confidence': 0.85,
-    },
+    'indoor': {'light_lux_max': 500.0, 'confidence': 0.7},
+    'outdoor': {'light_lux_min': 1000.0, 'confidence': 0.8},
+    'dark': {'light_lux_max': 10.0, 'confidence': 0.9},
+    'bright': {'light_lux_min': 5000.0, 'confidence': 0.85},
   };
 
   // Battery Health Thresholds
@@ -154,7 +144,8 @@ class AppConstants {
 
   // Error Messages
   static const Map<String, String> errorMessages = {
-    'permission_denied': 'Permission denied. Please grant required permissions.',
+    'permission_denied':
+        'Permission denied. Please grant required permissions.',
     'sensor_unavailable': 'Sensor not available on this device.',
     'api_error': 'AI analysis service temporarily unavailable.',
     'storage_full': 'Storage limit reached. Please clear old data.',
@@ -203,7 +194,8 @@ class AppConstants {
     },
     {
       'title': 'View Insights',
-      'description': 'Get AI-powered insights about your activities and patterns',
+      'description':
+          'Get AI-powered insights about your activities and patterns',
     },
     {
       'title': 'Explore Features',

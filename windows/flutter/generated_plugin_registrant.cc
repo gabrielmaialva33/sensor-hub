@@ -12,15 +12,15 @@
 #include <permission_handler_windows/permission_handler_windows_plugin.h>
 #include <url_launcher_windows/url_launcher_windows.h>
 
-void RegisterPlugins(flutter::PluginRegistry* registry) {
-  AppLinksPluginCApiRegisterWithRegistrar(
-      registry->GetRegistrarForPlugin("AppLinksPluginCApi"));
-  BatteryPlusWindowsPluginRegisterWithRegistrar(
-      registry->GetRegistrarForPlugin("BatteryPlusWindowsPlugin"));
-  GeolocatorWindowsRegisterWithRegistrar(
-      registry->GetRegistrarForPlugin("GeolocatorWindows"));
-  PermissionHandlerWindowsPluginRegisterWithRegistrar(
-      registry->GetRegistrarForPlugin("PermissionHandlerWindowsPlugin"));
-  UrlLauncherWindowsRegisterWithRegistrar(
-      registry->GetRegistrarForPlugin("UrlLauncherWindows"));
+void RegisterPlugins(flutter::PluginRegistry *registry) {
+    AppLinksPluginCApiRegisterWithRegistrar(
+            registry->GetRegistrarForPlugin("AppLinksPluginCApi"));
+    BatteryPlusWindowsPluginRegisterWithRegistrar(
+            registry->GetRegistrarForPlugin("BatteryPlusWindowsPlugin"));
+    GeolocatorWindowsRegisterWithRegistrar(
+            registry->GetRegistrarForPlugin("GeolocatorWindows"));
+    PermissionHandlerWindowsPluginRegisterWithRegistrar(
+            registry->GetRegistrarForPlugin("PermissionHandlerWindowsPlugin"));
+    UrlLauncherWindowsRegisterWithRegistrar(
+            registry->GetRegistrarForPlugin("UrlLauncherWindows"));
 }

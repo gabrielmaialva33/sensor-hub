@@ -45,5 +45,53 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	
+	<!-- Camera Permission -->
+	<key>NSCameraUsageDescription</key>
+	<string>SensorHub uses the camera to capture images for AI-powered analysis and documentation of your sensor activities and environment.</string>
+	
+	<!-- Location Permissions -->
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>SensorHub accesses your location to provide context-aware sensor analysis and track your movement patterns for comprehensive insights.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>SensorHub needs location access to continuously monitor your movement and provide accurate environmental context for sensor data analysis.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>SensorHub requires background location access to maintain continuous sensor monitoring and provide comprehensive activity tracking.</string>
+	
+	<!-- Microphone Permission -->
+	<key>NSMicrophoneUsageDescription</key>
+	<string>SensorHub uses the microphone to capture environmental audio data and provide comprehensive sensory analysis of your surroundings.</string>
+	
+	<!-- Photo Library Permission -->
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>SensorHub accesses your photo library to save sensor reports and analysis visualizations for your personal records.</string>
+	
+	<!-- Photo Library Add Usage -->
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>SensorHub saves generated sensor reports and charts to your photo library for easy sharing and personal reference.</string>
+	
+	<!-- Motion & Fitness Permission -->
+	<key>NSMotionUsageDescription</key>
+	<string>SensorHub monitors motion and fitness data to provide accurate activity classification and health-related sensor insights.</string>
+	
+	<!-- Speech Recognition Permission -->
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>SensorHub uses speech recognition to allow voice commands for hands-free sensor data collection and interaction.</string>
+	
+	<!-- Bluetooth Permission -->
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>SensorHub uses Bluetooth to connect with external sensors and IoT devices for expanded data collection capabilities.</string>
+	
+	<!-- Local Network Permission -->
+	<key>NSLocalNetworkUsageDescription</key>
+	<string>SensorHub accesses the local network to sync sensor data with nearby devices and enable collaborative monitoring features.</string>
+	
+	<!-- Background Processing -->
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>location</string>
+		<string>background-processing</string>
+		<string>background-fetch</string>
+	</array>
 </dict>
 </plist>
