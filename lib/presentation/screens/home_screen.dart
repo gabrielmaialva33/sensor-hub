@@ -185,7 +185,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                   ),
                   const SizedBox(width: AppTheme.paddingSM),
                   Text(
-                    _isMonitoring ? 'Monitoramento Ativo' : 'Monitoramento Parado',
+                    _isMonitoring
+                        ? 'Monitoramento Ativo'
+                        : 'Monitoramento Parado',
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
                       color: _isMonitoring
                           ? AppTheme.secondaryColor
@@ -327,7 +329,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                     onPressed: _toggleMonitoring,
                     icon: Icon(_isMonitoring ? Icons.stop : Icons.play_arrow),
                     label: Text(
-                      _isMonitoring ? 'Parar Monitoramento' : 'Iniciar Monitoramento',
+                      _isMonitoring
+                          ? 'Parar Monitoramento'
+                          : 'Iniciar Monitoramento',
                     ),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: _isMonitoring
@@ -442,7 +446,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-'Visão Geral dos Sensores',
+            'Visão Geral dos Sensores',
             style: Theme.of(
               context,
             ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
@@ -524,7 +528,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
       context: context,
       builder: (context) => AlertDialog(
         title: const Text('Configurações'),
-        content: const Text('Configurações de monitoramento de sensores em breve!'),
+        content: const Text(
+          'Configurações de monitoramento de sensores em breve!',
+        ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),

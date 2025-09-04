@@ -71,22 +71,22 @@ class _AIInsightsPanelState extends ConsumerState<AIInsightsPanel> {
       children: [
         Expanded(
           child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              '🤖 Insights de IA',
-              style: Theme.of(
-                context,
-              ).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: AppTheme.paddingXS),
-            Text(
-              'Desenvolvido com NVIDIA AI',
-              style: Theme.of(
-                context,
-              ).textTheme.bodyMedium?.copyWith(color: AppTheme.mutedText),
-            ),
-          ],
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                '🤖 Insights de IA',
+                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: AppTheme.paddingXS),
+              Text(
+                'Desenvolvido com NVIDIA AI',
+                style: Theme.of(
+                  context,
+                ).textTheme.bodyMedium?.copyWith(color: AppTheme.mutedText),
+              ),
+            ],
           ),
         ),
         ElevatedButton.icon(
@@ -127,7 +127,7 @@ class _AIInsightsPanelState extends ConsumerState<AIInsightsPanel> {
             context,
             isDark,
             '📊',
-'Pontos de Dados',
+            'Pontos de Dados',
             totalDataPoints.toString(),
             AppTheme.primaryColor,
           ),
@@ -138,7 +138,7 @@ class _AIInsightsPanelState extends ConsumerState<AIInsightsPanel> {
             context,
             isDark,
             '📡',
-'Sensores Ativos',
+            'Sensores Ativos',
             '$activeSensors/7',
             AppTheme.secondaryColor,
           ),

@@ -56,6 +56,7 @@ class _TestHomeScreenState extends ConsumerState<TestHomeScreen> {
 
   bool _isMonitoring = false;
   Map<String, PermissionStatus> _permissionStatuses = {};
+
   // ignore: prefer_final_fields
   Map<String, String> _sensorData = {};
   String _debugInfo = '';

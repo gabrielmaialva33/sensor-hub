@@ -428,7 +428,11 @@ class _SensorCardState extends ConsumerState<SensorCard> {
               ),
             ),
             const SizedBox(height: AppTheme.paddingMD),
-            _buildDataRow('Status', data.isNear ? 'Objeto Próximo' : 'Livre', ''),
+            _buildDataRow(
+              'Status',
+              data.isNear ? 'Objeto Próximo' : 'Livre',
+              '',
+            ),
             if (data.distance != null)
               _buildDataRow(
                 'Distância',

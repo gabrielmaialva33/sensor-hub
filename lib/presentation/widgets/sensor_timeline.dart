@@ -135,29 +135,31 @@ class _SensorTimelineState extends ConsumerState<SensorTimeline> {
               // Time Range Selector
               Expanded(
                 child: Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: AppTheme.paddingSM,
-                ),
-                decoration: BoxDecoration(
-                  color: isDark ? AppTheme.darkCard : AppTheme.lightCard,
-                  borderRadius: BorderRadius.circular(AppTheme.radiusMD),
-                  border: Border.all(
-                    color: isDark ? AppTheme.darkBorder : AppTheme.lightBorder,
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: AppTheme.paddingSM,
                   ),
-                ),
-                child: DropdownButton<String>(
-                  value: _selectedTimeRange,
-                  underline: const SizedBox(),
-                  icon: const Icon(Icons.arrow_drop_down),
-                  onChanged: (value) {
-                    setState(() {
-                      _selectedTimeRange = value!;
-                    });
-                  },
-                  items: _timeRanges.keys.map((range) {
-                    return DropdownMenuItem(value: range, child: Text(range));
-                  }).toList(),
-                ),
+                  decoration: BoxDecoration(
+                    color: isDark ? AppTheme.darkCard : AppTheme.lightCard,
+                    borderRadius: BorderRadius.circular(AppTheme.radiusMD),
+                    border: Border.all(
+                      color: isDark
+                          ? AppTheme.darkBorder
+                          : AppTheme.lightBorder,
+                    ),
+                  ),
+                  child: DropdownButton<String>(
+                    value: _selectedTimeRange,
+                    underline: const SizedBox(),
+                    icon: const Icon(Icons.arrow_drop_down),
+                    onChanged: (value) {
+                      setState(() {
+                        _selectedTimeRange = value!;
+                      });
+                    },
+                    items: _timeRanges.keys.map((range) {
+                      return DropdownMenuItem(value: range, child: Text(range));
+                    }).toList(),
+                  ),
                 ),
               ),
 

@@ -1,19 +1,24 @@
 import 'dart:async';
 import 'dart:convert';
+
 import 'package:dio/dio.dart';
-import '../models/sensor_data.dart';
+
 import '../../core/utils/logger.dart';
+import '../models/sensor_data.dart';
 
 /// Service for NVIDIA AI integration and analysis
 class NvidiaAiService {
   static final NvidiaAiService _instance = NvidiaAiService._internal();
+
   factory NvidiaAiService() => _instance;
+
   NvidiaAiService._internal();
 
   late final Dio _dio;
   static const String _baseUrl = 'https://integrate.api.nvidia.com';
-  static const String _apiKey = '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';
-  
+  static const String _apiKey =
+      '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';
+
   // Model constants
   static const String _primaryModel = 'qwen/qwen3-coder-480b-a35b-instruct';
   static const String _fallbackModel = 'meta/llama-3.1-8b-instruct';
@@ -21,21 +26,25 @@ class NvidiaAiService {
 
   /// Initialize the service
   void initialize() {
-    _dio = Dio(BaseOptions(
-      baseUrl: _baseUrl,
-      headers: {
-        'Authorization': 'Bearer $_apiKey',
-        'Content-Type': 'application/json',
-      },
-      connectTimeout: const Duration(seconds: 30),
-      receiveTimeout: const Duration(seconds: 60),
-    ));
+    _dio = Dio(
+      BaseOptions(
+        baseUrl: _baseUrl,
+        headers: {
+          'Authorization': 'Bearer $_apiKey',
+          'Content-Type': 'application/json',
+        },
+        connectTimeout: const Duration(seconds: 30),
+        receiveTimeout: const Duration(seconds: 60),
+      ),
+    );
 
-    _dio.interceptors.add(LogInterceptor(
-      requestBody: true,
-      responseBody: true,
-      logPrint: (object) => Logger.debug('🤖 NVIDIA API: $object'),
-    ));
+    _dio.interceptors.add(
+      LogInterceptor(
+        requestBody: true,
+        responseBody: true,
+        logPrint: (object) => Logger.debug('🤖 NVIDIA API: $object'),
+      ),
+    );
   }
 
   /// Make API call with fallback model support
@@ -45,11 +54,11 @@ class NvidiaAiService {
       return await _dio.post('/v1/chat/completions', data: requestData);
     } catch (e) {
       Logger.warning('Primary model failed, trying fallback model: $e');
-      
+
       // Try fallback model
       final fallbackData = Map<String, dynamic>.from(requestData);
       fallbackData['model'] = _fallbackModel;
-      
+
       return await _dio.post('/v1/chat/completions', data: fallbackData);
     }
   }
@@ -58,13 +67,14 @@ class NvidiaAiService {
   Future<AIInsight> analyzeSensorData(List<SensorData> sensorData) async {
     try {
       final dataContext = _prepareSensorDataContext(sensorData);
-      
+
       final requestData = {
         'model': _primaryModel,
         'messages': [
           {
             'role': 'system',
-            'content': '''Você é o SensorHub AI, um especialista em analisar dados de sensores de dispositivos móveis para fornecer insights sobre comportamento do usuário, saúde do dispositivo e padrões ambientais.
+            'content':
+                '''Você é o SensorHub AI, um especialista em analisar dados de sensores de dispositivos móveis para fornecer insights sobre comportamento do usuário, saúde do dispositivo e padrões ambientais.
               
               Analise os dados dos sensores fornecidos e forneça:
               1. Classificação de atividade (caminhando, correndo, sentado, dirigindo, etc.)
@@ -75,12 +85,13 @@ class NvidiaAiService {
               
               O formato da resposta deve ser JSON com as chaves: activity, environment, deviceHealth, patterns, recommendations, confidence.
               
-              Responda SEMPRE em português brasileiro.'''
+              Responda SEMPRE em português brasileiro.''',
           },
           {
             'role': 'user',
-            'content': 'Analise estes dados dos sensores e forneça insights abrangentes:\n\n$dataContext'
-          }
+            'content':
+                'Analise estes dados dos sensores e forneça insights abrangentes:\n\n$dataContext',
+          },
         ],
         'max_tokens': 4096,
         'temperature': 0.7,
@@ -94,21 +105,26 @@ class NvidiaAiService {
       return _parseAIResponse(content, sensorData);
     } catch (e) {
       Logger.error('NVIDIA AI analysis error', e);
-      return AIInsight.error('Falha ao analisar dados dos sensores: ${e.toString()}');
+      return AIInsight.error(
+        'Falha ao analisar dados dos sensores: ${e.toString()}',
+      );
     }
   }
 
   /// Predict future sensor patterns
-  Future<Prediction> predictSensorPatterns(List<SensorData> historicalData) async {
+  Future<Prediction> predictSensorPatterns(
+    List<SensorData> historicalData,
+  ) async {
     try {
       final dataContext = _preparePredictionContext(historicalData);
-      
+
       final requestData = {
         'model': _predictionModel,
         'messages': [
           {
             'role': 'system',
-            'content': '''Você é uma IA de análise preditiva especializada em padrões de dados de sensores móveis.
+            'content':
+                '''Você é uma IA de análise preditiva especializada em padrões de dados de sensores móveis.
               
               Baseado nos dados históricos dos sensores, preveja:
               1. Próximas atividades prováveis
@@ -119,12 +135,13 @@ class NvidiaAiService {
               
               A resposta deve ser JSON com as chaves: nextActivity, batteryPrediction, movementForecast, environmentalChanges, recommendations, confidence.
               
-              Responda SEMPRE em português brasileiro.'''
+              Responda SEMPRE em português brasileiro.''',
           },
           {
             'role': 'user',
-            'content': 'Com base nestes dados históricos dos sensores, preveja padrões futuros:\n\n$dataContext'
-          }
+            'content':
+                'Com base nestes dados históricos dos sensores, preveja padrões futuros:\n\n$dataContext',
+          },
         ],
         'max_tokens': 4096,
         'temperature': 0.5,
@@ -143,16 +160,19 @@ class NvidiaAiService {
   }
 
   /// Generate activity summary
-  Future<ActivitySummary> generateActivitySummary(List<SensorData> dailyData) async {
+  Future<ActivitySummary> generateActivitySummary(
+    List<SensorData> dailyData,
+  ) async {
     try {
       final summary = _generateDataSummary(dailyData);
-      
+
       final requestData = {
         'model': _primaryModel,
         'messages': [
           {
             'role': 'system',
-            'content': '''Você é uma IA coach de saúde e atividade. Crie um resumo diário abrangente de atividades baseado nos dados dos sensores.
+            'content':
+                '''Você é uma IA coach de saúde e atividade. Crie um resumo diário abrangente de atividades baseado nos dados dos sensores.
               
               Forneça:
               1. Detalhamento das atividades (tempo gasto em diferentes atividades)
@@ -163,12 +183,13 @@ class NvidiaAiService {
               
               A resposta deve ser encorajadora e acionável. Formate como JSON com as chaves: activities, movement, environment, health, recommendations, score.
               
-              Responda SEMPRE em português brasileiro.'''
+              Responda SEMPRE em português brasileiro.''',
           },
           {
             'role': 'user',
-            'content': 'Crie um resumo diário de atividades para estes dados:\n\n$summary'
-          }
+            'content':
+                'Crie um resumo diário de atividades para estes dados:\n\n$summary',
+          },
         ],
         'max_tokens': 4096,
         'temperature': 0.8,
@@ -189,7 +210,7 @@ class NvidiaAiService {
   /// Prepare sensor data context for AI analysis
   String _prepareSensorDataContext(List<SensorData> sensorData) {
     final buffer = StringBuffer();
-    
+
     // Group data by sensor type
     final groupedData = <String, List<SensorData>>{};
     for (final data in sensorData) {
@@ -197,23 +218,35 @@ class NvidiaAiService {
     }
 
     buffer.writeln('📱 ANÁLISE DE DADOS DOS SENSORES:');
-    buffer.writeln('Intervalo de tempo: ${sensorData.first.timestamp} até ${sensorData.last.timestamp}');
+    buffer.writeln(
+      'Intervalo de tempo: ${sensorData.first.timestamp} até ${sensorData.last.timestamp}',
+    );
     buffer.writeln('Total de pontos de dados: ${sensorData.length}');
     buffer.writeln();
 
     groupedData.forEach((sensorType, data) {
-      buffer.writeln('🔸 ${sensorType.toUpperCase()} (${data.length} leituras):');
-      
+      buffer.writeln(
+        '🔸 ${sensorType.toUpperCase()} (${data.length} leituras):',
+      );
+
       switch (sensorType) {
         case 'accelerometer':
           final accelData = data.cast<AccelerometerData>();
-          final avgMagnitude = accelData.map((d) => d.magnitude).reduce((a, b) => a + b) / accelData.length;
-          buffer.writeln('  • Magnitude média: ${avgMagnitude.toStringAsFixed(2)}');
-          buffer.writeln('  • Magnitude máxima: ${accelData.map((d) => d.magnitude).reduce((a, b) => a > b ? a : b).toStringAsFixed(2)}');
+          final avgMagnitude =
+              accelData.map((d) => d.magnitude).reduce((a, b) => a + b) /
+              accelData.length;
+          buffer.writeln(
+            '  • Magnitude média: ${avgMagnitude.toStringAsFixed(2)}',
+          );
+          buffer.writeln(
+            '  • Magnitude máxima: ${accelData.map((d) => d.magnitude).reduce((a, b) => a > b ? a : b).toStringAsFixed(2)}',
+          );
           break;
         case 'battery':
           final batteryData = data.cast<BatteryData>();
-          final avgLevel = batteryData.map((d) => d.batteryLevel).reduce((a, b) => a + b) / batteryData.length;
+          final avgLevel =
+              batteryData.map((d) => d.batteryLevel).reduce((a, b) => a + b) /
+              batteryData.length;
           final chargingCount = batteryData.where((d) => d.isCharging).length;
           buffer.writeln('  • Nível médio: ${avgLevel.toStringAsFixed(1)}%');
           buffer.writeln('  • Eventos de carregamento: $chargingCount');
@@ -222,7 +255,9 @@ class NvidiaAiService {
           final locationData = data.cast<LocationData>();
           buffer.writeln('  • Pontos de dados: ${locationData.length}');
           if (locationData.isNotEmpty) {
-            buffer.writeln('  • Precisão média: ${locationData.map((d) => d.accuracy).reduce((a, b) => a + b) / locationData.length}m');
+            buffer.writeln(
+              '  • Precisão média: ${locationData.map((d) => d.accuracy).reduce((a, b) => a + b) / locationData.length}m',
+            );
           }
           break;
       }
@@ -252,7 +287,9 @@ class NvidiaAiService {
         return AIInsight.fromJson(jsonData, originalData);
       }
     } catch (e) {
-      Logger.warning('Falha ao analisar resposta JSON, usando análise de texto');
+      Logger.warning(
+        'Falha ao analisar resposta JSON, usando análise de texto',
+      );
     }
 
     // Fallback to text parsing
@@ -295,10 +332,7 @@ class NvidiaAiService {
       final requestData = {
         'model': _primaryModel,
         'messages': [
-          {
-            'role': 'user',
-            'content': 'Olá, você está funcionando?'
-          }
+          {'role': 'user', 'content': 'Olá, você está funcionando?'},
         ],
         'max_tokens': 50,
         'top_p': 0.8,
@@ -348,7 +382,10 @@ class AIInsight {
     errorMessage: message,
   );
 
-  factory AIInsight.fromJson(Map<String, dynamic> json, List<SensorData> data) => AIInsight(
+  factory AIInsight.fromJson(
+    Map<String, dynamic> json,
+    List<SensorData> data,
+  ) => AIInsight(
     activity: json['activity'] ?? 'Desconhecido',
     environment: json['environment'] ?? 'Desconhecido',
     deviceHealth: json['deviceHealth'] ?? 'Bom',
@@ -357,14 +394,17 @@ class AIInsight {
     confidence: (json['confidence'] ?? 0.5).toDouble(),
   );
 
-  factory AIInsight.fromText(String content, List<SensorData> data) => AIInsight(
-    activity: 'Atividade Mista',
-    environment: 'Variável',
-    deviceHealth: 'Bom',
-    patterns: content.length > 200 ? '${content.substring(0, 200)}...' : content,
-    recommendations: ['Verificar análise detalhada', 'Monitorar padrões'],
-    confidence: 0.7,
-  );
+  factory AIInsight.fromText(String content, List<SensorData> data) =>
+      AIInsight(
+        activity: 'Atividade Mista',
+        environment: 'Variável',
+        deviceHealth: 'Bom',
+        patterns: content.length > 200
+            ? '${content.substring(0, 200)}...'
+            : content,
+        recommendations: ['Verificar análise detalhada', 'Monitorar padrões'],
+        confidence: 0.7,
+      );
 }
 
 /// Prediction model
@@ -452,14 +492,15 @@ class ActivitySummary {
     errorMessage: message,
   );
 
-  factory ActivitySummary.fromJson(Map<String, dynamic> json) => ActivitySummary(
-    activities: Map<String, int>.from(json['activities'] ?? {}),
-    movement: json['movement'] ?? 'Moderado',
-    environment: json['environment'] ?? 'Interno',
-    health: json['health'] ?? 'Bom',
-    recommendations: List<String>.from(json['recommendations'] ?? []),
-    score: json['score'] ?? 75,
-  );
+  factory ActivitySummary.fromJson(Map<String, dynamic> json) =>
+      ActivitySummary(
+        activities: Map<String, int>.from(json['activities'] ?? {}),
+        movement: json['movement'] ?? 'Moderado',
+        environment: json['environment'] ?? 'Interno',
+        health: json['health'] ?? 'Bom',
+        recommendations: List<String>.from(json['recommendations'] ?? []),
+        score: json['score'] ?? 75,
+      );
 
   factory ActivitySummary.fromText(String content) => ActivitySummary(
     activities: {'Misto': 100},

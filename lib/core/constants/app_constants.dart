@@ -148,7 +148,8 @@ class AppConstants {
         'Permissão negada. Por favor, conceda as permissões necessárias.',
     'sensor_unavailable': 'Sensor não disponível neste dispositivo.',
     'api_error': 'Serviço de análise de IA temporariamente indisponível.',
-    'storage_full': 'Limite de armazenamento atingido. Por favor, limpe dados antigos.',
+    'storage_full':
+        'Limite de armazenamento atingido. Por favor, limpe dados antigos.',
     'network_error': 'Conexão de rede necessária para recursos de IA.',
   };
 
@@ -186,16 +187,17 @@ class AppConstants {
     },
     {
       'title': 'Conceder Permissões',
-      'description': 'Permitir acesso aos sensores para monitoramento abrangente',
+      'description':
+          'Permitir acesso aos sensores para monitoramento abrangente',
     },
     {
       'title': 'Iniciar Monitoramento',
-      'description': 'Toque no botão de reprodução para começar a coletar dados dos sensores',
+      'description':
+          'Toque no botão de reprodução para começar a coletar dados dos sensores',
     },
     {
       'title': 'Ver Insights',
-      'description':
-          'Obtenha insights de IA sobre suas atividades e padrões',
+      'description': 'Obtenha insights de IA sobre suas atividades e padrões',
     },
     {
       'title': 'Explorar Recursos',
