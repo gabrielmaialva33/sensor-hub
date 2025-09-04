@@ -3,7 +3,7 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 
-import '../../core/utils/logger.dart';
+import 'package:sensor_hub/core/core.dart';
 import '../models/sensor_data.dart';
 
 /// Service for NVIDIA AI integration and analysis

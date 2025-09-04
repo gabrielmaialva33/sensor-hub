@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../core/constants/app_constants.dart';
-import '../../core/theme/app_theme.dart';
+import 'package:sensor_hub/core/core.dart';
+import 'package:sensor_hub/core/core.dart';
 import '../providers/sensor_providers.dart';
 
 class SensorCard extends ConsumerStatefulWidget {

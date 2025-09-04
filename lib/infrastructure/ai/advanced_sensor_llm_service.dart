@@ -3,7 +3,7 @@ import 'dart:math';
 
 import 'package:dio/dio.dart';
 
-import '../../core/utils/logger.dart';
+import 'package:sensor_hub/core/core.dart';
 import '../models/sensor_data.dart';
 
 /// Advanced Sensor-LLM Integration Service

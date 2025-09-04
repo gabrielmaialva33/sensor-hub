@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
-import '../../core/constants/app_constants.dart';
-import '../../core/theme/app_theme.dart';
-import '../../core/utils/logger.dart';
-import '../../data/services/nvidia_ai_service.dart';
-import '../../data/services/supabase_service.dart';
+import 'package:sensor_hub/core/core.dart';
+import 'package:sensor_hub/core/core.dart';
+import 'package:sensor_hub/core/core.dart';
+import 'package:sensor_hub/infrastructure/infrastructure.dart';
+import 'package:sensor_hub/infrastructure/infrastructure.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});

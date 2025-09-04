@@ -6,8 +6,8 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-import '../data/services/permission_service.dart';
-import '../data/services/sensor_service.dart';
+import 'package:sensor_hub/infrastructure/infrastructure.dart';
+import 'package:sensor_hub/infrastructure/infrastructure.dart';
 
 /// Debug helper for testing and troubleshooting sensor functionality
 class DebugHelper {

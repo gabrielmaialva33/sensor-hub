@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'app_router.dart';
-import '../core/theme/app_theme.dart';
+import 'package:sensor_hub/core/core.dart';
 
 /// App principal com arquitetura 2025
 class SensorHubApp extends ConsumerWidget {

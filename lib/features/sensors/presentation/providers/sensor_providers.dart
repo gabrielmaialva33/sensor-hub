@@ -1,8 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../data/models/sensor_data.dart';
-import '../../data/services/nvidia_ai_service.dart';
-import '../../data/services/sensor_service.dart';
+import 'package:sensor_hub/features/sensors/data/models/sensor_data.dart';
+import 'package:sensor_hub/infrastructure/infrastructure.dart';
+import 'package:sensor_hub/infrastructure/infrastructure.dart';
 
 // Sensor Service Provider
 final sensorServiceProvider = Provider<SensorService>((ref) {

@@ -4,9 +4,9 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
-import '../../core/constants/app_constants.dart';
-import '../../core/theme/app_theme.dart';
-import '../../data/models/sensor_data.dart';
+import 'package:sensor_hub/core/core.dart';
+import 'package:sensor_hub/core/core.dart';
+import 'package:sensor_hub/features/sensors/data/models/sensor_data.dart';
 import '../providers/sensor_providers.dart';
 
 class SensorTimeline extends ConsumerStatefulWidget {
