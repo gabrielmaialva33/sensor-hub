@@ -3,10 +3,8 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
-import '../../core/constants/app_constants.dart';
-import '../../core/theme/app_theme.dart';
-import '../../core/utils/logger.dart';
-import '../../data/services/sensor_service.dart';
+import '../../../../core/core.dart';
+import '../../../../infrastructure/infrastructure.dart';
 import '../widgets/ai_insights_panel.dart';
 import '../widgets/sensor_card.dart';
 import '../widgets/sensor_timeline.dart';
