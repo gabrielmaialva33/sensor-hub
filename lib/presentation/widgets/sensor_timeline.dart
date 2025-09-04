@@ -189,7 +189,7 @@ class _SensorTimelineState extends ConsumerState<SensorTimeline> {
             Icon(
               Icons.show_chart,
               size: 64,
-              color: AppTheme.mutedText.withOpacity(0.3),
+              color: AppTheme.mutedText.withValues(alpha: 0.3),
             ),
             const SizedBox(height: AppTheme.paddingMD),
             Text(
@@ -202,7 +202,7 @@ class _SensorTimelineState extends ConsumerState<SensorTimeline> {
             Text(
               'Start monitoring to see sensor timeline',
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: AppTheme.mutedText.withOpacity(0.7),
+                color: AppTheme.mutedText.withValues(alpha: 0.7),
               ),
             ),
           ],
@@ -258,7 +258,7 @@ class _SensorTimelineState extends ConsumerState<SensorTimeline> {
                     vertical: AppTheme.paddingXS,
                   ),
                   decoration: BoxDecoration(
-                    color: AppTheme.primaryColor.withOpacity(0.1),
+                    color: AppTheme.primaryColor.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(AppTheme.radiusSM),
                   ),
                   child: Text(
@@ -325,16 +325,16 @@ class _SensorTimelineState extends ConsumerState<SensorTimeline> {
           getDrawingHorizontalLine: (value) {
             return FlLine(
               color: isDark 
-                ? AppTheme.darkBorder.withOpacity(0.3)
-                : AppTheme.lightBorder.withOpacity(0.3),
+                ? AppTheme.darkBorder.withValues(alpha: 0.3)
+                : AppTheme.lightBorder.withValues(alpha: 0.3),
               strokeWidth: 1,
             );
           },
           getDrawingVerticalLine: (value) {
             return FlLine(
               color: isDark 
-                ? AppTheme.darkBorder.withOpacity(0.2)
-                : AppTheme.lightBorder.withOpacity(0.2),
+                ? AppTheme.darkBorder.withValues(alpha: 0.2)
+                : AppTheme.lightBorder.withValues(alpha: 0.2),
               strokeWidth: 1,
             );
           },
@@ -412,8 +412,8 @@ class _SensorTimelineState extends ConsumerState<SensorTimeline> {
               show: true,
               gradient: LinearGradient(
                 colors: [
-                  AppTheme.primaryColor.withOpacity(0.2),
-                  AppTheme.secondaryColor.withOpacity(0.05),
+                  AppTheme.primaryColor.withValues(alpha: 0.2),
+                  AppTheme.secondaryColor.withValues(alpha: 0.05),
                 ],
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
