@@ -1,8 +1,5 @@
 import 'dart:async';
-import 'dart:math';
-import 'package:flutter/foundation.dart';
 import '../../features/sensors/data/models/sensor_data.dart';
-import '../../core/constants/app_constants.dart';
 
 /// Represents a life event or significant moment detected from sensor data
 class LifeEvent {
@@ -77,7 +74,7 @@ class LifeNarrativeService {
   LifeNarrativeService._internal();
 
   final List<LifeEvent> _lifeEvents = [];
-  final List<LifePattern> _detectedPatterns = [];
+  // final List<LifePattern> _detectedPatterns = []; // For future use
   final Map<String, List<SensorData>> _sensorHistory = {};
   final StreamController<LifeEvent> _eventStreamController = StreamController.broadcast();
   final StreamController<String> _narrativeStreamController = StreamController.broadcast();
@@ -218,7 +215,7 @@ class LifeNarrativeService {
   /// Generate environment-based narrative
   String _generateEnvironmentNarrative(DateTime date) {
     final lightData = _getSensorDataForDate('light', date);
-    final locationData = _getSensorDataForDate('location', date);
+    // final locationData = _getSensorDataForDate('location', date); // For future use
     
     if (lightData.isEmpty) return '';
 
