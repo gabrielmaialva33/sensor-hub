@@ -15,7 +15,7 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  String _status = 'Initializing SensorHub...';
+  String _status = 'Inicializando SensorHub...';
   bool _hasError = false;
 
   @override
@@ -27,7 +27,7 @@ class _SplashScreenState extends State<SplashScreen> {
   Future<void> _initializeApp() async {
     try {
       // Step 1: Initialize Supabase
-      setState(() => _status = 'Connecting to cloud services...');
+      setState(() => _status = 'Conectando aos serviços na nuvem...');
       await Future.delayed(const Duration(milliseconds: 800));
 
       final supabaseService = SupabaseService();
@@ -36,7 +36,7 @@ class _SplashScreenState extends State<SplashScreen> {
       }
 
       // Step 2: Test connections
-      setState(() => _status = 'Testing AI services...');
+      setState(() => _status = 'Testando serviços de IA...');
       await Future.delayed(const Duration(milliseconds: 600));
 
       final aiService = NvidiaAiService();
@@ -52,7 +52,7 @@ class _SplashScreenState extends State<SplashScreen> {
       });
 
       // Step 3: Setup complete
-      setState(() => _status = 'Ready to monitor sensors!');
+      setState(() => _status = 'Pronto para monitorar sensores!');
       await Future.delayed(const Duration(milliseconds: 800));
 
       // Navigate to home screen
@@ -61,7 +61,7 @@ class _SplashScreenState extends State<SplashScreen> {
       }
     } catch (e) {
       setState(() {
-        _status = 'Failed to initialize: ${e.toString()}';
+        _status = 'Falha ao inicializar: ${e.toString()}';
         _hasError = true;
       });
 
