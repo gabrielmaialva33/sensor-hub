@@ -406,7 +406,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
   }
 
   // Top Bar with tabs
-  Widget _buildTopBar(bool isDark) {
+  Widget _buildTopBar(bool isDark, bool isTablet) {
     return Container(
       padding: const EdgeInsets.all(AppTheme.paddingMD),
       decoration: BoxDecoration(
