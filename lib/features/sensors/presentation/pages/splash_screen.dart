@@ -163,9 +163,9 @@ class _SplashScreenState extends State<SplashScreen> {
                           .animate()
                           .fadeIn(delay: 800.ms)
                           .scale(delay: 800.ms, duration: 400.ms),
-                      // Error Icon
-                      if (_hasError)
-                  const Icon(
+                  // Error Icon
+                  if (_hasError)
+                    const Icon(
                     Icons.warning_amber_rounded,
                     size: 32,
                     color: AppTheme.errorColor,
