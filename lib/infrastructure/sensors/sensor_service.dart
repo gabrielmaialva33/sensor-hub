@@ -47,6 +47,7 @@ class SensorService {
   // Mock data generation for web platform
   final Random _random = Random();
   Timer? _mockDataTimer;
+  int _mockTickCounter = 0;
   
   // Mock data state
   double _mockAccelBase = 1.0;
@@ -157,6 +158,7 @@ class SensorService {
 
   /// Generate mock sensor data that simulates realistic sensor behavior
   void _generateMockSensorData() {
+    _mockTickCounter++;
     final now = DateTime.now();
     
     // Simulate natural variations
