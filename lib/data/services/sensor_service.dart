@@ -6,6 +6,7 @@ import 'package:light_sensor/light_sensor.dart';
 import 'package:proximity_sensor/proximity_sensor.dart';
 import 'package:permission_handler/permission_handler.dart';
 import '../models/sensor_data.dart';
+import '../../core/utils/logger.dart';
 
 /// Service for collecting data from all device sensors
 class SensorService {
@@ -65,7 +66,7 @@ class SensorService {
     await _startLightSensor();
     await _startProximitySensor();
 
-    print('🚀 SensorHub: All sensors started monitoring');
+    Logger.success('SensorHub: All sensors started monitoring');
   }
 
   /// Stop monitoring all sensors
@@ -81,7 +82,7 @@ class SensorService {
     _proximitySubscription?.cancel();
 
     _isMonitoring = false;
-    print('⏹️ SensorHub: All sensors stopped monitoring');
+    Logger.info('SensorHub: All sensors stopped monitoring');
   }
 
   /// Request necessary permissions
@@ -106,11 +107,11 @@ class SensorService {
           _accelerometerController.add(data);
         },
         onError: (error) {
-          print('❌ Accelerometer error: $error');
+          Logger.error('Accelerometer error', error);
         },
       );
     } catch (e) {
-      print('❌ Failed to start accelerometer: $e');
+      Logger.error('Failed to start accelerometer', e);
     }
   }
 
@@ -127,11 +128,11 @@ class SensorService {
           _gyroscopeController.add(data);
         },
         onError: (error) {
-          print('❌ Gyroscope error: $error');
+          Logger.error('Gyroscope error', error);
         },
       );
     } catch (e) {
-      print('❌ Failed to start gyroscope: $e');
+      Logger.error('Failed to start gyroscope', e);
     }
   }
 
@@ -148,11 +149,11 @@ class SensorService {
           _magnetometerController.add(data);
         },
         onError: (error) {
-          print('❌ Magnetometer error: $error');
+          Logger.error('Magnetometer error', error);
         },
       );
     } catch (e) {
-      print('❌ Failed to start magnetometer: $e');
+      Logger.error('Failed to start magnetometer', e);
     }
   }
 
@@ -161,7 +162,7 @@ class SensorService {
     try {
       bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
       if (!serviceEnabled) {
-        print('❌ Location services are disabled');
+        Logger.error('Location services are disabled');
         return;
       }
 
@@ -169,7 +170,7 @@ class SensorService {
       if (permission == LocationPermission.denied) {
         permission = await Geolocator.requestPermission();
         if (permission == LocationPermission.denied) {
-          print('❌ Location permissions are denied');
+          Logger.error('Location permissions are denied');
           return;
         }
       }
@@ -193,11 +194,11 @@ class SensorService {
           _locationController.add(data);
         },
         onError: (error) {
-          print('❌ Location error: $error');
+          Logger.error('Location error', error);
         },
       );
     } catch (e) {
-      print('❌ Failed to start location tracking: $e');
+      Logger.error('Failed to start location tracking', e);
     }
   }
 
@@ -227,11 +228,11 @@ class SensorService {
           _batteryController.add(data);
         },
         onError: (error) {
-          print('❌ Battery error: $error');
+          Logger.error('Battery error', error);
         },
       );
     } catch (e) {
-      print('❌ Failed to start battery monitoring: $e');
+      Logger.error('Failed to start battery monitoring', e);
     }
   }
 
@@ -244,11 +245,11 @@ class SensorService {
           _lightController.add(data);
         },
         onError: (error) {
-          print('❌ Light sensor error: $error');
+          Logger.error('Light sensor error', error);
         },
       );
     } catch (e) {
-      print('❌ Failed to start light sensor: $e');
+      Logger.error('Failed to start light sensor', e);
     }
   }
 
@@ -264,11 +265,11 @@ class SensorService {
           _proximityController.add(data);
         },
         onError: (error) {
-          print('❌ Proximity sensor error: $error');
+          Logger.error('Proximity sensor error', error);
         },
       );
     } catch (e) {
-      print('❌ Failed to start proximity sensor: $e');
+      Logger.error('Failed to start proximity sensor', e);
     }
   }
 

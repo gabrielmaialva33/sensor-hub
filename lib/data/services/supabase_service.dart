@@ -118,10 +118,11 @@ class SupabaseService {
     }
 
     try {
+      final deviceId = await _getDeviceId();
       final dataToInsert = sensorDataList.map((data) => {
         ...data.toJson(),
         'user_id': currentUser!.id,
-        'device_id': await _getDeviceId(),
+        'device_id': deviceId,
       }).toList();
 
       await _client.from('sensor_data').insert(dataToInsert);
@@ -148,8 +149,7 @@ class SupabaseService {
           .from('sensor_data')
           .select()
           .eq('user_id', currentUser!.id)
-          .eq('sensor_type', sensorType)
-          .order('timestamp', ascending: false);
+          .eq('sensor_type', sensorType);
 
       if (startTime != null) {
         query = query.gte('timestamp', startTime.toIso8601String());
@@ -159,11 +159,9 @@ class SupabaseService {
         query = query.lte('timestamp', endTime.toIso8601String());
       }
 
-      if (limit != null) {
-        query = query.limit(limit);
-      }
-
-      final response = await query;
+      final response = await query
+          .order('timestamp', ascending: false)
+          .limit(limit ?? 1000);
       print('✅ Retrieved ${response.length} $sensorType data points');
       return response;
     } catch (e) {
@@ -246,18 +244,15 @@ class SupabaseService {
       var query = _client
           .from('ai_insights')
           .select()
-          .eq('user_id', currentUser!.id)
-          .order('timestamp', ascending: false);
+          .eq('user_id', currentUser!.id);
 
       if (insightType != null) {
         query = query.eq('insight_type', insightType);
       }
 
-      if (limit != null) {
-        query = query.limit(limit);
-      }
-
-      final response = await query;
+      final response = await query
+          .order('timestamp', ascending: false)
+          .limit(limit ?? 100);
       print('✅ Retrieved ${response.length} AI insights');
       return response;
     } catch (e) {

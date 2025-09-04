@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:dio/dio.dart';
 import '../models/sensor_data.dart';
+import '../../core/utils/logger.dart';
 
 /// Service for NVIDIA AI integration and analysis
 class NvidiaAiService {
@@ -28,7 +29,7 @@ class NvidiaAiService {
     _dio.interceptors.add(LogInterceptor(
       requestBody: true,
       responseBody: true,
-      logPrint: (object) => print('🤖 NVIDIA API: $object'),
+      logPrint: (object) => Logger.debug('🤖 NVIDIA API: $object'),
     ));
   }
 
@@ -68,7 +69,7 @@ class NvidiaAiService {
       final content = response.data['choices'][0]['message']['content'];
       return _parseAIResponse(content, sensorData);
     } catch (e) {
-      print('❌ NVIDIA AI analysis error: $e');
+      Logger.error('NVIDIA AI analysis error', e);
       return AIInsight.error('Failed to analyze sensor data: ${e.toString()}');
     }
   }
@@ -109,7 +110,7 @@ class NvidiaAiService {
       final content = response.data['choices'][0]['message']['content'];
       return _parsePredictionResponse(content);
     } catch (e) {
-      print('❌ NVIDIA prediction error: $e');
+      Logger.error('NVIDIA prediction error', e);
       return Prediction.error('Failed to predict patterns: ${e.toString()}');
     }
   }
@@ -150,7 +151,7 @@ class NvidiaAiService {
       final content = response.data['choices'][0]['message']['content'];
       return _parseActivitySummary(content);
     } catch (e) {
-      print('❌ Activity summary error: $e');
+      Logger.error('Activity summary error', e);
       return ActivitySummary.error('Failed to generate summary: ${e.toString()}');
     }
   }
@@ -221,7 +222,7 @@ class NvidiaAiService {
         return AIInsight.fromJson(jsonData, originalData);
       }
     } catch (e) {
-      print('⚠️ Failed to parse JSON response, using text analysis');
+      Logger.warning('Failed to parse JSON response, using text analysis');
     }
 
     // Fallback to text parsing
@@ -237,7 +238,7 @@ class NvidiaAiService {
         return Prediction.fromJson(jsonData);
       }
     } catch (e) {
-      print('⚠️ Failed to parse prediction JSON');
+      Logger.warning('Failed to parse prediction JSON');
     }
 
     return Prediction.fromText(content);
@@ -252,7 +253,7 @@ class NvidiaAiService {
         return ActivitySummary.fromJson(jsonData);
       }
     } catch (e) {
-      print('⚠️ Failed to parse activity summary JSON');
+      Logger.warning('Failed to parse activity summary JSON');
     }
 
     return ActivitySummary.fromText(content);
@@ -277,7 +278,7 @@ class NvidiaAiService {
 
       return response.statusCode == 200;
     } catch (e) {
-      print('❌ NVIDIA API connection test failed: $e');
+      Logger.error('NVIDIA API connection test failed', e);
       return false;
     }
   }

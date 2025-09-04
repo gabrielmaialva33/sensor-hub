@@ -398,8 +398,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
           ),
           const SizedBox(height: AppTheme.paddingMD),
           Expanded(
-            child: StaggeredGridView.countBuilder(
-              crossAxisCount: 4,
+            child: MasonryGridView.count(
+              crossAxisCount: 2,
               itemCount: AppConstants.sensorCategories[_selectedSensorCategory]?.length ?? 0,
               itemBuilder: (context, index) {
                 final sensors = AppConstants.sensorCategories[_selectedSensorCategory]!;
@@ -412,7 +412,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                   .fadeIn(delay: Duration(milliseconds: 100 * index))
                   .slideY(begin: 0.2, end: 0);
               },
-              staggeredTileBuilder: (index) => const StaggeredTile.fit(2),
               mainAxisSpacing: AppTheme.paddingMD,
               crossAxisSpacing: AppTheme.paddingMD,
             ),
