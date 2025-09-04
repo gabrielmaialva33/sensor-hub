@@ -403,15 +403,30 @@ class SensorService {
 
   /// Get current sensor status
   Map<String, bool> getSensorStatus() {
-    return {
-      'accelerometer': _accelerometerSubscription != null,
-      'gyroscope': _gyroscopeSubscription != null,
-      'magnetometer': _magnetometerSubscription != null,
-      'location': _locationSubscription != null,
-      'battery': _batterySubscription != null,
-      'light': _lightSubscription != null,
-      'proximity': _proximitySubscription != null,
-    };
+    if (kIsWeb) {
+      // On web, all sensors are "active" if monitoring is running with mock data
+      final isActive = _isMonitoring && _mockDataTimer != null;
+      return {
+        'accelerometer': isActive,
+        'gyroscope': isActive,
+        'magnetometer': isActive,
+        'location': isActive,
+        'battery': isActive,
+        'light': isActive,
+        'proximity': isActive,
+      };
+    } else {
+      // On mobile, check actual sensor subscriptions
+      return {
+        'accelerometer': _accelerometerSubscription != null,
+        'gyroscope': _gyroscopeSubscription != null,
+        'magnetometer': _magnetometerSubscription != null,
+        'location': _locationSubscription != null,
+        'battery': _batterySubscription != null,
+        'light': _lightSubscription != null,
+        'proximity': _proximitySubscription != null,
+      };
+    }
   }
 
   /// Dispose all resources
