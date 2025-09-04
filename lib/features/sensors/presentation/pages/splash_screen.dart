@@ -15,6 +15,7 @@ class _SplashScreenState extends State<SplashScreen> {
   String _status = 'Inicializando SensorHub...';
   bool _hasError = false;
 
+  @override
   void initState() {
     super.initState();
     _initializeApp();
@@ -47,14 +48,22 @@ class _SplashScreenState extends State<SplashScreen> {
       // Navigate to home screen
       if (mounted) {
         Navigator.pushReplacementNamed(context, '/home');
-      } catch (e) {
+      }
+    } catch (e) {
       setState(() {
         _status = 'Falha ao inicializar: ${e.toString()}';
         _hasError = true;
-        // After showing error, still navigate to home (offline mode)
-        await Future.delayed(const Duration(seconds: 3));
+      });
+      // After showing error, still navigate to home (offline mode)
+      await Future.delayed(const Duration(seconds: 3));
+      if (mounted) {
+        Navigator.pushReplacementNamed(context, '/home');
       }
-          Widget build(BuildContext context)
+    }
+  }
+
+  @override
+  Widget build(BuildContext context)
       {
         final isDark = Theme
             .of(context)
