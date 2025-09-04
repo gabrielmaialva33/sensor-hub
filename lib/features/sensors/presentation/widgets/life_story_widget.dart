@@ -591,7 +591,7 @@ class _LifeStoryWidgetState extends State<LifeStoryWidget>
           ],
         ),
         children: [
-          if (prediction.actionable_suggestions.isNotEmpty)
+          if (prediction.actionableSuggestions.isNotEmpty)
             Padding(
               padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
               child: Column(
@@ -605,7 +605,7 @@ class _LifeStoryWidgetState extends State<LifeStoryWidget>
                     ),
                   ),
                   const SizedBox(height: 8),
-                  ...prediction.actionable_suggestions.map(
+                  ...prediction.actionableSuggestions.map(
                     (suggestion) => Padding(
                       padding: const EdgeInsets.only(bottom: 6),
                       child: Row(
@@ -743,9 +743,11 @@ class _LifeStoryWidgetState extends State<LifeStoryWidget>
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(12),
-            border: Border.left(
-              width: 4,
-              color: color,
+            border: BorderDirectional(
+              start: BorderSide(
+                width: 4,
+                color: color,
+              ),
             ),
             boxShadow: [
               BoxShadow(
