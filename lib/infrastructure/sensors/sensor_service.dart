@@ -50,9 +50,9 @@ class SensorService {
   int _mockTickCounter = 0;
   
   // Mock data state
-  double _mockAccelBase = 1.0;
-  double _mockGyroBase = 0.1;
-  double _mockMagnetoBase = 25.0;
+  final double _mockAccelBase = 1.0;
+  final double _mockGyroBase = 0.1;
+  final double _mockMagnetoBase = 25.0;
   double _mockLocationLat = 37.7749; // San Francisco
   double _mockLocationLng = -122.4194;
   int _mockBatteryLevel = 75;
