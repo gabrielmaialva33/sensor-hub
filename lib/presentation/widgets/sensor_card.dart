@@ -41,7 +41,7 @@ class _SensorCardState extends ConsumerState<SensorCard> {
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -55,8 +55,8 @@ class _SensorCardState extends ConsumerState<SensorCard> {
             padding: const EdgeInsets.all(AppTheme.paddingMD),
             decoration: BoxDecoration(
               color: isDark 
-                ? AppTheme.primaryColor.withOpacity(0.1) 
-                : AppTheme.primaryColor.withOpacity(0.05),
+                ? AppTheme.primaryColor.withValues(alpha: 0.1) 
+                : AppTheme.primaryColor.withValues(alpha: 0.05),
               borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(AppTheme.radiusLG),
                 topRight: Radius.circular(AppTheme.radiusLG),
@@ -161,7 +161,7 @@ class _SensorCardState extends ConsumerState<SensorCard> {
             Icon(
               Icons.sensors_off,
               size: 48,
-              color: AppTheme.mutedText.withOpacity(0.5),
+              color: AppTheme.mutedText.withValues(alpha: 0.5),
             ),
             const SizedBox(height: AppTheme.paddingSM),
             Text(
@@ -326,7 +326,7 @@ class _SensorCardState extends ConsumerState<SensorCard> {
                   child: LinearProgressIndicator(
                     value: data.batteryLevel / 100,
                     minHeight: 8,
-                    backgroundColor: color.withOpacity(0.2),
+                    backgroundColor: color.withValues(alpha: 0.2),
                     valueColor: AlwaysStoppedAnimation<Color>(color),
                   ),
                 ),
@@ -467,8 +467,8 @@ class _SensorCardState extends ConsumerState<SensorCard> {
               show: true,
               gradient: LinearGradient(
                 colors: [
-                  AppTheme.primaryColor.withOpacity(0.3),
-                  AppTheme.secondaryColor.withOpacity(0.1),
+                  AppTheme.primaryColor.withValues(alpha: 0.3),
+                  AppTheme.secondaryColor.withValues(alpha: 0.1),
                 ],
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
