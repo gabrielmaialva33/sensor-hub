@@ -22,7 +22,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
   late TabController _tabController;
   bool _isMonitoring = false;
   String _selectedSensorCategory = '🏃 Movimento';
-  bool _isMobileMenuOpen = false;
 
   // Responsive breakpoints
   static const double mobileBreakpoint = 768.0;

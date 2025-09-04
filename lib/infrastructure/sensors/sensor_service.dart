@@ -187,7 +187,7 @@ class SensorService {
     _magnetometerController.add(MagnetometerData(x: magX, y: magY, z: magZ));
     
     // Generate data less frequently for other sensors
-    if (time.toInt() % 5 == 0 && (time * 10).toInt() % 10 == 0) { // Every 5 seconds
+    if (_mockTickCounter % 50 == 0) { // Every 5 seconds
       // Mock location (simulate slight GPS drift)
       _mockLocationLat += (_random.nextDouble() - 0.5) * 0.00001;
       _mockLocationLng += (_random.nextDouble() - 0.5) * 0.00001;
@@ -201,7 +201,7 @@ class SensorService {
       ));
     }
     
-    if (timer.tick % 100 == 0) { // Every 10 seconds
+    if (_mockTickCounter % 100 == 0) { // Every 10 seconds
       // Mock battery (slowly decrease)
       if (_random.nextDouble() < 0.1) {
         _mockBatteryLevel = max(0, _mockBatteryLevel - 1);
@@ -214,7 +214,7 @@ class SensorService {
       ));
     }
     
-    if (timer.tick % 20 == 0) { // Every 2 seconds
+    if (_mockTickCounter % 20 == 0) { // Every 2 seconds
       // Mock light sensor (simulate day/night cycle or indoor changes)
       _mockLightLux += (_random.nextDouble() - 0.5) * 50;
       _mockLightLux = max(0, min(10000, _mockLightLux));
@@ -222,7 +222,7 @@ class SensorService {
       _lightController.add(LightData(luxValue: _mockLightLux));
     }
     
-    if (timer.tick % 25 == 0) { // Every 2.5 seconds
+    if (_mockTickCounter % 25 == 0) { // Every 2.5 seconds
       // Mock proximity sensor (random near/far)
       if (_random.nextDouble() < 0.3) {
         _mockProximityNear = !_mockProximityNear;
