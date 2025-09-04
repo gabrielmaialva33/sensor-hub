@@ -223,17 +223,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
           // Category List
           Expanded(
             child: ListView.builder(
-                                                                                      padding: const EdgeInsets
-                                                                                          .symmetric(
-                                                                                          horizontal: AppTheme
-                                                                                              .paddingSM,
-                                                                                          itemCount: AppConstants
-                                                                                              .sensorCategories
-                                                                                              .keys
-                                                                                              .length,
-                                                                                          itemBuilder: (
-                                                                                              context,
-                                                                                              index) {
+              padding: const EdgeInsets.symmetric(horizontal: AppTheme.paddingSM),
+              itemCount: AppConstants.sensorCategories.keys.length,
+              itemBuilder: (context, index) {
                                                                                             final category = AppConstants
                                                                                                 .sensorCategories
                                                                                                 .keys
