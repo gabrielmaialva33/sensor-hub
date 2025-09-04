@@ -130,13 +130,107 @@ class SensorService {
     _isMonitoring = false;
   }
 
-  /// Request necessary permissions
+  /// Request necessary permissions (mobile only)
   Future<void> _requestPermissions() async {
-    await [
-      Permission.location,
-      Permission.locationWhenInUse,
-      Permission.sensors,
-    ].request();
+    if (kIsWeb) {
+      Logger.info('Permissions not required on web platform');
+      return;
+    }
+    
+    try {
+      await [
+        Permission.location,
+        Permission.locationWhenInUse,
+        Permission.sensors,
+      ].request();
+    } catch (e) {
+      Logger.error('Failed to request permissions', e);
+    }
+  }
+
+  /// Start mock data generation for web platform
+  Future<void> _startMockDataGeneration() async {
+    _mockDataTimer = Timer.periodic(const Duration(milliseconds: 100), (timer) {
+      _generateMockSensorData();
+    });
+  }
+
+  /// Generate mock sensor data that simulates realistic sensor behavior
+  void _generateMockSensorData() {
+    final now = DateTime.now();
+    
+    // Simulate natural variations
+    final time = now.millisecondsSinceEpoch / 1000.0;
+    
+    // Mock accelerometer (simulate walking/movement)
+    final accelVariation = sin(time * 2) * 0.5;
+    final accelX = _mockAccelBase + accelVariation + (_random.nextDouble() - 0.5) * 0.2;
+    final accelY = _mockAccelBase * 0.8 + cos(time * 1.5) * 0.3 + (_random.nextDouble() - 0.5) * 0.2;
+    final accelZ = 9.8 + (_random.nextDouble() - 0.5) * 0.5; // Earth gravity with noise
+    
+    _accelerometerController.add(AccelerometerData(x: accelX, y: accelY, z: accelZ));
+    
+    // Mock gyroscope (simulate natural rotation)
+    final gyroX = _mockGyroBase * sin(time * 0.8) + (_random.nextDouble() - 0.5) * 0.02;
+    final gyroY = _mockGyroBase * cos(time * 0.6) + (_random.nextDouble() - 0.5) * 0.02;
+    final gyroZ = _mockGyroBase * sin(time * 1.2) + (_random.nextDouble() - 0.5) * 0.02;
+    
+    _gyroscopeController.add(GyroscopeData(x: gyroX, y: gyroY, z: gyroZ));
+    
+    // Mock magnetometer (simulate compass with interference)
+    final magX = _mockMagnetoBase + sin(time * 0.3) * 2 + (_random.nextDouble() - 0.5);
+    final magY = _mockMagnetoBase * 0.9 + cos(time * 0.4) * 1.5 + (_random.nextDouble() - 0.5);
+    final magZ = _mockMagnetoBase * 1.1 + sin(time * 0.2) * 1 + (_random.nextDouble() - 0.5);
+    
+    _magnetometerController.add(MagnetometerData(x: magX, y: magY, z: magZ));
+    
+    // Generate data less frequently for other sensors
+    if (timer.tick % 50 == 0) { // Every 5 seconds
+      // Mock location (simulate slight GPS drift)
+      _mockLocationLat += (_random.nextDouble() - 0.5) * 0.00001;
+      _mockLocationLng += (_random.nextDouble() - 0.5) * 0.00001;
+      
+      _locationController.add(LocationData(
+        latitude: _mockLocationLat,
+        longitude: _mockLocationLng,
+        altitude: 50 + (_random.nextDouble() - 0.5) * 10,
+        accuracy: 3 + _random.nextDouble() * 2,
+        speed: 0.5 + _random.nextDouble() * 2,
+      ));
+    }
+    
+    if (timer.tick % 100 == 0) { // Every 10 seconds
+      // Mock battery (slowly decrease)
+      if (_random.nextDouble() < 0.1) {
+        _mockBatteryLevel = max(0, _mockBatteryLevel - 1);
+      }
+      
+      _batteryController.add(BatteryData(
+        batteryLevel: _mockBatteryLevel,
+        batteryState: _mockBatteryLevel > 20 ? 'discharging' : 'low',
+        isCharging: false,
+      ));
+    }
+    
+    if (timer.tick % 20 == 0) { // Every 2 seconds
+      // Mock light sensor (simulate day/night cycle or indoor changes)
+      _mockLightLux += (_random.nextDouble() - 0.5) * 50;
+      _mockLightLux = max(0, min(10000, _mockLightLux));
+      
+      _lightController.add(LightData(luxValue: _mockLightLux));
+    }
+    
+    if (timer.tick % 25 == 0) { // Every 2.5 seconds
+      // Mock proximity sensor (random near/far)
+      if (_random.nextDouble() < 0.3) {
+        _mockProximityNear = !_mockProximityNear;
+      }
+      
+      _proximityController.add(ProximityData(
+        isNear: _mockProximityNear,
+        distance: _mockProximityNear ? 0.0 : 5.0 + _random.nextDouble() * 10,
+      ));
+    }
   }
 
   /// Start accelerometer monitoring
