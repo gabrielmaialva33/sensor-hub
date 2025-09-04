@@ -27,22 +27,37 @@ class AppConstants {
     'proximity': 'Proximidade',
   };
 
-  // Sensor Icons
-  static const Map<String, String> sensorIcons = {
-    'accelerometer': '🏃',
-    'gyroscope': '🔄',
-    'magnetometer': '🧭',
-    'location': '📍',
-    'battery': '🔋',
-    'light': '💡',
-    'proximity': '📡',
+  // Sensor Icons (Material Icons)
+  static const Map<String, IconData> sensorIcons = {
+    'accelerometer': Icons.directions_run,
+    'gyroscope': Icons.rotate_right,
+    'magnetometer': Icons.explore,
+    'location': Icons.location_on,
+    'battery': Icons.battery_full,
+    'light': Icons.light_mode,
+    'proximity': Icons.radar,
   };
 
-  // Categories
-  static const Map<String, List<String>> sensorCategories = {
-    '🏃 Movimento': ['accelerometer', 'gyroscope', 'magnetometer'],
-    '🌍 Ambiente': ['location', 'light', 'proximity'],
-    '🔋 Sistema': ['battery'],
+  // Categories with icons
+  static const Map<String, Map<String, dynamic>> sensorCategories = {
+    'movement': {
+      'label': 'Movimento',
+      'icon': Icons.directions_run,
+      'sensors': ['accelerometer', 'gyroscope', 'magnetometer'],
+      'description': 'Sensores de movimento e orientação',
+    },
+    'environment': {
+      'label': 'Ambiente',
+      'icon': Icons.wb_sunny,
+      'sensors': ['location', 'light', 'proximity'],
+      'description': 'Sensores ambientais e contextuais',
+    },
+    'system': {
+      'label': 'Sistema',
+      'icon': Icons.smartphone,
+      'sensors': ['battery'],
+      'description': 'Estado do sistema e hardware',
+    },
   };
 
   // Sampling Rates (in milliseconds)
