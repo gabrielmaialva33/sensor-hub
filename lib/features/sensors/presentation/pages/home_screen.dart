@@ -226,142 +226,78 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
               padding: const EdgeInsets.symmetric(horizontal: AppTheme.paddingSM),
               itemCount: AppConstants.sensorCategories.keys.length,
               itemBuilder: (context, index) {
-                                                                                            final category = AppConstants
-                                                                                                .sensorCategories
-                                                                                                .keys
-                                                                                                .elementAt(
-                                                                                              index,
-                                                                                            );
-                                                                                            final sensors = AppConstants
-                                                                                                .sensorCategories[category]!;
-                                                                                            final isSelected = _selectedSensorCategory ==
-                                                                                                category;
-                                                                                            return Padding(
-                                                                                                padding: const EdgeInsets
-                                                                                                    .only(
-                                                                                                  bottom: AppTheme
-                                                                                                      .paddingXS,
-                                                                                                ),
-                                                                                                child: Material(
-                                                                                                    color: Colors
-                                                                                                        .transparent,
-                                                                                                    child: InkWell(
-                                                                                                        onTap: () =>
-                                                                                                            setState(
-                                                                                                                  () =>
-                                                                                                              _selectedSensorCategory =
-                                                                                                                  category,
-                                                                                                            ),
-                                                                                                        borderRadius: BorderRadius
-                                                                                                            .circular(
-                                                                                                            AppTheme
-                                                                                                                .radiusMD,
-                                                                                                            child: Container(
-                                                                                                                padding: const EdgeInsets
-                                                                                                                    .all(
-                                                                                                                    AppTheme
-                                                                                                                        .paddingSM),
-                                                                                                                decoration: BoxDecoration(
-                                                                                                                  color: isSelected
-                                                                                                                      ? AppTheme
-                                                                                                                      .primaryColor
-                                                                                                                      .withValues(
-                                                                                                                      alpha: 0.1)
-                                                                                                                      : Colors
-                                                                                                                      .transparent,
-                                                                                                                  borderRadius: BorderRadius
-                                                                                                                      .circular(
-                                                                                                                    AppTheme
-                                                                                                                        .radiusMD,
-                                                                                                                  ),
-                                                                                                                  border: isSelected
-                                                                                                                      ? Border
-                                                                                                                      .all(
-                                                                                                                    color: AppTheme
-                                                                                                                        .primaryColor
-                                                                                                                        .withValues(
-                                                                                                                      alpha: 0.3,
-                                                                                                                    ),
-                                                                                                                  )
-                                                                                                                      : null,
-                                                                                                                ),
-                                                                                                                child: Row(
-                                                                                                                    children
-                                                                                                                        :
-                                                                                                                    [
-                                                                                                                    Text
-                                                                                                                    (
-                                                                                                                    category,
-                                                                                                                    style: Theme
-                                                                                                                        .of(
-                                                                                                                        context)
-                                                                                                                        .textTheme
-                                                                                                                        .bodyMedium
-                                                                                                                        ?.copyWith(
-                                                                                                                      color: isSelected
-                                                                                                                          ? AppTheme
-                                                                                                                          .primaryColor
-                                                                                                                          : null,
-                                                                                                                      fontWeight: isSelected
-                                                                                                                          ? FontWeight
-                                                                                                                          .w600
-                                                                                                                          : FontWeight
-                                                                                                                          .normal,
-                                                                                                                    ),
-                                                                                                                    const Spacer(),
-                                                                                                                    Container(
-                                                                                                                        padding: const EdgeInsets
-                                                                                                                            .symmetric(
-                                                                                                                          horizontal: AppTheme
-                                                                                                                              .paddingXS,
-                                                                                                                          vertical: 2,
-                                                                                                                        ),
-                                                                                                                        decoration: BoxDecoration(
-                                                                                                                          color: isSelected
-                                                                                                                              ? AppTheme
-                                                                                                                              .primaryColor
-                                                                                                                              .withValues(
-                                                                                                                            alpha: 0.2,
-                                                                                                                          )
-                                                                                                                              : AppTheme
-                                                                                                                              .mutedText
-                                                                                                                              .withValues(
-                                                                                                                            alpha: 0.1,
-                                                                                                                          ),
-                                                                                                                          borderRadius: BorderRadius
-                                                                                                                              .circular(
-                                                                                                                            AppTheme
-                                                                                                                                .radiusSM,
-                                                                                                                          ),
-                                                                                                                          child: Text(
-                                                                                                                            '${sensors
-                                                                                                                                .length}',
-                                                                                                                            style: Theme
-                                                                                                                                .of(
-                                                                                                                                context)
-                                                                                                                                .textTheme
-                                                                                                                                .labelSmall
-                                                                                                                                ?.copyWith(
-                                                                                                                              color: isSelected
-                                                                                                                                  ? AppTheme
-                                                                                                                                  .primaryColor
-                                                                                                                                  : AppTheme
-                                                                                                                                  .mutedText,
-                                                                                                                              fontWeight: FontWeight
-                                                                                                                                  .w600,
-                                                                                                                            ),
-                                                                                                                            ],
-                                                                                                                          ),
-                                                                                                                        )
-                                                                                                                            .animate()
-                                                                                                                            .fadeIn(
-                                                                                                                            delay: Duration(
-                                                                                                                                milliseconds: 100 *
-                                                                                                                                    index))
-                                                                                                                            .slideX(
-                                                                                                                            begin: -0.2,
-                                                                                                                            end: 0)
-                                                                                                                        ;
+                final category = AppConstants.sensorCategories.keys.elementAt(index);
+                final sensors = AppConstants.sensorCategories[category]!;
+                final isSelected = _selectedSensorCategory == category;
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: AppTheme.paddingXS),
+                  child: Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      onTap: () => setState(() => _selectedSensorCategory = category),
+                      borderRadius: BorderRadius.circular(AppTheme.radiusMD),
+                      child: Container(
+                        padding: const EdgeInsets.all(AppTheme.paddingSM),
+                        decoration: BoxDecoration(
+                          color: isSelected
+                              ? AppTheme.primaryColor.withValues(alpha: 0.1)
+                              : Colors.transparent,
+                          borderRadius: BorderRadius.circular(AppTheme.radiusMD),
+                          border: isSelected
+                              ? Border.all(
+                                  color: AppTheme.primaryColor.withValues(alpha: 0.3),
+                                )
+                              : null,
+                        ),
+                        child: Row(
+                          children: [
+                            Text(
+                              category,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium
+                                  ?.copyWith(
+                                color: isSelected ? AppTheme.primaryColor : null,
+                                fontWeight: isSelected
+                                    ? FontWeight.w600
+                                    : FontWeight.normal,
+                              ),
+                            ),
+                            const Spacer(),
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: AppTheme.paddingXS,
+                                vertical: 2,
+                              ),
+                              decoration: BoxDecoration(
+                                color: isSelected
+                                    ? AppTheme.primaryColor.withValues(alpha: 0.2)
+                                    : AppTheme.mutedText.withValues(alpha: 0.1),
+                                borderRadius:
+                                    BorderRadius.circular(AppTheme.radiusSM),
+                              ),
+                              child: Text(
+                                '${sensors.length}',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .labelSmall
+                                    ?.copyWith(
+                                  color: isSelected
+                                      ? AppTheme.primaryColor
+                                      : AppTheme.mutedText,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    )
+                        .animate()
+                        .fadeIn(delay: Duration(milliseconds: 100 * index))
+                        .slideX(begin: -0.2, end: 0),
+                  ),
+                );
                                                                                                                     },
                                                                                           // Bottom Actions
                                                                                           child: Column(
