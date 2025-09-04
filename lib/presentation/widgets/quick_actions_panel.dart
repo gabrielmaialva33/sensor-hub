@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import '../../core/theme/app_theme.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import '../../core/constants/app_constants.dart';
+import '../../core/theme/app_theme.dart';
 import '../providers/sensor_providers.dart';
 
 class QuickActionsPanel extends ConsumerWidget {
@@ -12,7 +13,7 @@ class QuickActionsPanel extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final isMonitoring = ref.watch(isMonitoringProvider);
-    
+
     return Container(
       padding: const EdgeInsets.all(AppTheme.paddingMD),
       decoration: BoxDecoration(
@@ -36,14 +37,14 @@ class QuickActionsPanel extends ConsumerWidget {
               const SizedBox(width: AppTheme.paddingSM),
               Text(
                 'Quick Actions',
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
+                style: Theme.of(
+                  context,
+                ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
               ),
             ],
           ),
           const SizedBox(height: AppTheme.paddingMD),
-          
+
           // Action Buttons Grid
           GridView.count(
             shrinkWrap: true,
@@ -60,7 +61,7 @@ class QuickActionsPanel extends ConsumerWidget {
                 color: AppTheme.successColor,
                 onTap: isMonitoring ? null : () => _startAllSensors(ref),
               ).animate().fadeIn(delay: 100.ms).slideX(begin: -0.1, end: 0),
-              
+
               _buildActionButton(
                 context,
                 icon: Icons.stop,
@@ -68,7 +69,7 @@ class QuickActionsPanel extends ConsumerWidget {
                 color: AppTheme.errorColor,
                 onTap: !isMonitoring ? null : () => _stopAllSensors(ref),
               ).animate().fadeIn(delay: 200.ms).slideX(begin: 0.1, end: 0),
-              
+
               _buildActionButton(
                 context,
                 icon: Icons.refresh,
@@ -76,7 +77,7 @@ class QuickActionsPanel extends ConsumerWidget {
                 color: AppTheme.warningColor,
                 onTap: () => _resetData(context, ref),
               ).animate().fadeIn(delay: 300.ms).slideX(begin: -0.1, end: 0),
-              
+
               _buildActionButton(
                 context,
                 icon: Icons.download,
@@ -84,7 +85,7 @@ class QuickActionsPanel extends ConsumerWidget {
                 color: AppTheme.primaryColor,
                 onTap: () => _exportData(context, ref),
               ).animate().fadeIn(delay: 400.ms).slideX(begin: 0.1, end: 0),
-              
+
               _buildActionButton(
                 context,
                 icon: Icons.analytics,
@@ -92,7 +93,7 @@ class QuickActionsPanel extends ConsumerWidget {
                 color: AppTheme.secondaryColor,
                 onTap: () => _runAnalysis(context, ref),
               ).animate().fadeIn(delay: 500.ms).slideX(begin: -0.1, end: 0),
-              
+
               _buildActionButton(
                 context,
                 icon: Icons.settings,
@@ -102,16 +103,16 @@ class QuickActionsPanel extends ConsumerWidget {
               ).animate().fadeIn(delay: 600.ms).slideX(begin: 0.1, end: 0),
             ],
           ),
-          
+
           const SizedBox(height: AppTheme.paddingMD),
           const Divider(),
           const SizedBox(height: AppTheme.paddingMD),
-          
+
           // Status Section
           _buildStatusSection(context, ref, isDark),
-          
+
           const SizedBox(height: AppTheme.paddingMD),
-          
+
           // Features Toggle Section
           _buildFeatureToggles(context, ref, isDark),
         ],
@@ -127,7 +128,7 @@ class QuickActionsPanel extends ConsumerWidget {
     VoidCallback? onTap,
   }) {
     final isEnabled = onTap != null;
-    
+
     return Material(
       color: Colors.transparent,
       child: InkWell(
@@ -136,14 +137,14 @@ class QuickActionsPanel extends ConsumerWidget {
         child: Container(
           padding: const EdgeInsets.all(AppTheme.paddingSM),
           decoration: BoxDecoration(
-            color: isEnabled 
-              ? color.withValues(alpha: 0.1)
-              : AppTheme.mutedText.withValues(alpha: 0.05),
+            color: isEnabled
+                ? color.withValues(alpha: 0.1)
+                : AppTheme.mutedText.withValues(alpha: 0.05),
             borderRadius: BorderRadius.circular(AppTheme.radiusMD),
             border: Border.all(
-              color: isEnabled 
-                ? color.withValues(alpha: 0.3)
-                : AppTheme.mutedText.withValues(alpha: 0.1),
+              color: isEnabled
+                  ? color.withValues(alpha: 0.3)
+                  : AppTheme.mutedText.withValues(alpha: 0.1),
               width: 1,
             ),
           ),
@@ -153,13 +154,17 @@ class QuickActionsPanel extends ConsumerWidget {
               Icon(
                 icon,
                 size: 16,
-                color: isEnabled ? color : AppTheme.mutedText.withValues(alpha: 0.5),
+                color: isEnabled
+                    ? color
+                    : AppTheme.mutedText.withValues(alpha: 0.5),
               ),
               const SizedBox(width: AppTheme.paddingXS),
               Text(
                 label,
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: isEnabled ? color : AppTheme.mutedText.withValues(alpha: 0.5),
+                  color: isEnabled
+                      ? color
+                      : AppTheme.mutedText.withValues(alpha: 0.5),
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -174,19 +179,22 @@ class QuickActionsPanel extends ConsumerWidget {
     final sensorStatus = ref.watch(sensorStatusProvider);
     final activeSensors = sensorStatus.values.where((active) => active).length;
     final sensorHistory = ref.watch(sensorHistoryProvider);
-    final totalDataPoints = sensorHistory.values.fold(0, (sum, list) => sum + list.length);
-    
+    final totalDataPoints = sensorHistory.values.fold(
+      0,
+      (sum, list) => sum + list.length,
+    );
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           'System Status',
-          style: Theme.of(context).textTheme.titleSmall?.copyWith(
-            fontWeight: FontWeight.w600,
-          ),
+          style: Theme.of(
+            context,
+          ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600),
         ),
         const SizedBox(height: AppTheme.paddingSM),
-        
+
         // Status Items
         _buildStatusItem(
           context,
@@ -216,7 +224,12 @@ class QuickActionsPanel extends ConsumerWidget {
     );
   }
 
-  Widget _buildStatusItem(BuildContext context, String label, String value, Color color) {
+  Widget _buildStatusItem(
+    BuildContext context,
+    String label,
+    String value,
+    Color color,
+  ) {
     return Padding(
       padding: const EdgeInsets.only(bottom: AppTheme.paddingXS),
       child: Row(
@@ -224,19 +237,16 @@ class QuickActionsPanel extends ConsumerWidget {
         children: [
           Text(
             label,
-            style: Theme.of(context).textTheme.bodySmall?.copyWith(
-              color: AppTheme.mutedText,
-            ),
+            style: Theme.of(
+              context,
+            ).textTheme.bodySmall?.copyWith(color: AppTheme.mutedText),
           ),
           Row(
             children: [
               Container(
                 width: 6,
                 height: 6,
-                decoration: BoxDecoration(
-                  color: color,
-                  shape: BoxShape.circle,
-                ),
+                decoration: BoxDecoration(color: color, shape: BoxShape.circle),
               ),
               const SizedBox(width: AppTheme.paddingXS),
               Text(
@@ -253,18 +263,22 @@ class QuickActionsPanel extends ConsumerWidget {
     );
   }
 
-  Widget _buildFeatureToggles(BuildContext context, WidgetRef ref, bool isDark) {
+  Widget _buildFeatureToggles(
+    BuildContext context,
+    WidgetRef ref,
+    bool isDark,
+  ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           'Features',
-          style: Theme.of(context).textTheme.titleSmall?.copyWith(
-            fontWeight: FontWeight.w600,
-          ),
+          style: Theme.of(
+            context,
+          ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600),
         ),
         const SizedBox(height: AppTheme.paddingSM),
-        
+
         // Feature Toggles
         _buildFeatureToggle(
           context,
@@ -299,7 +313,7 @@ class QuickActionsPanel extends ConsumerWidget {
     IconData icon,
   ) {
     final isEnabled = AppConstants.features[featureKey] ?? false;
-    
+
     return Padding(
       padding: const EdgeInsets.only(bottom: AppTheme.paddingXS),
       child: Row(
@@ -311,10 +325,7 @@ class QuickActionsPanel extends ConsumerWidget {
           ),
           const SizedBox(width: AppTheme.paddingSM),
           Expanded(
-            child: Text(
-              label,
-              style: Theme.of(context).textTheme.bodySmall,
-            ),
+            child: Text(label, style: Theme.of(context).textTheme.bodySmall),
           ),
           Switch(
             value: isEnabled,
@@ -323,7 +334,9 @@ class QuickActionsPanel extends ConsumerWidget {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text('$label ${value ? "enabled" : "disabled"}'),
-                  backgroundColor: value ? AppTheme.successColor : AppTheme.warningColor,
+                  backgroundColor: value
+                      ? AppTheme.successColor
+                      : AppTheme.warningColor,
                 ),
               );
             },
@@ -368,7 +381,9 @@ class QuickActionsPanel extends ConsumerWidget {
       context: context,
       builder: (context) => AlertDialog(
         title: const Text('Reset All Data?'),
-        content: const Text('This will clear all sensor history and cannot be undone.'),
+        content: const Text(
+          'This will clear all sensor history and cannot be undone.',
+        ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
@@ -385,7 +400,10 @@ class QuickActionsPanel extends ConsumerWidget {
                 ),
               );
             },
-            child: const Text('Reset', style: TextStyle(color: AppTheme.errorColor)),
+            child: const Text(
+              'Reset',
+              style: TextStyle(color: AppTheme.errorColor),
+            ),
           ),
         ],
       ),
@@ -393,7 +411,6 @@ class QuickActionsPanel extends ConsumerWidget {
   }
 
   void _exportData(BuildContext context, WidgetRef ref) {
-    
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -403,8 +420,8 @@ class QuickActionsPanel extends ConsumerWidget {
           children: [
             const Text('Select export format:'),
             const SizedBox(height: AppTheme.paddingMD),
-            ...AppConstants.supportedExportFormats.map((format) => 
-              ListTile(
+            ...AppConstants.supportedExportFormats.map(
+              (format) => ListTile(
                 leading: Icon(_getFormatIcon(format)),
                 title: Text(format.toUpperCase()),
                 onTap: () {
@@ -451,7 +468,7 @@ class QuickActionsPanel extends ConsumerWidget {
   void _runAnalysis(BuildContext context, WidgetRef ref) {
     final sensorHistory = ref.read(sensorHistoryProvider);
     final hasData = sensorHistory.values.any((list) => list.isNotEmpty);
-    
+
     if (!hasData) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -461,10 +478,10 @@ class QuickActionsPanel extends ConsumerWidget {
       );
       return;
     }
-    
+
     // Navigate to AI Insights tab
     DefaultTabController.of(context).animateTo(2);
-    
+
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text('Navigating to AI Insights...'),
@@ -476,9 +493,9 @@ class QuickActionsPanel extends ConsumerWidget {
   void _openSettings(BuildContext context) {
     showModalBottomSheet(
       context: context,
-      backgroundColor: Theme.of(context).brightness == Brightness.dark 
-        ? AppTheme.darkSurface 
-        : AppTheme.lightSurface,
+      backgroundColor: Theme.of(context).brightness == Brightness.dark
+          ? AppTheme.darkSurface
+          : AppTheme.lightSurface,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(
           top: Radius.circular(AppTheme.radiusLG),

@@ -1,9 +1,10 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import '../../core/theme/app_theme.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import '../../core/constants/app_constants.dart';
+import '../../core/theme/app_theme.dart';
 import '../providers/sensor_providers.dart';
 
 class SensorCard extends ConsumerStatefulWidget {
@@ -27,7 +28,8 @@ class _SensorCardState extends ConsumerState<SensorCard> {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final sensorName = AppConstants.sensorDisplayNames[widget.sensorType] ?? widget.sensorType;
+    final sensorName =
+        AppConstants.sensorDisplayNames[widget.sensorType] ?? widget.sensorType;
     final sensorIcon = AppConstants.sensorIcons[widget.sensorType] ?? '📊';
 
     return Container(
@@ -53,9 +55,9 @@ class _SensorCardState extends ConsumerState<SensorCard> {
           Container(
             padding: const EdgeInsets.all(AppTheme.paddingMD),
             decoration: BoxDecoration(
-              color: isDark 
-                ? AppTheme.primaryColor.withValues(alpha: 0.1) 
-                : AppTheme.primaryColor.withValues(alpha: 0.05),
+              color: isDark
+                  ? AppTheme.primaryColor.withValues(alpha: 0.1)
+                  : AppTheme.primaryColor.withValues(alpha: 0.05),
               borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(AppTheme.radiusLG),
                 topRight: Radius.circular(AppTheme.radiusLG),
@@ -90,16 +92,15 @@ class _SensorCardState extends ConsumerState<SensorCard> {
                     children: [
                       Text(
                         sensorName,
-                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
+                        style: Theme.of(context).textTheme.titleMedium
+                            ?.copyWith(fontWeight: FontWeight.bold),
                       ),
                       Text(
                         widget.isMonitoring ? 'Active' : 'Inactive',
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: widget.isMonitoring 
-                            ? AppTheme.successColor 
-                            : AppTheme.mutedText,
+                          color: widget.isMonitoring
+                              ? AppTheme.successColor
+                              : AppTheme.mutedText,
                         ),
                       ),
                     ],
@@ -107,25 +108,27 @@ class _SensorCardState extends ConsumerState<SensorCard> {
                 ),
                 // Status Indicator
                 Container(
-                  width: 8,
-                  height: 8,
-                  decoration: BoxDecoration(
-                    color: widget.isMonitoring 
-                      ? AppTheme.successColor 
-                      : AppTheme.mutedText,
-                    shape: BoxShape.circle,
-                  ),
-                ).animate(
-                  onPlay: (controller) => controller.repeat(),
-                ).scale(
-                  duration: 1.seconds,
-                  begin: const Offset(1, 1),
-                  end: const Offset(1.2, 1.2),
-                ).then().scale(
-                  duration: 1.seconds,
-                  begin: const Offset(1.2, 1.2),
-                  end: const Offset(1, 1),
-                ),
+                      width: 8,
+                      height: 8,
+                      decoration: BoxDecoration(
+                        color: widget.isMonitoring
+                            ? AppTheme.successColor
+                            : AppTheme.mutedText,
+                        shape: BoxShape.circle,
+                      ),
+                    )
+                    .animate(onPlay: (controller) => controller.repeat())
+                    .scale(
+                      duration: 1.seconds,
+                      begin: const Offset(1, 1),
+                      end: const Offset(1.2, 1.2),
+                    )
+                    .then()
+                    .scale(
+                      duration: 1.seconds,
+                      begin: const Offset(1.2, 1.2),
+                      end: const Offset(1, 1),
+                    ),
               ],
             ),
           ),
@@ -165,9 +168,9 @@ class _SensorCardState extends ConsumerState<SensorCard> {
             const SizedBox(height: AppTheme.paddingSM),
             Text(
               'Sensor not active',
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: AppTheme.mutedText,
-              ),
+              style: Theme.of(
+                context,
+              ).textTheme.bodyMedium?.copyWith(color: AppTheme.mutedText),
             ),
           ],
         ),
@@ -197,7 +200,7 @@ class _SensorCardState extends ConsumerState<SensorCard> {
 
   Widget _buildAccelerometerContent() {
     final accelerometerAsync = ref.watch(accelerometerStreamProvider);
-    
+
     return accelerometerAsync.when(
       data: (data) {
         _updateChartData(data.magnitude);
@@ -208,8 +211,12 @@ class _SensorCardState extends ConsumerState<SensorCard> {
             _buildDataRow('Y', data.y.toStringAsFixed(2), 'm/s²'),
             _buildDataRow('Z', data.z.toStringAsFixed(2), 'm/s²'),
             const Divider(height: AppTheme.paddingMD),
-            _buildDataRow('Magnitude', data.magnitude.toStringAsFixed(2), 'm/s²',
-              isHighlighted: true),
+            _buildDataRow(
+              'Magnitude',
+              data.magnitude.toStringAsFixed(2),
+              'm/s²',
+              isHighlighted: true,
+            ),
           ],
         );
       },
@@ -220,7 +227,7 @@ class _SensorCardState extends ConsumerState<SensorCard> {
 
   Widget _buildGyroscopeContent() {
     final gyroscopeAsync = ref.watch(gyroscopeStreamProvider);
-    
+
     return gyroscopeAsync.when(
       data: (data) {
         final magnitude = (data.x * data.x + data.y * data.y + data.z * data.z);
@@ -241,7 +248,7 @@ class _SensorCardState extends ConsumerState<SensorCard> {
 
   Widget _buildMagnetometerContent() {
     final magnetometerAsync = ref.watch(magnetometerStreamProvider);
-    
+
     return magnetometerAsync.when(
       data: (data) {
         _updateChartData(data.fieldStrength);
@@ -252,8 +259,12 @@ class _SensorCardState extends ConsumerState<SensorCard> {
             _buildDataRow('Y', data.y.toStringAsFixed(2), 'μT'),
             _buildDataRow('Z', data.z.toStringAsFixed(2), 'μT'),
             const Divider(height: AppTheme.paddingMD),
-            _buildDataRow('Field Strength', data.fieldStrength.toStringAsFixed(2), 'μT',
-              isHighlighted: true),
+            _buildDataRow(
+              'Field Strength',
+              data.fieldStrength.toStringAsFixed(2),
+              'μT',
+              isHighlighted: true,
+            ),
           ],
         );
       },
@@ -264,7 +275,7 @@ class _SensorCardState extends ConsumerState<SensorCard> {
 
   Widget _buildLocationContent() {
     final locationAsync = ref.watch(locationStreamProvider);
-    
+
     return locationAsync.when(
       data: (data) {
         return Column(
@@ -286,15 +297,15 @@ class _SensorCardState extends ConsumerState<SensorCard> {
 
   Widget _buildBatteryContent() {
     final batteryAsync = ref.watch(batteryStreamProvider);
-    
+
     return batteryAsync.when(
       data: (data) {
-        final color = data.batteryLevel < 20 
-          ? AppTheme.errorColor 
-          : data.batteryLevel < 50 
-            ? AppTheme.warningColor 
+        final color = data.batteryLevel < 20
+            ? AppTheme.errorColor
+            : data.batteryLevel < 50
+            ? AppTheme.warningColor
             : AppTheme.successColor;
-        
+
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -307,13 +318,13 @@ class _SensorCardState extends ConsumerState<SensorCard> {
                   children: [
                     Text(
                       '${data.batteryLevel}%',
-                      style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                        color: color,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      style: Theme.of(context).textTheme.headlineMedium
+                          ?.copyWith(color: color, fontWeight: FontWeight.bold),
                     ),
                     Icon(
-                      data.isCharging ? Icons.battery_charging_full : Icons.battery_full,
+                      data.isCharging
+                          ? Icons.battery_charging_full
+                          : Icons.battery_full,
                       color: color,
                       size: 32,
                     ),
@@ -344,15 +355,19 @@ class _SensorCardState extends ConsumerState<SensorCard> {
 
   Widget _buildLightContent() {
     final lightAsync = ref.watch(lightStreamProvider);
-    
+
     return lightAsync.when(
       data: (data) {
         _updateChartData(data.luxValue);
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildDataRow('Lux', data.luxValue.toStringAsFixed(1), 'lx',
-              isHighlighted: true),
+            _buildDataRow(
+              'Lux',
+              data.luxValue.toStringAsFixed(1),
+              'lx',
+              isHighlighted: true,
+            ),
             _buildDataRow('Condition', data.lightCondition, ''),
             const SizedBox(height: AppTheme.paddingMD),
             // Visual indicator
@@ -375,8 +390,9 @@ class _SensorCardState extends ConsumerState<SensorCard> {
               child: Stack(
                 children: [
                   Positioned(
-                    left: (data.luxValue.clamp(0, 10000) / 10000) * 
-                      (MediaQuery.of(context).size.width * 0.3),
+                    left:
+                        (data.luxValue.clamp(0, 10000) / 10000) *
+                        (MediaQuery.of(context).size.width * 0.3),
                     child: Container(
                       width: 4,
                       height: 40,
@@ -396,7 +412,7 @@ class _SensorCardState extends ConsumerState<SensorCard> {
 
   Widget _buildProximityContent() {
     final proximityAsync = ref.watch(proximityStreamProvider);
-    
+
     return proximityAsync.when(
       data: (data) {
         return Column(
@@ -406,13 +422,19 @@ class _SensorCardState extends ConsumerState<SensorCard> {
               child: Icon(
                 data.isNear ? Icons.pan_tool : Icons.do_not_touch,
                 size: 64,
-                color: data.isNear ? AppTheme.warningColor : AppTheme.successColor,
+                color: data.isNear
+                    ? AppTheme.warningColor
+                    : AppTheme.successColor,
               ),
             ),
             const SizedBox(height: AppTheme.paddingMD),
             _buildDataRow('Status', data.isNear ? 'Object Near' : 'Clear', ''),
             if (data.distance != null)
-              _buildDataRow('Distance', data.distance!.toStringAsFixed(1), 'cm'),
+              _buildDataRow(
+                'Distance',
+                data.distance!.toStringAsFixed(1),
+                'cm',
+              ),
           ],
         );
       },
@@ -421,7 +443,12 @@ class _SensorCardState extends ConsumerState<SensorCard> {
     );
   }
 
-  Widget _buildDataRow(String label, String value, String unit, {bool isHighlighted = false}) {
+  Widget _buildDataRow(
+    String label,
+    String value,
+    String unit, {
+    bool isHighlighted = false,
+  }) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: AppTheme.paddingXS),
       child: Row(
@@ -485,7 +512,7 @@ class _SensorCardState extends ConsumerState<SensorCard> {
     setState(() {
       _chartData.add(FlSpot(_dataCounter.toDouble(), value));
       _dataCounter++;
-      
+
       // Keep only last 50 points
       if (_chartData.length > 50) {
         _chartData.removeAt(0);

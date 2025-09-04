@@ -1,11 +1,14 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
-import '../models/sensor_data.dart';
+
 import '../../core/utils/logger.dart';
+import '../models/sensor_data.dart';
 
 /// Service for Supabase integration and cloud storage
 class SupabaseService {
   static final SupabaseService _instance = SupabaseService._internal();
+
   factory SupabaseService() => _instance;
+
   SupabaseService._internal();
 
   late SupabaseClient _client;
@@ -13,25 +16,26 @@ class SupabaseService {
 
   // Supabase configuration
   static const String supabaseUrl = 'https://npqfsynpttyxxzrltjke.supabase.co';
-  static const String supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5wcWZzeW5wdHR5eHh6cmx0amtlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTcwMDMxNjMsImV4cCI6MjA3MjU3OTE2M30.B_7e5AYj_n_U9YNTSQUpfC26HWEeTq-4QYWVO5IldKI';
-  
+  static const String supabaseAnonKey =
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5wcWZzeW5wdHR5eHh6cmx0amtlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTcwMDMxNjMsImV4cCI6MjA3MjU3OTE2M30.B_7e5AYj_n_U9YNTSQUpfC26HWEeTq-4QYWVO5IldKI';
+
   // Getters
   SupabaseClient get client => _client;
+
   bool get isInitialized => _initialized;
+
   User? get currentUser => _client.auth.currentUser;
+
   bool get isAuthenticated => currentUser != null;
 
   /// Initialize Supabase
   Future<void> initialize() async {
     try {
-      await Supabase.initialize(
-        url: supabaseUrl,
-        anonKey: supabaseAnonKey,
-      );
+      await Supabase.initialize(url: supabaseUrl, anonKey: supabaseAnonKey);
 
       _client = Supabase.instance.client;
       _initialized = true;
-      
+
       Logger.success('Supabase initialized successfully');
     } catch (e) {
       Logger.error('Failed to initialize Supabase', e);
@@ -42,7 +46,9 @@ class SupabaseService {
   /// Ensure service is initialized
   void _ensureInitialized() {
     if (!_initialized) {
-      throw Exception('SupabaseService not initialized. Call initialize() first.');
+      throw Exception(
+        'SupabaseService not initialized. Call initialize() first.',
+      );
     }
   }
 
@@ -120,14 +126,18 @@ class SupabaseService {
 
     try {
       final deviceId = await _getDeviceId();
-      final dataToInsert = sensorDataList.map((data) => {
-        ...data.toJson(),
-        'user_id': currentUser!.id,
-        'device_id': deviceId,
-      }).toList();
+      final dataToInsert = sensorDataList
+          .map(
+            (data) => {
+              ...data.toJson(),
+              'user_id': currentUser!.id,
+              'device_id': deviceId,
+            },
+          )
+          .toList();
 
       await _client.from('sensor_data').insert(dataToInsert);
-      
+
       Logger.success('Stored ${sensorDataList.length} sensor data points');
     } catch (e) {
       Logger.error('Failed to store sensor data', e);
@@ -178,7 +188,7 @@ class SupabaseService {
     final endOfDay = startOfDay.add(const Duration(days: 1));
 
     final results = <String, List<Map<String, dynamic>>>{};
-    
+
     // Available sensor types
     const sensorTypes = [
       'accelerometer',
@@ -294,14 +304,16 @@ class SupabaseService {
 
     try {
       // Get sensor data counts
-      final sensorStats = await _client.rpc('get_user_sensor_stats', params: {
-        'user_id_param': currentUser!.id,
-      });
+      final sensorStats = await _client.rpc(
+        'get_user_sensor_stats',
+        params: {'user_id_param': currentUser!.id},
+      );
 
       // Get AI insight counts
-      final insightStats = await _client.rpc('get_user_insight_stats', params: {
-        'user_id_param': currentUser!.id,
-      });
+      final insightStats = await _client.rpc(
+        'get_user_insight_stats',
+        params: {'user_id_param': currentUser!.id},
+      );
 
       return {
         'sensor_stats': sensorStats,
@@ -327,7 +339,7 @@ class SupabaseService {
     _ensureInitialized();
 
     final channel = _client.channel('sensor_data_changes');
-    
+
     channel.onPostgresChanges(
       event: PostgresChangeEvent.insert,
       schema: 'public',
@@ -370,7 +382,7 @@ class SupabaseService {
 
     try {
       final thirtyDaysAgo = DateTime.now().subtract(const Duration(days: 30));
-      
+
       await _client
           .from('sensor_data')
           .delete()
@@ -387,7 +399,7 @@ class SupabaseService {
   Future<bool> testConnection() async {
     try {
       _ensureInitialized();
-      
+
       // Try a simple query
       await _client.from('sensor_data').select('id').limit(1);
       Logger.success('Supabase connection test successful');
@@ -404,9 +416,10 @@ class SupabaseService {
     if (!isAuthenticated) return {};
 
     try {
-      final result = await _client.rpc('get_user_storage_usage', params: {
-        'user_id_param': currentUser!.id,
-      });
+      final result = await _client.rpc(
+        'get_user_storage_usage',
+        params: {'user_id_param': currentUser!.id},
+      );
 
       return Map<String, int>.from(result);
     } catch (e) {

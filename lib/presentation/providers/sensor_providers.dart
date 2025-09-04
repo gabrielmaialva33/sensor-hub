@@ -1,7 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../data/services/sensor_service.dart';
-import '../../data/services/nvidia_ai_service.dart';
+
 import '../../data/models/sensor_data.dart';
+import '../../data/services/nvidia_ai_service.dart';
+import '../../data/services/sensor_service.dart';
 
 // Sensor Service Provider
 final sensorServiceProvider = Provider<SensorService>((ref) {
@@ -59,39 +60,35 @@ final proximityStreamProvider = StreamProvider<ProximityData>((ref) {
 });
 
 // Sensor Data History Provider (stores last N readings for each sensor)
-class SensorHistoryNotifier extends StateNotifier<Map<String, List<SensorData>>> {
+class SensorHistoryNotifier
+    extends StateNotifier<Map<String, List<SensorData>>> {
   static const int maxHistorySize = 100;
 
-  SensorHistoryNotifier() : super({
-    'accelerometer': [],
-    'gyroscope': [],
-    'magnetometer': [],
-    'location': [],
-    'battery': [],
-    'light': [],
-    'proximity': [],
-  });
+  SensorHistoryNotifier()
+    : super({
+        'accelerometer': [],
+        'gyroscope': [],
+        'magnetometer': [],
+        'location': [],
+        'battery': [],
+        'light': [],
+        'proximity': [],
+      });
 
   void addData(String sensorType, SensorData data) {
     final currentList = state[sensorType] ?? [];
     final updatedList = [...currentList, data];
-    
+
     // Keep only the last maxHistorySize items
     if (updatedList.length > maxHistorySize) {
       updatedList.removeAt(0);
     }
-    
-    state = {
-      ...state,
-      sensorType: updatedList,
-    };
+
+    state = {...state, sensorType: updatedList};
   }
 
   void clearHistory(String sensorType) {
-    state = {
-      ...state,
-      sensorType: [],
-    };
+    state = {...state, sensorType: []};
   }
 
   void clearAllHistory() {
@@ -107,31 +104,46 @@ class SensorHistoryNotifier extends StateNotifier<Map<String, List<SensorData>>>
   }
 }
 
-final sensorHistoryProvider = 
-    StateNotifierProvider<SensorHistoryNotifier, Map<String, List<SensorData>>>((ref) {
-  return SensorHistoryNotifier();
-});
+final sensorHistoryProvider =
+    StateNotifierProvider<SensorHistoryNotifier, Map<String, List<SensorData>>>(
+      (ref) {
+        return SensorHistoryNotifier();
+      },
+    );
 
 // AI Insights Provider
-final aiInsightsProvider = FutureProvider.family<AIInsight, List<SensorData>>((ref, sensorData) async {
+final aiInsightsProvider = FutureProvider.family<AIInsight, List<SensorData>>((
+  ref,
+  sensorData,
+) async {
   final aiService = ref.watch(nvidiaAiServiceProvider);
   return await aiService.analyzeSensorData(sensorData);
 });
 
 // Activity Summary Provider
-final activitySummaryProvider = FutureProvider.family<ActivitySummary, List<SensorData>>((ref, dailyData) async {
-  final aiService = ref.watch(nvidiaAiServiceProvider);
-  return await aiService.generateActivitySummary(dailyData);
-});
+final activitySummaryProvider =
+    FutureProvider.family<ActivitySummary, List<SensorData>>((
+      ref,
+      dailyData,
+    ) async {
+      final aiService = ref.watch(nvidiaAiServiceProvider);
+      return await aiService.generateActivitySummary(dailyData);
+    });
 
 // Prediction Provider
-final sensorPredictionProvider = FutureProvider.family<Prediction, List<SensorData>>((ref, historicalData) async {
-  final aiService = ref.watch(nvidiaAiServiceProvider);
-  return await aiService.predictSensorPatterns(historicalData);
-});
+final sensorPredictionProvider =
+    FutureProvider.family<Prediction, List<SensorData>>((
+      ref,
+      historicalData,
+    ) async {
+      final aiService = ref.watch(nvidiaAiServiceProvider);
+      return await aiService.predictSensorPatterns(historicalData);
+    });
 
 // Selected Sensor Category Provider
-final selectedSensorCategoryProvider = StateProvider<String>((ref) => '🏃 Movement');
+final selectedSensorCategoryProvider = StateProvider<String>(
+  (ref) => '🏃 Movement',
+);
 
 // Sensor Status Provider
 final sensorStatusProvider = Provider<Map<String, bool>>((ref) {
@@ -143,41 +155,36 @@ final sensorStatusProvider = Provider<Map<String, bool>>((ref) {
 class ChartDataNotifier extends StateNotifier<Map<String, List<double>>> {
   static const int maxChartPoints = 50;
 
-  ChartDataNotifier() : super({
-    'accelerometer': [],
-    'gyroscope': [],
-    'magnetometer': [],
-    'light': [],
-    'proximity': [],
-  });
+  ChartDataNotifier()
+    : super({
+        'accelerometer': [],
+        'gyroscope': [],
+        'magnetometer': [],
+        'light': [],
+        'proximity': [],
+      });
 
   void addDataPoint(String sensorType, double value) {
     final currentList = state[sensorType] ?? [];
     final updatedList = [...currentList, value];
-    
+
     // Keep only the last maxChartPoints
     if (updatedList.length > maxChartPoints) {
       updatedList.removeAt(0);
     }
-    
-    state = {
-      ...state,
-      sensorType: updatedList,
-    };
+
+    state = {...state, sensorType: updatedList};
   }
 
   void clearChartData(String sensorType) {
-    state = {
-      ...state,
-      sensorType: [],
-    };
+    state = {...state, sensorType: []};
   }
 }
 
-final chartDataProvider = 
+final chartDataProvider =
     StateNotifierProvider<ChartDataNotifier, Map<String, List<double>>>((ref) {
-  return ChartDataNotifier();
-});
+      return ChartDataNotifier();
+    });
 
 // Export Settings Provider
 class ExportSettings {
@@ -208,7 +215,11 @@ class ExportSettings {
   }
 }
 
-final exportSettingsProvider = StateProvider<ExportSettings>((ref) => ExportSettings());
+final exportSettingsProvider = StateProvider<ExportSettings>(
+  (ref) => ExportSettings(),
+);
 
 // Theme Mode Provider
-final themeModeProvider = StateProvider<bool>((ref) => false); // false = light, true = dark
+final themeModeProvider = StateProvider<bool>(
+  (ref) => false,
+); // false = light, true = dark

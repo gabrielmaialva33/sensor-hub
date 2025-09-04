@@ -44,7 +44,7 @@ class NvidiaAiService {
       // Try primary model first
       return await _dio.post('/v1/chat/completions', data: requestData);
     } catch (e) {
-      Logger.warning('Primary model failed, trying fallback model', e);
+      Logger.warning('Primary model failed, trying fallback model: $e');
       
       // Try fallback model
       final fallbackData = Map<String, dynamic>.from(requestData);

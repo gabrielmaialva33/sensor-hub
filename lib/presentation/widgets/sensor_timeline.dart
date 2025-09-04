@@ -1,10 +1,11 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:intl/intl.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import '../../core/theme/app_theme.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
+
 import '../../core/constants/app_constants.dart';
+import '../../core/theme/app_theme.dart';
 import '../../data/models/sensor_data.dart';
 import '../providers/sensor_providers.dart';
 
@@ -33,14 +34,14 @@ class _SensorTimelineState extends ConsumerState<SensorTimeline> {
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final sensorHistory = ref.watch(sensorHistoryProvider);
-    
+
     return Container(
       color: isDark ? AppTheme.darkBackground : AppTheme.lightBackground,
       child: Column(
         children: [
           // Header with controls
           _buildHeader(context, isDark),
-          
+
           // Main Chart Area
           Expanded(
             child: Padding(
@@ -48,7 +49,7 @@ class _SensorTimelineState extends ConsumerState<SensorTimeline> {
               child: _buildMainChart(context, isDark, sensorHistory),
             ),
           ),
-          
+
           // Bottom Timeline Events
           _buildTimelineEvents(context, isDark, sensorHistory),
         ],
@@ -73,9 +74,9 @@ class _SensorTimelineState extends ConsumerState<SensorTimeline> {
         children: [
           Text(
             '📈 Sensor Timeline',
-            style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-              fontWeight: FontWeight.bold,
-            ),
+            style: Theme.of(
+              context,
+            ).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: AppTheme.paddingMD),
           Row(
@@ -83,12 +84,16 @@ class _SensorTimelineState extends ConsumerState<SensorTimeline> {
               // Sensor Selector
               Expanded(
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: AppTheme.paddingSM),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: AppTheme.paddingSM,
+                  ),
                   decoration: BoxDecoration(
                     color: isDark ? AppTheme.darkCard : AppTheme.lightCard,
                     borderRadius: BorderRadius.circular(AppTheme.radiusMD),
                     border: Border.all(
-                      color: isDark ? AppTheme.darkBorder : AppTheme.lightBorder,
+                      color: isDark
+                          ? AppTheme.darkBorder
+                          : AppTheme.lightBorder,
                     ),
                   ),
                   child: DropdownButton<String>(
@@ -103,7 +108,8 @@ class _SensorTimelineState extends ConsumerState<SensorTimeline> {
                     },
                     items: AppConstants.availableSensors.map((sensor) {
                       final icon = AppConstants.sensorIcons[sensor] ?? '📊';
-                      final name = AppConstants.sensorDisplayNames[sensor] ?? sensor;
+                      final name =
+                          AppConstants.sensorDisplayNames[sensor] ?? sensor;
                       return DropdownMenuItem(
                         value: sensor,
                         child: Row(
@@ -118,12 +124,14 @@ class _SensorTimelineState extends ConsumerState<SensorTimeline> {
                   ),
                 ),
               ),
-              
+
               const SizedBox(width: AppTheme.paddingMD),
-              
+
               // Time Range Selector
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: AppTheme.paddingSM),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: AppTheme.paddingSM,
+                ),
                 decoration: BoxDecoration(
                   color: isDark ? AppTheme.darkCard : AppTheme.lightCard,
                   borderRadius: BorderRadius.circular(AppTheme.radiusMD),
@@ -141,16 +149,13 @@ class _SensorTimelineState extends ConsumerState<SensorTimeline> {
                     });
                   },
                   items: _timeRanges.keys.map((range) {
-                    return DropdownMenuItem(
-                      value: range,
-                      child: Text(range),
-                    );
+                    return DropdownMenuItem(value: range, child: Text(range));
                   }).toList(),
                 ),
               ),
-              
+
               const SizedBox(width: AppTheme.paddingMD),
-              
+
               // Legend Toggle
               IconButton(
                 onPressed: () {
@@ -159,12 +164,16 @@ class _SensorTimelineState extends ConsumerState<SensorTimeline> {
                   });
                 },
                 icon: Icon(
-                  _showLegend ? Icons.legend_toggle : Icons.legend_toggle_outlined,
-                  color: _showLegend ? AppTheme.primaryColor : AppTheme.mutedText,
+                  _showLegend
+                      ? Icons.legend_toggle
+                      : Icons.legend_toggle_outlined,
+                  color: _showLegend
+                      ? AppTheme.primaryColor
+                      : AppTheme.mutedText,
                 ),
                 tooltip: 'Toggle Legend',
               ),
-              
+
               // Export Button
               IconButton(
                 onPressed: () => _showExportDialog(context),
@@ -178,9 +187,13 @@ class _SensorTimelineState extends ConsumerState<SensorTimeline> {
     );
   }
 
-  Widget _buildMainChart(BuildContext context, bool isDark, Map<String, List<SensorData>> sensorHistory) {
+  Widget _buildMainChart(
+    BuildContext context,
+    bool isDark,
+    Map<String, List<SensorData>> sensorHistory,
+  ) {
     final selectedData = sensorHistory[_selectedSensor] ?? [];
-    
+
     if (selectedData.isEmpty) {
       return Center(
         child: Column(
@@ -194,9 +207,9 @@ class _SensorTimelineState extends ConsumerState<SensorTimeline> {
             const SizedBox(height: AppTheme.paddingMD),
             Text(
               'No data available',
-              style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                color: AppTheme.mutedText,
-              ),
+              style: Theme.of(
+                context,
+              ).textTheme.titleMedium?.copyWith(color: AppTheme.mutedText),
             ),
             const SizedBox(height: AppTheme.paddingSM),
             Text(
@@ -209,7 +222,7 @@ class _SensorTimelineState extends ConsumerState<SensorTimeline> {
         ),
       );
     }
-    
+
     // Filter data based on time range
     final now = DateTime.now();
     final timeRange = _timeRanges[_selectedTimeRange]!;
@@ -217,104 +230,102 @@ class _SensorTimelineState extends ConsumerState<SensorTimeline> {
       if (_selectedTimeRange == 'All Data') return true;
       return data.timestamp.isAfter(now.subtract(timeRange));
     }).toList();
-    
+
     return Container(
-      decoration: BoxDecoration(
-        color: isDark ? AppTheme.darkCard : AppTheme.lightCard,
-        borderRadius: BorderRadius.circular(AppTheme.radiusLG),
-        border: Border.all(
-          color: isDark ? AppTheme.darkBorder : AppTheme.lightBorder,
-          width: 1,
-        ),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(AppTheme.paddingLG),
-        child: Column(
-          children: [
-            // Chart Title
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          decoration: BoxDecoration(
+            color: isDark ? AppTheme.darkCard : AppTheme.lightCard,
+            borderRadius: BorderRadius.circular(AppTheme.radiusLG),
+            border: Border.all(
+              color: isDark ? AppTheme.darkBorder : AppTheme.lightBorder,
+              width: 1,
+            ),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(AppTheme.paddingLG),
+            child: Column(
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                // Chart Title
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      AppConstants.sensorDisplayNames[_selectedSensor] ?? _selectedSensor,
-                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          AppConstants.sensorDisplayNames[_selectedSensor] ??
+                              _selectedSensor,
+                          style: Theme.of(context).textTheme.titleMedium
+                              ?.copyWith(fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          '${filteredData.length} data points',
+                          style: Theme.of(context).textTheme.bodySmall
+                              ?.copyWith(color: AppTheme.mutedText),
+                        ),
+                      ],
                     ),
-                    Text(
-                      '${filteredData.length} data points',
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: AppTheme.mutedText,
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: AppTheme.paddingSM,
+                        vertical: AppTheme.paddingXS,
+                      ),
+                      decoration: BoxDecoration(
+                        color: AppTheme.primaryColor.withValues(alpha: 0.1),
+                        borderRadius: BorderRadius.circular(AppTheme.radiusSM),
+                      ),
+                      child: Text(
+                        DateFormat('MMM dd, HH:mm').format(now),
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: AppTheme.primaryColor,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     ),
                   ],
                 ),
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: AppTheme.paddingSM,
-                    vertical: AppTheme.paddingXS,
+
+                const SizedBox(height: AppTheme.paddingLG),
+
+                // The Chart
+                Expanded(child: _buildChart(filteredData, isDark)),
+
+                // Legend
+                if (_showLegend)
+                  Container(
+                    margin: const EdgeInsets.only(top: AppTheme.paddingMD),
+                    child: _buildLegend(context),
                   ),
-                  decoration: BoxDecoration(
-                    color: AppTheme.primaryColor.withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(AppTheme.radiusSM),
-                  ),
-                  child: Text(
-                    DateFormat('MMM dd, HH:mm').format(now),
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: AppTheme.primaryColor,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
               ],
             ),
-            
-            const SizedBox(height: AppTheme.paddingLG),
-            
-            // The Chart
-            Expanded(
-              child: _buildChart(filteredData, isDark),
-            ),
-            
-            // Legend
-            if (_showLegend)
-              Container(
-                margin: const EdgeInsets.only(top: AppTheme.paddingMD),
-                child: _buildLegend(context),
-              ),
-          ],
-        ),
-      ),
-    ).animate()
-      .fadeIn(duration: 500.ms)
-      .scale(begin: const Offset(0.98, 0.98), end: const Offset(1, 1));
+          ),
+        )
+        .animate()
+        .fadeIn(duration: 500.ms)
+        .scale(begin: const Offset(0.98, 0.98), end: const Offset(1, 1));
   }
 
   Widget _buildChart(List<SensorData> data, bool isDark) {
     if (data.isEmpty) {
       return const Center(child: Text('No data in selected range'));
     }
-    
+
     // Prepare chart data based on sensor type
     List<FlSpot> spots = [];
     double minY = double.infinity;
     double maxY = double.negativeInfinity;
-    
+
     for (int i = 0; i < data.length; i++) {
       double value = _getValueFromSensorData(data[i]);
       spots.add(FlSpot(i.toDouble(), value));
       if (value < minY) minY = value;
       if (value > maxY) maxY = value;
     }
-    
+
     // Add padding to Y axis
     final yPadding = (maxY - minY) * 0.1;
     minY -= yPadding;
     maxY += yPadding;
-    
+
     return LineChart(
       LineChartData(
         gridData: FlGridData(
@@ -324,17 +335,17 @@ class _SensorTimelineState extends ConsumerState<SensorTimeline> {
           verticalInterval: data.length / 10,
           getDrawingHorizontalLine: (value) {
             return FlLine(
-              color: isDark 
-                ? AppTheme.darkBorder.withValues(alpha: 0.3)
-                : AppTheme.lightBorder.withValues(alpha: 0.3),
+              color: isDark
+                  ? AppTheme.darkBorder.withValues(alpha: 0.3)
+                  : AppTheme.lightBorder.withValues(alpha: 0.3),
               strokeWidth: 1,
             );
           },
           getDrawingVerticalLine: (value) {
             return FlLine(
-              color: isDark 
-                ? AppTheme.darkBorder.withValues(alpha: 0.2)
-                : AppTheme.lightBorder.withValues(alpha: 0.2),
+              color: isDark
+                  ? AppTheme.darkBorder.withValues(alpha: 0.2)
+                  : AppTheme.lightBorder.withValues(alpha: 0.2),
               strokeWidth: 1,
             );
           },
@@ -350,10 +361,7 @@ class _SensorTimelineState extends ConsumerState<SensorTimeline> {
               getTitlesWidget: (value, meta) {
                 return Text(
                   value.toStringAsFixed(1),
-                  style: TextStyle(
-                    color: AppTheme.mutedText,
-                    fontSize: 10,
-                  ),
+                  style: TextStyle(color: AppTheme.mutedText, fontSize: 10),
                 );
               },
             ),
@@ -368,10 +376,7 @@ class _SensorTimelineState extends ConsumerState<SensorTimeline> {
                 final date = data[value.toInt()].timestamp;
                 return Text(
                   DateFormat('HH:mm').format(date),
-                  style: TextStyle(
-                    color: AppTheme.mutedText,
-                    fontSize: 10,
-                  ),
+                  style: TextStyle(color: AppTheme.mutedText, fontSize: 10),
                 );
               },
             ),
@@ -447,7 +452,7 @@ class _SensorTimelineState extends ConsumerState<SensorTimeline> {
 
   Widget _buildLegend(BuildContext context) {
     final legends = _getLegendItems();
-    
+
     return Wrap(
       spacing: AppTheme.paddingMD,
       runSpacing: AppTheme.paddingSM,
@@ -474,13 +479,17 @@ class _SensorTimelineState extends ConsumerState<SensorTimeline> {
     );
   }
 
-  Widget _buildTimelineEvents(BuildContext context, bool isDark, Map<String, List<SensorData>> sensorHistory) {
+  Widget _buildTimelineEvents(
+    BuildContext context,
+    bool isDark,
+    Map<String, List<SensorData>> sensorHistory,
+  ) {
     final events = _generateTimelineEvents(sensorHistory);
-    
+
     if (events.isEmpty) {
       return const SizedBox.shrink();
     }
-    
+
     return Container(
       height: 120,
       decoration: BoxDecoration(
@@ -499,66 +508,65 @@ class _SensorTimelineState extends ConsumerState<SensorTimeline> {
         itemBuilder: (context, index) {
           final event = events[index];
           return Container(
-            width: 200,
-            margin: const EdgeInsets.only(right: AppTheme.paddingMD),
-            padding: const EdgeInsets.all(AppTheme.paddingSM),
-            decoration: BoxDecoration(
-              color: isDark ? AppTheme.darkCard : AppTheme.lightCard,
-              borderRadius: BorderRadius.circular(AppTheme.radiusMD),
-              border: Border.all(
-                color: event['color'] as Color,
-                width: 1,
-              ),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
+                width: 200,
+                margin: const EdgeInsets.only(right: AppTheme.paddingMD),
+                padding: const EdgeInsets.all(AppTheme.paddingSM),
+                decoration: BoxDecoration(
+                  color: isDark ? AppTheme.darkCard : AppTheme.lightCard,
+                  borderRadius: BorderRadius.circular(AppTheme.radiusMD),
+                  border: Border.all(color: event['color'] as Color, width: 1),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Icon(
-                      event['icon'] as IconData,
-                      size: 16,
-                      color: event['color'] as Color,
+                    Row(
+                      children: [
+                        Icon(
+                          event['icon'] as IconData,
+                          size: 16,
+                          color: event['color'] as Color,
+                        ),
+                        const SizedBox(width: AppTheme.paddingXS),
+                        Text(
+                          event['type'] as String,
+                          style: Theme.of(context).textTheme.bodySmall
+                              ?.copyWith(
+                                fontWeight: FontWeight.w600,
+                                color: event['color'] as Color,
+                              ),
+                        ),
+                      ],
                     ),
-                    const SizedBox(width: AppTheme.paddingXS),
+                    const SizedBox(height: AppTheme.paddingXS),
                     Text(
-                      event['type'] as String,
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      event['title'] as String,
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                         fontWeight: FontWeight.w600,
-                        color: event['color'] as Color,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    Text(
+                      event['description'] as String,
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        color: AppTheme.mutedText,
+                      ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    const Spacer(),
+                    Text(
+                      event['time'] as String,
+                      style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                        color: AppTheme.mutedText,
                       ),
                     ),
                   ],
                 ),
-                const SizedBox(height: AppTheme.paddingXS),
-                Text(
-                  event['title'] as String,
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    fontWeight: FontWeight.w600,
-                  ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                Text(
-                  event['description'] as String,
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: AppTheme.mutedText,
-                  ),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                const Spacer(),
-                Text(
-                  event['time'] as String,
-                  style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                    color: AppTheme.mutedText,
-                  ),
-                ),
-              ],
-            ),
-          ).animate()
-            .fadeIn(delay: Duration(milliseconds: 100 * index))
-            .slideX(begin: 0.2, end: 0);
+              )
+              .animate()
+              .fadeIn(delay: Duration(milliseconds: 100 * index))
+              .slideX(begin: 0.2, end: 0);
         },
       ),
     );
@@ -621,9 +629,11 @@ class _SensorTimelineState extends ConsumerState<SensorTimeline> {
     }
   }
 
-  List<Map<String, dynamic>> _generateTimelineEvents(Map<String, List<SensorData>> sensorHistory) {
+  List<Map<String, dynamic>> _generateTimelineEvents(
+    Map<String, List<SensorData>> sensorHistory,
+  ) {
     final events = <Map<String, dynamic>>[];
-    
+
     // Check for significant events in sensor data
     sensorHistory.forEach((sensorType, dataList) {
       if (dataList.isNotEmpty) {
@@ -641,7 +651,7 @@ class _SensorTimelineState extends ConsumerState<SensorTimeline> {
             });
           }
         }
-        
+
         // Battery events
         if (sensorType == 'battery' && dataList.isNotEmpty) {
           final batteryData = dataList.last as BatteryData;
@@ -656,7 +666,7 @@ class _SensorTimelineState extends ConsumerState<SensorTimeline> {
             });
           }
         }
-        
+
         // Location events
         if (sensorType == 'location' && dataList.length > 1) {
           final locationData = dataList.last as LocationData;
@@ -673,10 +683,10 @@ class _SensorTimelineState extends ConsumerState<SensorTimeline> {
         }
       }
     });
-    
+
     // Sort by time (most recent first)
     events.sort((a, b) => b['time'].compareTo(a['time']));
-    
+
     return events.take(10).toList();
   }
 

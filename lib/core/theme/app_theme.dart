@@ -24,7 +24,7 @@ class AppTheme {
   static const Color darkText = Color(0xFFFFFFFF);
   static const Color lightText = Color(0xFF111827);
   static const Color mutedText = Color(0xFF6B7280);
-  
+
   // Additional colors for compatibility
   static const Color successColor = Color(0xFF10B981); // Green
   static const Color warningColor = Color(0xFFF59E0B); // Amber/Orange
