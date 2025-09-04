@@ -73,14 +73,14 @@ class _AIInsightsPanelState extends ConsumerState<AIInsightsPanel> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              '🤖 AI Insights',
+              '🤖 Insights de IA',
               style: Theme.of(
                 context,
               ).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: AppTheme.paddingXS),
             Text(
-              'Powered by NVIDIA AI',
+              'Desenvolvido com NVIDIA AI',
               style: Theme.of(
                 context,
               ).textTheme.bodyMedium?.copyWith(color: AppTheme.mutedText),
@@ -96,7 +96,7 @@ class _AIInsightsPanelState extends ConsumerState<AIInsightsPanel> {
                   child: CircularProgressIndicator(strokeWidth: 2),
                 )
               : const Icon(Icons.psychology),
-          label: Text(_isAnalyzing ? 'Analyzing...' : 'Analyze Now'),
+          label: Text(_isAnalyzing ? 'Analisando...' : 'Analisar Agora'),
           style: ElevatedButton.styleFrom(
             backgroundColor: AppTheme.primaryColor,
           ),
@@ -125,7 +125,7 @@ class _AIInsightsPanelState extends ConsumerState<AIInsightsPanel> {
             context,
             isDark,
             '📊',
-            'Data Points',
+'Pontos de Dados',
             totalDataPoints.toString(),
             AppTheme.primaryColor,
           ),
@@ -136,7 +136,7 @@ class _AIInsightsPanelState extends ConsumerState<AIInsightsPanel> {
             context,
             isDark,
             '📡',
-            'Active Sensors',
+'Sensores Ativos',
             '$activeSensors/7',
             AppTheme.secondaryColor,
           ),
@@ -147,8 +147,8 @@ class _AIInsightsPanelState extends ConsumerState<AIInsightsPanel> {
             context,
             isDark,
             '⚡',
-            'AI Status',
-            _currentInsight != null ? 'Ready' : 'Idle',
+            'Status da IA',
+            _currentInsight != null ? 'Pronto' : 'Inativo',
             _currentInsight != null
                 ? AppTheme.successColor
                 : AppTheme.warningColor,
@@ -201,8 +201,8 @@ class _AIInsightsPanelState extends ConsumerState<AIInsightsPanel> {
       return _buildEmptyState(
         context,
         isDark,
-        'No Analysis Yet',
-        'Tap "Analyze Now" to get AI insights from your sensor data',
+        'Nenhuma Análise Ainda',
+        'Toque em "Analisar Agora" para obter insights de IA dos seus dados de sensores',
         Icons.analytics_outlined,
       );
     }
@@ -211,7 +211,7 @@ class _AIInsightsPanelState extends ConsumerState<AIInsightsPanel> {
       return _buildErrorState(
         context,
         isDark,
-        'Analysis Error',
+        'Erro de Análise',
         _currentInsight!.errorMessage ?? 'Failed to analyze data',
       );
     }
@@ -246,7 +246,7 @@ class _AIInsightsPanelState extends ConsumerState<AIInsightsPanel> {
                   const Icon(Icons.insights, color: AppTheme.primaryColor),
                   const SizedBox(width: AppTheme.paddingSM),
                   Text(
-                    'Current Analysis',
+                    'Análise Atual',
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
@@ -262,7 +262,7 @@ class _AIInsightsPanelState extends ConsumerState<AIInsightsPanel> {
                       borderRadius: BorderRadius.circular(AppTheme.radiusSM),
                     ),
                     child: Text(
-                      '${(_currentInsight!.confidence * 100).toInt()}% Confidence',
+                      '${(_currentInsight!.confidence * 100).toInt()}% Confiança',
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
                         color: AppTheme.successColor,
                         fontWeight: FontWeight.w600,
@@ -273,23 +273,23 @@ class _AIInsightsPanelState extends ConsumerState<AIInsightsPanel> {
               ),
               const SizedBox(height: AppTheme.paddingMD),
               _buildInsightRow(
-                'Activity',
+                'Atividade',
                 _currentInsight!.activity,
                 Icons.directions_walk,
               ),
               _buildInsightRow(
-                'Environment',
+                'Ambiente',
                 _currentInsight!.environment,
                 Icons.wb_sunny,
               ),
               _buildInsightRow(
-                'Device Health',
+                'Saúde do Dispositivo',
                 _currentInsight!.deviceHealth,
                 Icons.phone_android,
               ),
               const Divider(height: AppTheme.paddingLG),
               Text(
-                'Patterns Detected',
+                'Padrões Detectados',
                 style: Theme.of(
                   context,
                 ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600),
@@ -330,7 +330,7 @@ class _AIInsightsPanelState extends ConsumerState<AIInsightsPanel> {
                   const Icon(Icons.timeline, color: AppTheme.secondaryColor),
                   const SizedBox(width: AppTheme.paddingSM),
                   Text(
-                    'Predictions',
+                    'Previsões',
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
@@ -339,22 +339,22 @@ class _AIInsightsPanelState extends ConsumerState<AIInsightsPanel> {
               ),
               const SizedBox(height: AppTheme.paddingMD),
               _buildPredictionCard(
-                'Next Activity',
+                'Próxima Atividade',
                 _currentPrediction!.nextActivity,
                 Icons.next_plan,
               ),
               _buildPredictionCard(
-                'Battery Forecast',
+                'Previsão da Bateria',
                 _currentPrediction!.batteryPrediction,
                 Icons.battery_full,
               ),
               _buildPredictionCard(
-                'Movement Pattern',
+                'Padrão de Movimento',
                 _currentPrediction!.movementForecast,
                 Icons.pattern,
               ),
               _buildPredictionCard(
-                'Environment',
+                'Ambiente',
                 _currentPrediction!.environmentalChanges,
                 Icons.cloud,
               ),
@@ -389,7 +389,7 @@ class _AIInsightsPanelState extends ConsumerState<AIInsightsPanel> {
                   const Icon(Icons.assessment, color: AppTheme.warningColor),
                   const SizedBox(width: AppTheme.paddingSM),
                   Text(
-                    'Activity Summary',
+                    'Resumo de Atividades',
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
@@ -427,7 +427,7 @@ class _AIInsightsPanelState extends ConsumerState<AIInsightsPanel> {
                 children: [
                   Expanded(
                     child: _buildSummaryDetail(
-                      'Movement',
+                      'Movimento',
                       _activitySummary!.movement,
                       Icons.directions_run,
                     ),
@@ -435,7 +435,7 @@ class _AIInsightsPanelState extends ConsumerState<AIInsightsPanel> {
                   const SizedBox(width: AppTheme.paddingSM),
                   Expanded(
                     child: _buildSummaryDetail(
-                      'Environment',
+                      'Ambiente',
                       _activitySummary!.environment,
                       Icons.location_on,
                     ),
@@ -444,7 +444,7 @@ class _AIInsightsPanelState extends ConsumerState<AIInsightsPanel> {
               ),
               const SizedBox(height: AppTheme.paddingSM),
               _buildSummaryDetail(
-                'Health Status',
+                'Status de Saúde',
                 _activitySummary!.health,
                 Icons.favorite,
               ),
@@ -506,7 +506,7 @@ class _AIInsightsPanelState extends ConsumerState<AIInsightsPanel> {
                   const Icon(Icons.lightbulb, color: AppTheme.successColor),
                   const SizedBox(width: AppTheme.paddingSM),
                   Text(
-                    'Recommendations',
+                    'Recomendações',
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
@@ -780,7 +780,7 @@ class _AIInsightsPanelState extends ConsumerState<AIInsightsPanel> {
       if (allData.isEmpty) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: Text('No sensor data available for analysis'),
+            content: Text('Nenhum dado de sensor disponível para análise'),
             backgroundColor: AppTheme.warningColor,
           ),
         );
@@ -809,7 +809,7 @@ class _AIInsightsPanelState extends ConsumerState<AIInsightsPanel> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: Text('AI analysis completed successfully!'),
+            content: Text('Análise de IA concluída com sucesso!'),
             backgroundColor: AppTheme.successColor,
           ),
         );
@@ -822,7 +822,7 @@ class _AIInsightsPanelState extends ConsumerState<AIInsightsPanel> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Analysis failed: ${e.toString()}'),
+            content: Text('Análise falhou: ${e.toString()}'),
             backgroundColor: AppTheme.errorColor,
           ),
         );
