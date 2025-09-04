@@ -242,7 +242,7 @@ class SensorService {
   /// Start light sensor monitoring
   Future<void> _startLightSensor() async {
     try {
-      _lightSubscription = LightSensor.luxStream.listen(
+      _lightSubscription = LightSensor.luxStream().listen(
         (luxValue) {
           final data = LightData(luxValue: luxValue.toDouble());
           _lightController.add(data);
