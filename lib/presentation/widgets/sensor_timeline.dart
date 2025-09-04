@@ -116,7 +116,12 @@ class _SensorTimelineState extends ConsumerState<SensorTimeline> {
                           children: [
                             Text(icon),
                             const SizedBox(width: AppTheme.paddingSM),
-                            Text(name),
+                            Flexible(
+                              child: Text(
+                                name,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
                           ],
                         ),
                       );
