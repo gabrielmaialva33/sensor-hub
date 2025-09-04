@@ -121,30 +121,30 @@ class AdvancedSensorLLMService {
   
   /// Patch-based decomposition for efficient tokenization (Reserved for future use)
   // List<String> _createPatches(List<SensorData> data, int patchSize) {
-    final patches = <String>[];
-    
-    for (int i = 0; i < data.length; i += patchSize) {
-      final end = (i + patchSize < data.length) ? i + patchSize : data.length;
-      final patch = data.sublist(i, end);
-      
-      final patchSummary = StringBuffer();
-      patchSummary.writeln('Patch ${patches.length + 1}:');
-      
-      for (var item in patch) {
-        if (item is AccelerometerData) {
-          patchSummary.writeln('ACC: x=${item.x.toStringAsFixed(2)}, y=${item.y.toStringAsFixed(2)}, z=${item.z.toStringAsFixed(2)}');
-        } else if (item is GyroscopeData) {
-          patchSummary.writeln('GYRO: x=${item.x.toStringAsFixed(2)}, y=${item.y.toStringAsFixed(2)}, z=${item.z.toStringAsFixed(2)}');
-        } else if (item is LocationData) {
-          patchSummary.writeln('GPS: lat=${item.latitude.toStringAsFixed(4)}, lon=${item.longitude.toStringAsFixed(4)}, speed=${item.speed?.toStringAsFixed(1) ?? "0"}');
-        }
-      }
-      
-      patches.add(patchSummary.toString());
-    }
-    
-    return patches;
-  }
+  //   final patches = <String>[];
+  //   
+  //   for (int i = 0; i < data.length; i += patchSize) {
+  //     final end = (i + patchSize < data.length) ? i + patchSize : data.length;
+  //     final patch = data.sublist(i, end);
+  //     
+  //     final patchSummary = StringBuffer();
+  //     patchSummary.writeln('Patch ${patches.length + 1}:');
+  //     
+  //     for (var item in patch) {
+  //       if (item is AccelerometerData) {
+  //         patchSummary.writeln('ACC: x=${item.x.toStringAsFixed(2)}, y=${item.y.toStringAsFixed(2)}, z=${item.z.toStringAsFixed(2)}');
+  //       } else if (item is GyroscopeData) {
+  //         patchSummary.writeln('GYRO: x=${item.x.toStringAsFixed(2)}, y=${item.y.toStringAsFixed(2)}, z=${item.z.toStringAsFixed(2)}');
+  //       } else if (item is LocationData) {
+  //         patchSummary.writeln('GPS: lat=${item.latitude.toStringAsFixed(4)}, lon=${item.longitude.toStringAsFixed(4)}, speed=${item.speed?.toStringAsFixed(1) ?? "0"}');
+  //       }
+  //     }
+  //     
+  //     patches.add(patchSummary.toString());
+  //   }
+  //   
+  //   return patches;
+  // }
   
   // ============================================================================
   // REAL-TIME STREAMING ARCHITECTURE
