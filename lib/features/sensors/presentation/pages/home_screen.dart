@@ -107,49 +107,55 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
 
   // Sidebar inspired by Pieces
   Widget _buildSidebar(bool isDark) {
-              return Container(
-                  width: 280,
-                  decoration: BoxDecoration(
-                      color: isDark ? AppTheme.darkSurface : AppTheme
-                          .lightSurface,
-                      border: Border(
-                          right: BorderSide(
-                              color: isDark ? AppTheme.darkBorder : AppTheme
-                                  .lightBorder,
-                              width: 1,
-                              child: Column(
-                                  children: [
+    return Container(
+      width: 280,
+      decoration: BoxDecoration(
+        color: isDark ? AppTheme.darkSurface : AppTheme.lightSurface,
+        border: Border(
+          right: BorderSide(
+            color: isDark ? AppTheme.darkBorder : AppTheme.lightBorder,
+            width: 1,
+          ),
+        ),
+      ),
+      child: Column(
+        children: [
                               // Header
-                              Padding(
-                              padding: const EdgeInsets.all(AppTheme.paddingMD),
-                              child: Row(
-                                  children: [
-                                  Container(
-                                  width: 32,
-                                  height: 32,
-                                  decoration: const BoxDecoration(
-                                      gradient: LinearGradient(
-                                          colors: [
-                                            AppTheme.primaryColor,
-                                            AppTheme.secondaryColor
-                                          ],
-                                          shape: BoxShape.circle,
-                                          child: const Icon(
-                                            Icons.sensors,
-                                            size: 18,
-                                            color: Colors.white,
-                                          ),
-                                          const SizedBox(
-                                              width: AppTheme.paddingSM),
-                                          Text(
-                                              AppConstants.appName,
-                                              style: Theme
-                                                  .of(context)
-                                                  .textTheme
-                                                  .titleMedium
-                                                  ?.copyWith(
-                                                  fontWeight: FontWeight.bold,
-                                                  ],
+          Padding(
+            padding: const EdgeInsets.all(AppTheme.paddingMD),
+            child: Row(
+              children: [
+                Container(
+                  width: 32,
+                  height: 32,
+                  decoration: const BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        AppTheme.primaryColor,
+                        AppTheme.secondaryColor,
+                      ],
+                    ),
+                    shape: BoxShape.circle,
+                  ),
+                  child: const Icon(
+                    Icons.sensors,
+                    size: 18,
+                    color: Colors.white,
+                  ),
+                ),
+                const SizedBox(width: AppTheme.paddingSM),
+                Text(
+                  AppConstants.appName,
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleMedium
+                      ?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+          ),
                                               // Monitoring Status
                                               padding: const EdgeInsets.symmetric(horizontal:
                                                   AppTheme.paddingMD),
