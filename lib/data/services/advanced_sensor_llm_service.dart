@@ -22,7 +22,7 @@ class AdvancedSensorLLMService {
   // Context window optimization
   static const int _maxTokens = 4096;
   static const int _slidingWindowMs = 5000; // 5 second window
-  static const int _patchSize = 50; // Samples per patch
+  // static const int _patchSize = 50; // Samples per patch - Reserved for future use
   
   // Buffers for streaming architecture
   final Map<String, List<SensorData>> _sensorBuffers = {};
@@ -119,8 +119,8 @@ class AdvancedSensorLLMService {
     return buffer.toString();
   }
   
-  /// Patch-based decomposition for efficient tokenization
-  List<String> _createPatches(List<SensorData> data, int patchSize) {
+  /// Patch-based decomposition for efficient tokenization (Reserved for future use)
+  // List<String> _createPatches(List<SensorData> data, int patchSize) {
     final patches = <String>[];
     
     for (int i = 0; i < data.length; i += patchSize) {
@@ -393,7 +393,7 @@ class AdvancedSensorLLMService {
       } else if (d is LocationData) {
         grouped[key]!.add(d.speed ?? 0);
       } else if (d is BatteryData) {
-        grouped[key]!.add(d.level.toDouble());
+        grouped[key]!.add(d.batteryLevel.toDouble());
       } else if (d is LightData) {
         grouped[key]!.add(d.luxValue);
       }
