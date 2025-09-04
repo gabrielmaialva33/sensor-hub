@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import '../features/sensors/presentation/pages/splash_screen.dart';
+
 import '../features/sensors/presentation/pages/home_screen.dart';
+import '../features/sensors/presentation/pages/splash_screen.dart';
 
 /// Router moderno com go_router 14.0+ - 2025 Pattern
 /// Suporta deep linking, navegação declarativa e guarded routes
@@ -19,14 +20,11 @@ class AppRouter {
           key: state.pageKey,
           child: const SplashScreen(),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
-            return FadeTransition(
-              opacity: animation,
-              child: child,
-            );
+            return FadeTransition(opacity: animation, child: child);
           },
         ),
       ),
-      
+
       // Home com sub-rotas
       ShellRoute(
         builder: (context, state, child) => child,
@@ -38,23 +36,22 @@ class AppRouter {
               key: state.pageKey,
               child: const HomeScreen(),
               transitionDuration: const Duration(milliseconds: 200),
-              transitionsBuilder: (context, animation, secondaryAnimation, child) {
-                const begin = Offset(1.0, 0.0);
-                const end = Offset.zero;
-                const curve = Curves.easeInOutCubic;
-                
-                var tween = Tween(begin: begin, end: end).chain(
-                  CurveTween(curve: curve),
-                );
-                
-                return SlideTransition(
-                  position: animation.drive(tween),
-                  child: FadeTransition(
-                    opacity: animation,
-                    child: child,
-                  ),
-                );
-              },
+              transitionsBuilder:
+                  (context, animation, secondaryAnimation, child) {
+                    const begin = Offset(1.0, 0.0);
+                    const end = Offset.zero;
+                    const curve = Curves.easeInOutCubic;
+
+                    var tween = Tween(
+                      begin: begin,
+                      end: end,
+                    ).chain(CurveTween(curve: curve));
+
+                    return SlideTransition(
+                      position: animation.drive(tween),
+                      child: FadeTransition(opacity: animation, child: child),
+                    );
+                  },
             ),
             routes: [
               // Sub-rota para detalhes do sensor
@@ -66,14 +63,14 @@ class AppRouter {
                   return _SensorDetailPage(sensorType: sensorType);
                 },
               ),
-              
+
               // Sub-rota para configurações
               GoRoute(
                 path: 'settings',
                 name: 'settings',
                 builder: (context, state) => const _SettingsPage(),
               ),
-              
+
               // Sub-rota para análise IA
               GoRoute(
                 path: 'ai-analysis',
@@ -91,9 +88,9 @@ class AppRouter {
 /// Página de erro 404
 class _ErrorPage extends StatelessWidget {
   final Exception? error;
-  
+
   const _ErrorPage({this.error});
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -127,18 +124,14 @@ class _ErrorPage extends StatelessWidget {
 /// Placeholder para página de detalhes do sensor
 class _SensorDetailPage extends StatelessWidget {
   final String sensorType;
-  
+
   const _SensorDetailPage({required this.sensorType});
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Sensor: $sensorType'),
-      ),
-      body: Center(
-        child: Text('Detalhes do sensor $sensorType'),
-      ),
+      appBar: AppBar(title: Text('Sensor: $sensorType')),
+      body: Center(child: Text('Detalhes do sensor $sensorType')),
     );
   }
 }
@@ -146,7 +139,7 @@ class _SensorDetailPage extends StatelessWidget {
 /// Placeholder para página de configurações
 class _SettingsPage extends StatelessWidget {
   const _SettingsPage();
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -159,7 +152,7 @@ class _SettingsPage extends StatelessWidget {
 /// Placeholder para página de análise IA
 class _AIAnalysisPage extends StatelessWidget {
   const _AIAnalysisPage();
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

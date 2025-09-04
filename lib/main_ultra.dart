@@ -1,70 +1,68 @@
-import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'core/core.dart';
-import 'infrastructure/infrastructure.dart';
 import 'features/sensors/presentation/pages/home_screen.dart';
 import 'features/sensors/presentation/pages/splash_screen.dart';
+import 'infrastructure/infrastructure.dart';
 
 /// Main entry point for SensorHub 2025 - Ultra Performance Edition
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  
+
   // Enable Impeller for 120fps performance
   if (!kIsWeb && !kDebugMode) {
     // Force GPU acceleration
     debugDisableShadows = false;
   }
-  
+
   // Configure high refresh rate
   if (!kIsWeb) {
     SchedulerBinding.instance.window.onReportTimings = (timings) {
       for (final timing in timings) {
-        if (timing.totalSpan.inMicroseconds > 8333) { // 120fps target
+        if (timing.totalSpan.inMicroseconds > 8333) {
+          // 120fps target
           Logger.debug('Frame drop: ${timing.totalSpan.inMilliseconds}ms');
         }
       }
     };
   }
-  
+
   try {
     Logger.info('🚀 SensorHub 2025 Ultra - Iniciando com 120fps...');
-    
+
     // Initialize Supabase
     await Supabase.initialize(
       url: 'https://npqfsynpttyxxzrltjke.supabase.co',
-      anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5wcWZzeW5wdHR5eHh6cmx0amtlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTcwMDMxNjMsImV4cCI6MjA3MjU3OTE2M30.B_7e5AYj_n_U9YNTSQUpfC26HWEeTq-4QYWVO5IldKI',
+      anonKey:
+          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5wcWZzeW5wdHR5eHh6cmx0amtlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTcwMDMxNjMsImV4cCI6MjA3MjU3OTE2M30.B_7e5AYj_n_U9YNTSQUpfC26HWEeTq-4QYWVO5IldKI',
     );
-    
+
     // Initialize performance systems
     final perfOptimizer = PerformanceOptimizer();
     perfOptimizer.initialize();
-    
+
     // Initialize predictive rendering
     final predictiveEngine = PredictiveRenderingEngine();
     predictiveEngine.initialize();
-    
+
     // Initialize NVIDIA AI
     final aiService = NvidiaAiService();
     aiService.initialize();
-    
+
     // Initialize advanced sensor-LLM service
     final advancedService = AdvancedSensorLLMService();
     advancedService.initialize();
-    
+
     Logger.success('Todos os sistemas inicializados com sucesso!');
   } catch (e) {
     Logger.error('Falha ao inicializar aplicação', e);
   }
-  
-  runApp(
-    const ProviderScope(
-      child: SensorHubUltraApp(),
-    ),
-  );
+
+  runApp(const ProviderScope(child: SensorHubUltraApp()));
 }
 
 /// Main app widget with ultra performance optimizations
@@ -79,21 +77,22 @@ class SensorHubUltraApp extends ConsumerWidget {
         SchedulerBinding.instance.ensureVisualUpdate();
       });
     }
-    
+
     return MaterialApp(
       title: 'SensorHub 2025 Ultra',
       debugShowCheckedModeBanner: false,
-      
+
       // Theme
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       themeMode: ThemeMode.system,
-      
+
       // Performance optimizations
-      showPerformanceOverlay: kDebugMode && false, // Set to true to see performance
+      showPerformanceOverlay: kDebugMode && false,
+      // Set to true to see performance
       checkerboardOffscreenLayers: false,
       checkerboardRasterCacheImages: false,
-      
+
       // Routes with smooth transitions
       initialRoute: '/',
       onGenerateRoute: (settings) {
@@ -108,7 +107,7 @@ class SensorHubUltraApp extends ConsumerWidget {
           default:
             page = const SplashScreen();
         }
-        
+
         // Ultra-smooth 120fps page transition
         return PageRouteBuilder(
           settings: settings,
@@ -119,36 +118,31 @@ class SensorHubUltraApp extends ConsumerWidget {
             const begin = Offset(1.0, 0.0);
             const end = Offset.zero;
             const curve = Curves.easeInOutCubic;
-            
-            var tween = Tween(begin: begin, end: end).chain(
-              CurveTween(curve: curve),
-            );
-            
+
+            var tween = Tween(
+              begin: begin,
+              end: end,
+            ).chain(CurveTween(curve: curve));
+
             var offsetAnimation = animation.drive(tween);
-            
+
             // Add fade for smoother transition
             var fadeAnimation = Tween<double>(
               begin: 0.0,
               end: 1.0,
-            ).animate(CurvedAnimation(
-              parent: animation,
-              curve: curve,
-            ));
-            
+            ).animate(CurvedAnimation(parent: animation, curve: curve));
+
             // RepaintBoundary for performance
             return RepaintBoundary(
               child: SlideTransition(
                 position: offsetAnimation,
-                child: FadeTransition(
-                  opacity: fadeAnimation,
-                  child: child,
-                ),
+                child: FadeTransition(opacity: fadeAnimation, child: child),
               ),
             );
           },
         );
       },
-      
+
       // Builder for global optimizations
       builder: (context, child) {
         // Apply text scaling limits
@@ -157,11 +151,9 @@ class SensorHubUltraApp extends ConsumerWidget {
           minScaleFactor: 0.8,
           maxScaleFactor: 1.2,
         );
-        
+
         return MediaQuery(
-          data: mediaQuery.copyWith(
-            textScaler: constrainedTextScaler,
-          ),
+          data: mediaQuery.copyWith(textScaler: constrainedTextScaler),
           child: ScrollConfiguration(
             behavior: UltraScrollBehavior(),
             child: child ?? const SizedBox(),
@@ -181,7 +173,7 @@ class UltraScrollBehavior extends ScrollBehavior {
       decelerationRate: ScrollDecelerationRate.fast,
     );
   }
-  
+
   @override
   Widget buildScrollbar(
     BuildContext context,
@@ -199,7 +191,7 @@ class UltraScrollBehavior extends ScrollBehavior {
       child: child,
     );
   }
-  
+
   @override
   Widget buildOverscrollIndicator(
     BuildContext context,
@@ -217,8 +209,6 @@ extension TextScalerExtension on TextScaler {
     required double minScaleFactor,
     required double maxScaleFactor,
   }) {
-    return TextScaler.linear(
-      scale(1.0).clamp(minScaleFactor, maxScaleFactor),
-    );
+    return TextScaler.linear(scale(1.0).clamp(minScaleFactor, maxScaleFactor));
   }
 }

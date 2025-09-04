@@ -3,9 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'core/core.dart';
-import 'infrastructure/infrastructure.dart';
 import 'features/sensors/presentation/pages/home_screen.dart';
 import 'features/sensors/presentation/pages/splash_screen.dart';
+import 'infrastructure/infrastructure.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

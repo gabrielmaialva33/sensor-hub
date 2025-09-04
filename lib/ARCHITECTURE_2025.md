@@ -82,6 +82,7 @@ test/
 ## 🚀 Tecnologias 2025
 
 ### State Management
+
 ```yaml
 # Riverpod 2.6+ com code generation
 flutter_riverpod: ^2.6.0
@@ -90,6 +91,7 @@ riverpod_generator: ^2.6.0
 ```
 
 ### Dependency Injection
+
 ```yaml
 # Injectable + GetIt
 get_it: ^8.0.0
@@ -98,12 +100,14 @@ injectable_generator: ^2.7.0
 ```
 
 ### Routing
+
 ```yaml
 # go_router com deep linking
 go_router: ^14.6.0
 ```
 
 ### Code Generation
+
 ```yaml
 # Freezed + JSON serialization
 freezed_annotation: ^2.5.0
@@ -114,6 +118,7 @@ json_serializable: ^6.8.0
 ```
 
 ### Testing
+
 ```yaml
 # Testing avançado
 mocktail: ^1.0.4
@@ -126,6 +131,7 @@ integration_test:
 ## 📁 Exemplo de Feature Completa
 
 ### Domain Layer (sensor_entity.dart)
+
 ```dart
 @freezed
 class SensorEntity with _$SensorEntity {
@@ -139,6 +145,7 @@ class SensorEntity with _$SensorEntity {
 ```
 
 ### Use Case (get_sensor_data_use_case.dart)
+
 ```dart
 @injectable
 class GetSensorDataUseCase {
@@ -153,6 +160,7 @@ class GetSensorDataUseCase {
 ```
 
 ### Riverpod Provider (sensor_providers.dart)
+
 ```dart
 @riverpod
 class SensorController extends _$SensorController {

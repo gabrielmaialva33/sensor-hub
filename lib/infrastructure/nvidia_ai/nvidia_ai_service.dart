@@ -2,8 +2,8 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-
 import 'package:sensor_hub/core/core.dart';
+
 import '../../features/sensors/data/models/sensor_data.dart';
 
 /// Service for NVIDIA AI integration and analysis

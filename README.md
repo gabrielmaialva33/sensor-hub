@@ -162,9 +162,10 @@
 
 ### Internationalization
 
-- *
-  *[flutter_localizations](https://api.flutter.dev/flutter/flutter_localizations/flutter_localizations-library.html)
-  ** - Multi-language support
+-
+    *
+*[flutter_localizations](https://api.flutter.dev/flutter/flutter_localizations/flutter_localizations-library.html)
+** - Multi-language support
 - **[intl](https://pub.dev/packages/intl)** 0.19.0 - Internationalization and localization
 - **Portuguese (pt-BR)** - Full Brazilian Portuguese translation
 - **English** - Default language support

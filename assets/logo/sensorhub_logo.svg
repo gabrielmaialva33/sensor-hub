@@ -1,81 +1,87 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-  <!-- Background circle for app icon -->
-  <circle cx="100" cy="100" r="90" fill="url(#backgroundGradient)" stroke="none"/>
-  
-  <!-- Gradient definitions -->
-  <defs>
-    <linearGradient id="backgroundGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#f8fafc;stop-opacity:0.1" />
-      <stop offset="100%" style="stop-color:#1e293b;stop-opacity:0.05" />
-    </linearGradient>
-    
-    <radialGradient id="primaryGradient" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" style="stop-color:#818CF8;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#6366F1;stop-opacity:1" />
-    </radialGradient>
-    
-    <radialGradient id="emeraldGradient" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" style="stop-color:#34D399;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#10B981;stop-opacity:1" />
-    </radialGradient>
-    
-    <radialGradient id="amberGradient" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" style="stop-color:#FBBF24;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#F59E0B;stop-opacity:1" />
-    </radialGradient>
-  </defs>
-  
-  <!-- Data flow lines (subtle background) -->
-  <g stroke="#6366F1" stroke-width="1" stroke-opacity="0.3" fill="none">
-    <!-- Lines from center to each sensor node -->
-    <line x1="100" y1="100" x2="100" y2="45"/>      <!-- Top -->
-    <line x1="100" y1="100" x2="147.5" y2="72.5"/>   <!-- Top-right -->
-    <line x1="100" y1="100" x2="147.5" y2="127.5"/>  <!-- Bottom-right -->
-    <line x1="100" y1="100" x2="100" y2="155"/>      <!-- Bottom -->
-    <line x1="100" y1="100" x2="52.5" y2="127.5"/>   <!-- Bottom-left -->
-    <line x1="100" y1="100" x2="52.5" y2="72.5"/>    <!-- Top-left -->
-  </g>
-  
-  <!-- Main hexagonal frame -->
-  <polygon points="100,55 130,72.5 130,127.5 100,145 70,127.5 70,72.5" 
-           fill="none" 
-           stroke="url(#primaryGradient)" 
-           stroke-width="3"/>
-  
-  <!-- Sensor nodes positioned at hexagon vertices -->
-  <!-- Top (Accelerometer - Amber) -->
-  <circle cx="100" cy="45" r="8" fill="url(#amberGradient)" stroke="#F59E0B" stroke-width="2"/>
-  
-  <!-- Top-right (Gyroscope - Emerald) -->
-  <circle cx="147.5" cy="72.5" r="8" fill="url(#emeraldGradient)" stroke="#10B981" stroke-width="2"/>
-  
-  <!-- Bottom-right (Magnetometer - Amber) -->
-  <circle cx="147.5" cy="127.5" r="8" fill="url(#amberGradient)" stroke="#F59E0B" stroke-width="2"/>
-  
-  <!-- Bottom (GPS - Emerald) -->
-  <circle cx="100" cy="155" r="8" fill="url(#emeraldGradient)" stroke="#10B981" stroke-width="2"/>
-  
-  <!-- Bottom-left (Light Sensor - Amber) -->
-  <circle cx="52.5" cy="127.5" r="8" fill="url(#amberGradient)" stroke="#F59E0B" stroke-width="2"/>
-  
-  <!-- Top-left (Proximity - Emerald) -->
-  <circle cx="52.5" cy="72.5" r="8" fill="url(#emeraldGradient)" stroke="#10B981" stroke-width="2"/>
-  
-  <!-- Central AI neural node -->
-  <circle cx="100" cy="100" r="18" fill="url(#primaryGradient)" stroke="#4F46E5" stroke-width="3"/>
-  
-  <!-- Neural network connections within central node -->
-  <g stroke="#FFFFFF" stroke-width="1.5" fill="none" opacity="0.8">
-    <circle cx="100" cy="100" r="6"/>
-    <!-- Small connection points -->
-    <circle cx="94" cy="94" r="1.5" fill="#FFFFFF"/>
-    <circle cx="106" cy="94" r="1.5" fill="#FFFFFF"/>
-    <circle cx="106" cy="106" r="1.5" fill="#FFFFFF"/>
-    <circle cx="94" cy="106" r="1.5" fill="#FFFFFF"/>
-  </g>
-  
-  <!-- Subtle pulse effect rings -->
-  <circle cx="100" cy="100" r="35" fill="none" stroke="#6366F1" stroke-width="1" stroke-opacity="0.15"/>
-  <circle cx="100" cy="100" r="50" fill="none" stroke="#6366F1" stroke-width="1" stroke-opacity="0.1"/>
+<svg height="200" viewBox="0 0 200 200" width="200" xmlns="http://www.w3.org/2000/svg">
+    <!-- Background circle for app icon -->
+    <circle cx="100" cy="100" fill="url(#backgroundGradient)" r="90" stroke="none" />
+
+    <!-- Gradient definitions -->
+    <defs>
+        <linearGradient id="backgroundGradient" x1="0%" x2="100%" y1="0%" y2="100%">
+            <stop style="stop-color:#f8fafc;stop-opacity:0.1" offset="0%" />
+            <stop style="stop-color:#1e293b;stop-opacity:0.05" offset="100%" />
+        </linearGradient>
+
+        <radialGradient cx="50%" cy="50%" id="primaryGradient" r="50%">
+            <stop style="stop-color:#818CF8;stop-opacity:1" offset="0%" />
+            <stop style="stop-color:#6366F1;stop-opacity:1" offset="100%" />
+        </radialGradient>
+
+        <radialGradient cx="50%" cy="50%" id="emeraldGradient" r="50%">
+            <stop style="stop-color:#34D399;stop-opacity:1" offset="0%" />
+            <stop style="stop-color:#10B981;stop-opacity:1" offset="100%" />
+        </radialGradient>
+
+        <radialGradient cx="50%" cy="50%" id="amberGradient" r="50%">
+            <stop style="stop-color:#FBBF24;stop-opacity:1" offset="0%" />
+            <stop style="stop-color:#F59E0B;stop-opacity:1" offset="100%" />
+        </radialGradient>
+    </defs>
+
+    <!-- Data flow lines (subtle background) -->
+    <g fill="none" stroke="#6366F1" stroke-opacity="0.3" stroke-width="1">
+        <!-- Lines from center to each sensor node -->
+        <line x1="100" x2="100" y1="100" y2="45" />      <!-- Top -->
+        <line x1="100" x2="147.5" y1="100" y2="72.5" />   <!-- Top-right -->
+        <line x1="100" x2="147.5" y1="100" y2="127.5" />  <!-- Bottom-right -->
+        <line x1="100" x2="100" y1="100" y2="155" />      <!-- Bottom -->
+        <line x1="100" x2="52.5" y1="100" y2="127.5" />   <!-- Bottom-left -->
+        <line x1="100" x2="52.5" y1="100" y2="72.5" />    <!-- Top-left -->
+    </g>
+
+    <!-- Main hexagonal frame -->
+    <polygon fill="none" points="100,55 130,72.5 130,127.5 100,145 70,127.5 70,72.5"
+        stroke="url(#primaryGradient)" stroke-width="3" />
+
+    <!-- Sensor nodes positioned at hexagon vertices -->
+    <!-- Top (Accelerometer - Amber) -->
+    <circle cx="100" cy="45" fill="url(#amberGradient)" r="8" stroke="#F59E0B" stroke-width="2" />
+
+    <!-- Top-right (Gyroscope - Emerald) -->
+    <circle cx="147.5" cy="72.5" fill="url(#emeraldGradient)" r="8" stroke="#10B981"
+        stroke-width="2" />
+
+    <!-- Bottom-right (Magnetometer - Amber) -->
+    <circle cx="147.5" cy="127.5" fill="url(#amberGradient)" r="8" stroke="#F59E0B"
+        stroke-width="2" />
+
+    <!-- Bottom (GPS - Emerald) -->
+    <circle cx="100" cy="155" fill="url(#emeraldGradient)" r="8" stroke="#10B981"
+        stroke-width="2" />
+
+    <!-- Bottom-left (Light Sensor - Amber) -->
+    <circle cx="52.5" cy="127.5" fill="url(#amberGradient)" r="8" stroke="#F59E0B"
+        stroke-width="2" />
+
+    <!-- Top-left (Proximity - Emerald) -->
+    <circle cx="52.5" cy="72.5" fill="url(#emeraldGradient)" r="8" stroke="#10B981"
+        stroke-width="2" />
+
+    <!-- Central AI neural node -->
+    <circle cx="100" cy="100" fill="url(#primaryGradient)" r="18" stroke="#4F46E5"
+        stroke-width="3" />
+
+    <!-- Neural network connections within central node -->
+    <g fill="none" opacity="0.8" stroke="#FFFFFF" stroke-width="1.5">
+        <circle cx="100" cy="100" r="6" />
+        <!-- Small connection points -->
+        <circle cx="94" cy="94" fill="#FFFFFF" r="1.5" />
+        <circle cx="106" cy="94" fill="#FFFFFF" r="1.5" />
+        <circle cx="106" cy="106" fill="#FFFFFF" r="1.5" />
+        <circle cx="94" cy="106" fill="#FFFFFF" r="1.5" />
+    </g>
+
+    <!-- Subtle pulse effect rings -->
+    <circle cx="100" cy="100" fill="none" r="35" stroke="#6366F1" stroke-opacity="0.15"
+        stroke-width="1" />
+    <circle cx="100" cy="100" fill="none" r="50" stroke="#6366F1" stroke-opacity="0.1"
+        stroke-width="1" />
 </svg>

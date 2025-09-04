@@ -4,10 +4,8 @@ import '../use_cases/stream_sensor_data.dart';
 /// Repository abstrato - Domain Layer (2025 Clean Architecture)
 abstract class SensorRepository {
   /// Stream de dados do sensor em tempo real
-  Stream<SensorResult<List<SensorEntity>>> getSensorStream(
-    SensorType type,
-  );
-  
+  Stream<SensorResult<List<SensorEntity>>> getSensorStream(SensorType type);
+
   /// Obter dados históricos do sensor
   Future<SensorResult<List<SensorEntity>>> getHistoricalData({
     required SensorType type,
@@ -15,15 +13,13 @@ abstract class SensorRepository {
     required DateTime endDate,
     int? limit,
   });
-  
+
   /// Salvar dados do sensor
   Future<SensorResult<void>> saveSensorData(SensorEntity data);
-  
+
   /// Limpar dados antigos
-  Future<SensorResult<int>> clearOldData({
-    required Duration olderThan,
-  });
-  
+  Future<SensorResult<int>> clearOldData({required Duration olderThan});
+
   /// Exportar dados
   Future<SensorResult<String>> exportData({
     required SensorType type,
@@ -31,11 +27,9 @@ abstract class SensorRepository {
     DateTime? startDate,
     DateTime? endDate,
   });
-  
+
   /// Análise com IA
-  Future<SensorResult<SensorAnalysis>> analyzeWithAI(
-    List<SensorEntity> data,
-  );
+  Future<SensorResult<SensorAnalysis>> analyzeWithAI(List<SensorEntity> data);
 }
 
 /// Formatos de exportação
@@ -48,7 +42,7 @@ class SensorAnalysis {
   final List<String> recommendations;
   final double confidence;
   final DateTime timestamp;
-  
+
   const SensorAnalysis({
     required this.summary,
     required this.insights,
@@ -61,6 +55,7 @@ class SensorAnalysis {
 /// Falhas específicas do domínio de sensores
 abstract class SensorFailure {
   final String message;
+
   const SensorFailure(this.message);
 }
 

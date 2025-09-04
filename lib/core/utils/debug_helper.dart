@@ -5,7 +5,6 @@ import 'dart:io';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:permission_handler/permission_handler.dart';
-
 import 'package:sensor_hub/infrastructure/infrastructure.dart';
 
 /// Debug helper for testing and troubleshooting sensor functionality

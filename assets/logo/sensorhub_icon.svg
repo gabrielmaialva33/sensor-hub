@@ -1,95 +1,100 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="1024" height="1024" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
-  <!-- Background with rounded corners for iOS -->
-  <rect x="0" y="0" width="1024" height="1024" rx="230" ry="230" fill="url(#bgGradient)"/>
-  
-  <!-- Gradient definitions -->
-  <defs>
-    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#6366F1;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#4338CA;stop-opacity:1" />
-    </linearGradient>
-    
-    <radialGradient id="centerGradient" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" style="stop-color:#FFFFFF;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#E2E8F0;stop-opacity:1" />
-    </radialGradient>
-    
-    <radialGradient id="emeraldNode" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" style="stop-color:#34D399;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#10B981;stop-opacity:1" />
-    </radialGradient>
-    
-    <radialGradient id="amberNode" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" style="stop-color:#FBBF24;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#F59E0B;stop-opacity:1" />
-    </radialGradient>
-  </defs>
-  
-  <!-- Main hexagonal structure (centered and properly sized) -->
-  <g transform="translate(512, 512)">
-    <!-- Hexagon outline -->
-    <polygon points="0,-200 173.2,-100 173.2,100 0,200 -173.2,100 -173.2,-100" 
-             fill="none" 
-             stroke="#FFFFFF" 
-             stroke-width="24" 
-             stroke-opacity="0.95"
-             stroke-linejoin="round"/>
-    
-    <!-- Connection lines from center to nodes -->
-    <g stroke="#FFFFFF" stroke-width="10" stroke-opacity="0.7" fill="none">
-      <line x1="0" y1="0" x2="0" y2="-200"/>
-      <line x1="0" y1="0" x2="173.2" y2="-100"/>
-      <line x1="0" y1="0" x2="173.2" y2="100"/>
-      <line x1="0" y1="0" x2="0" y2="200"/>
-      <line x1="0" y1="0" x2="-173.2" y2="100"/>
-      <line x1="0" y1="0" x2="-173.2" y2="-100"/>
+<svg height="1024" viewBox="0 0 1024 1024" width="1024" xmlns="http://www.w3.org/2000/svg">
+    <!-- Background with rounded corners for iOS -->
+    <rect fill="url(#bgGradient)" height="1024" rx="230" ry="230" width="1024" x="0" y="0" />
+
+    <!-- Gradient definitions -->
+    <defs>
+        <linearGradient id="bgGradient" x1="0%" x2="100%" y1="0%" y2="100%">
+            <stop style="stop-color:#6366F1;stop-opacity:1" offset="0%" />
+            <stop style="stop-color:#4338CA;stop-opacity:1" offset="100%" />
+        </linearGradient>
+
+        <radialGradient cx="50%" cy="50%" id="centerGradient" r="50%">
+            <stop style="stop-color:#FFFFFF;stop-opacity:1" offset="0%" />
+            <stop style="stop-color:#E2E8F0;stop-opacity:1" offset="100%" />
+        </radialGradient>
+
+        <radialGradient cx="50%" cy="50%" id="emeraldNode" r="50%">
+            <stop style="stop-color:#34D399;stop-opacity:1" offset="0%" />
+            <stop style="stop-color:#10B981;stop-opacity:1" offset="100%" />
+        </radialGradient>
+
+        <radialGradient cx="50%" cy="50%" id="amberNode" r="50%">
+            <stop style="stop-color:#FBBF24;stop-opacity:1" offset="0%" />
+            <stop style="stop-color:#F59E0B;stop-opacity:1" offset="100%" />
+        </radialGradient>
+    </defs>
+
+    <!-- Main hexagonal structure (centered and properly sized) -->
+    <g transform="translate(512, 512)">
+        <!-- Hexagon outline -->
+        <polygon fill="none" points="0,-200 173.2,-100 173.2,100 0,200 -173.2,100 -173.2,-100"
+            stroke="#FFFFFF" stroke-linejoin="round" stroke-opacity="0.95" stroke-width="24" />
+
+        <!-- Connection lines from center to nodes -->
+        <g fill="none" stroke="#FFFFFF" stroke-opacity="0.7" stroke-width="10">
+            <line x1="0" x2="0" y1="0" y2="-200" />
+            <line x1="0" x2="173.2" y1="0" y2="-100" />
+            <line x1="0" x2="173.2" y1="0" y2="100" />
+            <line x1="0" x2="0" y1="0" y2="200" />
+            <line x1="0" x2="-173.2" y1="0" y2="100" />
+            <line x1="0" x2="-173.2" y1="0" y2="-100" />
+        </g>
+
+        <!-- Sensor nodes at hexagon vertices -->
+        <circle cx="0" cy="-200" fill="url(#emeraldNode)" r="50" stroke="#FFFFFF"
+            stroke-width="8" />
+        <circle cx="173.2" cy="-100" fill="url(#amberNode)" r="50" stroke="#FFFFFF"
+            stroke-width="8" />
+        <circle cx="173.2" cy="100" fill="url(#emeraldNode)" r="50" stroke="#FFFFFF"
+            stroke-width="8" />
+        <circle cx="0" cy="200" fill="url(#amberNode)" r="50" stroke="#FFFFFF" stroke-width="8" />
+        <circle cx="-173.2" cy="100" fill="url(#emeraldNode)" r="50" stroke="#FFFFFF"
+            stroke-width="8" />
+        <circle cx="-173.2" cy="-100" fill="url(#amberNode)" r="50" stroke="#FFFFFF"
+            stroke-width="8" />
+
+        <!-- Central AI core -->
+        <circle cx="0" cy="0" fill="url(#centerGradient)" r="100" stroke="#FFFFFF"
+            stroke-width="10" />
+
+        <!-- Neural network pattern in center -->
+        <g fill="#6366F1">
+            <!-- Central hub -->
+            <circle cx="0" cy="0" opacity="0.9" r="25" />
+
+            <!-- Neural nodes around center -->
+            <circle cx="-30" cy="0" opacity="0.7" r="8" />
+            <circle cx="30" cy="0" opacity="0.7" r="8" />
+            <circle cx="0" cy="-30" opacity="0.7" r="8" />
+            <circle cx="0" cy="30" opacity="0.7" r="8" />
+
+            <!-- Diagonal nodes -->
+            <circle cx="-21" cy="-21" opacity="0.6" r="6" />
+            <circle cx="21" cy="-21" opacity="0.6" r="6" />
+            <circle cx="21" cy="21" opacity="0.6" r="6" />
+            <circle cx="-21" cy="21" opacity="0.6" r="6" />
+
+            <!-- Connecting lines -->
+            <g opacity="0.5" stroke="#6366F1" stroke-width="3">
+                <line x1="0" x2="-30" y1="0" y2="0" />
+                <line x1="0" x2="30" y1="0" y2="0" />
+                <line x1="0" x2="0" y1="0" y2="-30" />
+                <line x1="0" x2="0" y1="0" y2="30" />
+                <line x1="0" x2="-21" y1="0" y2="-21" />
+                <line x1="0" x2="21" y1="0" y2="-21" />
+                <line x1="0" x2="21" y1="0" y2="21" />
+                <line x1="0" x2="-21" y1="0" y2="21" />
+            </g>
+        </g>
+
+        <!-- Pulse effect rings -->
+        <circle cx="0" cy="0" fill="none" r="140" stroke="#FFFFFF" stroke-opacity="0.15"
+            stroke-width="3" />
+        <circle cx="0" cy="0" fill="none" r="180" stroke="#FFFFFF" stroke-opacity="0.1"
+            stroke-width="2" />
+        <circle cx="0" cy="0" fill="none" r="220" stroke="#FFFFFF" stroke-opacity="0.05"
+            stroke-width="1" />
     </g>
-    
-    <!-- Sensor nodes at hexagon vertices -->
-    <circle cx="0" cy="-200" r="50" fill="url(#emeraldNode)" stroke="#FFFFFF" stroke-width="8"/>
-    <circle cx="173.2" cy="-100" r="50" fill="url(#amberNode)" stroke="#FFFFFF" stroke-width="8"/>
-    <circle cx="173.2" cy="100" r="50" fill="url(#emeraldNode)" stroke="#FFFFFF" stroke-width="8"/>
-    <circle cx="0" cy="200" r="50" fill="url(#amberNode)" stroke="#FFFFFF" stroke-width="8"/>
-    <circle cx="-173.2" cy="100" r="50" fill="url(#emeraldNode)" stroke="#FFFFFF" stroke-width="8"/>
-    <circle cx="-173.2" cy="-100" r="50" fill="url(#amberNode)" stroke="#FFFFFF" stroke-width="8"/>
-    
-    <!-- Central AI core -->
-    <circle cx="0" cy="0" r="100" fill="url(#centerGradient)" stroke="#FFFFFF" stroke-width="10"/>
-    
-    <!-- Neural network pattern in center -->
-    <g fill="#6366F1">
-      <!-- Central hub -->
-      <circle cx="0" cy="0" r="25" opacity="0.9"/>
-      
-      <!-- Neural nodes around center -->
-      <circle cx="-30" cy="0" r="8" opacity="0.7"/>
-      <circle cx="30" cy="0" r="8" opacity="0.7"/>
-      <circle cx="0" cy="-30" r="8" opacity="0.7"/>
-      <circle cx="0" cy="30" r="8" opacity="0.7"/>
-      
-      <!-- Diagonal nodes -->
-      <circle cx="-21" cy="-21" r="6" opacity="0.6"/>
-      <circle cx="21" cy="-21" r="6" opacity="0.6"/>
-      <circle cx="21" cy="21" r="6" opacity="0.6"/>
-      <circle cx="-21" cy="21" r="6" opacity="0.6"/>
-      
-      <!-- Connecting lines -->
-      <g stroke="#6366F1" stroke-width="3" opacity="0.5">
-        <line x1="0" y1="0" x2="-30" y2="0"/>
-        <line x1="0" y1="0" x2="30" y2="0"/>
-        <line x1="0" y1="0" x2="0" y2="-30"/>
-        <line x1="0" y1="0" x2="0" y2="30"/>
-        <line x1="0" y1="0" x2="-21" y2="-21"/>
-        <line x1="0" y1="0" x2="21" y2="-21"/>
-        <line x1="0" y1="0" x2="21" y2="21"/>
-        <line x1="0" y1="0" x2="-21" y2="21"/>
-      </g>
-    </g>
-    
-    <!-- Pulse effect rings -->
-    <circle cx="0" cy="0" r="140" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-opacity="0.15"/>
-    <circle cx="0" cy="0" r="180" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-opacity="0.1"/>
-    <circle cx="0" cy="0" r="220" fill="none" stroke="#FFFFFF" stroke-width="1" stroke-opacity="0.05"/>
-  </g>
 </svg>

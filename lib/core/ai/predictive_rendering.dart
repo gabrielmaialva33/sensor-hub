@@ -62,7 +62,7 @@ class PredictiveRenderingEngine {
     if (_interactionHistory.isEmpty) return;
 
     final predictions = <Prediction>[];
-    
+
     _models.forEach((name, model) {
       final prediction = model.predict(_interactionHistory.toList());
       if (prediction.confidence >= _confidenceThreshold) {
@@ -81,7 +81,9 @@ class PredictiveRenderingEngine {
   /// Pre-render a predicted widget
   void _preRenderPrediction(Prediction prediction) {
     // This would pre-render widgets in a real implementation
-    Logger.debug('Pre-rendering: ${prediction.type} with confidence ${prediction.confidence}');
+    Logger.debug(
+      'Pre-rendering: ${prediction.type} with confidence ${prediction.confidence}',
+    );
   }
 
   /// Track user interaction
@@ -89,7 +91,7 @@ class PredictiveRenderingEngine {
     if (!_isEnabled) return;
 
     _interactionHistory.add(interaction);
-    
+
     if (_interactionHistory.length > _maxHistorySize) {
       _interactionHistory.removeFirst();
     }
@@ -129,11 +131,8 @@ class UserInteraction {
   final Map<String, dynamic> data;
   final DateTime timestamp;
 
-  UserInteraction({
-    required this.type,
-    required this.data,
-    DateTime? timestamp,
-  }) : timestamp = timestamp ?? DateTime.now();
+  UserInteraction({required this.type, required this.data, DateTime? timestamp})
+    : timestamp = timestamp ?? DateTime.now();
 }
 
 /// Prediction result
@@ -164,11 +163,7 @@ class NavigationPredictionModel extends PredictionModel {
         .toList();
 
     if (navigationEvents.length < 3) {
-      return const Prediction(
-        type: 'navigation',
-        data: {},
-        confidence: 0.0,
-      );
+      return const Prediction(type: 'navigation', data: {}, confidence: 0.0);
     }
 
     // Analyze navigation patterns
@@ -178,11 +173,7 @@ class NavigationPredictionModel extends PredictionModel {
         .toList();
 
     if (routes.isEmpty) {
-      return const Prediction(
-        type: 'navigation',
-        data: {},
-        confidence: 0.0,
-      );
+      return const Prediction(type: 'navigation', data: {}, confidence: 0.0);
     }
 
     // Find most common next route
@@ -193,15 +184,12 @@ class NavigationPredictionModel extends PredictionModel {
     }
 
     if (routePairs.isEmpty) {
-      return const Prediction(
-        type: 'navigation',
-        data: {},
-        confidence: 0.0,
-      );
+      return const Prediction(type: 'navigation', data: {}, confidence: 0.0);
     }
 
-    final mostCommon = routePairs.entries
-        .reduce((a, b) => a.value > b.value ? a : b);
+    final mostCommon = routePairs.entries.reduce(
+      (a, b) => a.value > b.value ? a : b,
+    );
 
     final confidence = mostCommon.value / routes.length;
     final nextRoute = mostCommon.key.split('->').last;
@@ -218,16 +206,10 @@ class NavigationPredictionModel extends PredictionModel {
 class ScrollPredictionModel extends PredictionModel {
   @override
   Prediction predict(List<UserInteraction> history) {
-    final scrollEvents = history
-        .where((i) => i.type == 'scroll')
-        .toList();
+    final scrollEvents = history.where((i) => i.type == 'scroll').toList();
 
     if (scrollEvents.length < 5) {
-      return const Prediction(
-        type: 'scroll',
-        data: {},
-        confidence: 0.0,
-      );
+      return const Prediction(type: 'scroll', data: {}, confidence: 0.0);
     }
 
     // Analyze scroll velocity and direction
@@ -237,14 +219,11 @@ class ScrollPredictionModel extends PredictionModel {
         .toList();
 
     if (velocities.isEmpty) {
-      return const Prediction(
-        type: 'scroll',
-        data: {},
-        confidence: 0.0,
-      );
+      return const Prediction(type: 'scroll', data: {}, confidence: 0.0);
     }
 
-    final avgVelocity = velocities.reduce((a, b) => a! + b!) / velocities.length;
+    final avgVelocity =
+        velocities.reduce((a, b) => a! + b!) / velocities.length;
     final direction = avgVelocity! > 0 ? 'down' : 'up';
     final speed = avgVelocity.abs();
 
@@ -264,16 +243,10 @@ class ScrollPredictionModel extends PredictionModel {
 class TapPredictionModel extends PredictionModel {
   @override
   Prediction predict(List<UserInteraction> history) {
-    final tapEvents = history
-        .where((i) => i.type == 'tap')
-        .toList();
+    final tapEvents = history.where((i) => i.type == 'tap').toList();
 
     if (tapEvents.length < 3) {
-      return const Prediction(
-        type: 'tap',
-        data: {},
-        confidence: 0.0,
-      );
+      return const Prediction(type: 'tap', data: {}, confidence: 0.0);
     }
 
     // Analyze tap patterns
@@ -283,11 +256,7 @@ class TapPredictionModel extends PredictionModel {
         .toList();
 
     if (targets.isEmpty) {
-      return const Prediction(
-        type: 'tap',
-        data: {},
-        confidence: 0.0,
-      );
+      return const Prediction(type: 'tap', data: {}, confidence: 0.0);
     }
 
     // Find most frequent tap target
@@ -296,8 +265,9 @@ class TapPredictionModel extends PredictionModel {
       targetFrequency[target!] = (targetFrequency[target] ?? 0) + 1;
     }
 
-    final mostFrequent = targetFrequency.entries
-        .reduce((a, b) => a.value > b.value ? a : b);
+    final mostFrequent = targetFrequency.entries.reduce(
+      (a, b) => a.value > b.value ? a : b,
+    );
 
     final confidence = mostFrequent.value / targets.length;
 

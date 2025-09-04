@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -173,6 +172,9 @@ class PerformanceMetric {
     return samples.reduce((a, b) => a + b) / samples.length;
   }
 
-  double get min => samples.isEmpty ? 0 : samples.reduce((a, b) => a < b ? a : b);
-  double get max => samples.isEmpty ? 0 : samples.reduce((a, b) => a > b ? a : b);
+  double get min =>
+      samples.isEmpty ? 0 : samples.reduce((a, b) => a < b ? a : b);
+
+  double get max =>
+      samples.isEmpty ? 0 : samples.reduce((a, b) => a > b ? a : b);
 }

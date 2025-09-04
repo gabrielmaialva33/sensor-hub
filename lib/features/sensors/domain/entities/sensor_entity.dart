@@ -19,11 +19,11 @@ class SensorEntity {
     this.aiAnalysis,
     this.confidence,
   });
-  
+
   /// Magnitude para sensores de movimento
   double? get magnitude {
-    if (type == SensorType.accelerometer || 
-        type == SensorType.gyroscope || 
+    if (type == SensorType.accelerometer ||
+        type == SensorType.gyroscope ||
         type == SensorType.magnetometer) {
       final x = values['x'] as double?;
       final y = values['y'] as double?;
@@ -34,11 +34,11 @@ class SensorEntity {
     }
     return null;
   }
-  
+
   /// Classificação de atividade baseada em IA
   String get activityClassification {
     if (aiAnalysis != null) return aiAnalysis!;
-    
+
     if (type == SensorType.accelerometer) {
       final mag = magnitude ?? 0;
       if (mag < 10.5) return 'Parado';
@@ -46,7 +46,7 @@ class SensorEntity {
       if (mag < 20) return 'Correndo';
       return 'Veículo';
     }
-    
+
     return 'Desconhecido';
   }
 }
@@ -90,7 +90,7 @@ extension SensorTypeX on SensorType {
         return 'Umidade';
     }
   }
-  
+
   String get icon {
     switch (this) {
       case SensorType.accelerometer:
