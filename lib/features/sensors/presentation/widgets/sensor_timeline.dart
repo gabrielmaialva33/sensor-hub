@@ -102,14 +102,14 @@ class _SensorTimelineState extends ConsumerState<SensorTimeline> {
                       });
                     },
                     items: AppConstants.availableSensors.map((sensor) {
-                      final icon = AppConstants.sensorIcons[sensor] ?? '📊';
+                      final icon = AppConstants.sensorIcons[sensor] ?? Icons.sensors;
                       final name =
                           AppConstants.sensorDisplayNames[sensor] ?? sensor;
                       return DropdownMenuItem(
                         value: sensor,
                         child: Row(
                           children: [
-                            Text(icon),
+                            Icon(icon, size: 20, color: AppTheme.getSensorColor(sensor)),
                             const SizedBox(width: AppTheme.paddingSM),
                             Flexible(
                               child: Text(

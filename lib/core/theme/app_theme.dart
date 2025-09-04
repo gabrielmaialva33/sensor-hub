@@ -2,32 +2,34 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AppTheme {
-  // Colors inspired by Pieces
-  static const Color primaryColor = Color(0xFF6366F1); // Indigo
-  static const Color secondaryColor = Color(0xFF10B981); // Emerald
-  static const Color accentColor = Color(0xFFF59E0B); // Amber
-  static const Color errorColor = Color(0xFFEF4444); // Red
+  // Professional colors inspired by Apple Health and Google Fit
+  static const Color primaryColor = Color(0xFF007AFF); // iOS Blue
+  static const Color secondaryColor = Color(0xFF34C759); // iOS Green
+  static const Color accentColor = Color(0xFFFF9500); // iOS Orange
+  static const Color errorColor = Color(0xFFFF3B30); // iOS Red
 
-  // Dark theme colors
-  static const Color darkBackground = Color(0xFF0A0A0B);
-  static const Color darkSurface = Color(0xFF1A1A1B);
-  static const Color darkCard = Color(0xFF2A2A2B);
-  static const Color darkBorder = Color(0xFF3A3A3B);
+  // Dark theme colors - more muted and professional
+  static const Color darkBackground = Color(0xFF000000);
+  static const Color darkSurface = Color(0xFF1C1C1E);
+  static const Color darkCard = Color(0xFF2C2C2E);
+  static const Color darkBorder = Color(0xFF38383A);
 
-  // Light theme colors
-  static const Color lightBackground = Color(0xFFFAFAFC);
+  // Light theme colors - cleaner whites and grays
+  static const Color lightBackground = Color(0xFFF2F2F7);
   static const Color lightSurface = Color(0xFFFFFFFF);
-  static const Color lightCard = Color(0xFFF8F9FA);
-  static const Color lightBorder = Color(0xFFE5E7EB);
+  static const Color lightCard = Color(0xFFFFFFFF);
+  static const Color lightBorder = Color(0xFFE5E5EA);
 
-  // Text colors
+  // Text colors - more subtle
   static const Color darkText = Color(0xFFFFFFFF);
-  static const Color lightText = Color(0xFF111827);
-  static const Color mutedText = Color(0xFF6B7280);
+  static const Color lightText = Color(0xFF000000);
+  static const Color mutedText = Color(0xFF8E8E93);
 
-  // Additional colors for compatibility
-  static const Color successColor = Color(0xFF10B981); // Green
-  static const Color warningColor = Color(0xFFF59E0B); // Amber/Orange
+  // Health-focused colors
+  static const Color successColor = Color(0xFF34C759); // Green
+  static const Color warningColor = Color(0xFFFF9500); // Orange
+  static const Color infoColor = Color(0xFF5AC8FA); // Light Blue
+  static const Color purpleColor = Color(0xFFAF52DE); // Purple
 
   static ThemeData get lightTheme {
     return ThemeData(
@@ -199,15 +201,15 @@ class AppTheme {
     );
   }
 
-  // Sensor-specific colors
+  // Professional sensor-specific colors
   static const Map<String, Color> sensorColors = {
-    'accelerometer': Color(0xFF3B82F6), // Blue
-    'gyroscope': Color(0xFF10B981), // Green
-    'magnetometer': Color(0xFF8B5CF6), // Purple
-    'location': Color(0xFFF59E0B), // Amber
-    'battery': Color(0xFFEF4444), // Red
-    'light': Color(0xFFFBBF24), // Yellow
-    'proximity': Color(0xFF06B6D4), // Cyan
+    'accelerometer': Color(0xFF007AFF), // iOS Blue
+    'gyroscope': Color(0xFF34C759), // iOS Green
+    'magnetometer': Color(0xFFAF52DE), // iOS Purple
+    'location': Color(0xFFFF9500), // iOS Orange
+    'battery': Color(0xFFFF3B30), // iOS Red
+    'light': Color(0xFFFFD60A), // iOS Yellow
+    'proximity': Color(0xFF5AC8FA), // iOS Light Blue
   };
 
   // Get color for sensor type

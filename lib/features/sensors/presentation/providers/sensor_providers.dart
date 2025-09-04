@@ -12,6 +12,11 @@ final nvidiaAiServiceProvider = Provider<NvidiaAiService>((ref) {
   return NvidiaAiService();
 });
 
+// Human Insights Service Provider
+final humanInsightsServiceProvider = Provider<HumanInsightsService>((ref) {
+  return HumanInsightsService();
+});
+
 // Monitoring State Provider
 final isMonitoringProvider = StateProvider<bool>((ref) => false);
 
@@ -223,3 +228,199 @@ final exportSettingsProvider = StateProvider<ExportSettings>(
 final themeModeProvider = StateProvider<bool>(
   (ref) => false, // false = light, true = dark
 );
+
+// ============ Human Insights Providers ============
+
+// Real-time Human Insights Provider
+final realTimeInsightsProvider = FutureProvider.family<HumanInsight, List<SensorData>>((
+  ref,
+  currentData,
+) async {
+  final humanInsightsService = ref.watch(humanInsightsServiceProvider);
+  return await humanInsightsService.generateRealTimeInsight(currentData);
+});
+
+// Unusual Pattern Detection Provider
+final unusualPatternProvider = FutureProvider.family<HumanInsight?, List<SensorData>>((
+  ref,
+  recentData,
+) async {
+  final humanInsightsService = ref.watch(humanInsightsServiceProvider);
+  return await humanInsightsService.detectUnusualPatterns(recentData);
+});
+
+// Daily Summary Provider with Human Touch
+final humanDailySummaryProvider = FutureProvider.family<DailySummary, List<SensorData>>((
+  ref,
+  dailyData,
+) async {
+  final humanInsightsService = ref.watch(humanInsightsServiceProvider);
+  return await humanInsightsService.generateDailySummary(dailyData);
+});
+
+// Weekly Summary Provider with Motivation
+final humanWeeklySummaryProvider = FutureProvider.family<WeeklySummary, List<SensorData>>((
+  ref,
+  weeklyData,
+) async {
+  final humanInsightsService = ref.watch(humanInsightsServiceProvider);
+  return await humanInsightsService.generateWeeklySummary(weeklyData);
+});
+
+// Health Recommendations Provider
+final healthRecommendationsProvider = FutureProvider.family<List<HealthRecommendation>, Map<String, dynamic>>((
+  ref,
+  behaviorData,
+) async {
+  final humanInsightsService = ref.watch(humanInsightsServiceProvider);
+  final behaviorPattern = behaviorData['pattern'] as String? ?? 'unknown';
+  final healthMetrics = behaviorData['metrics'] as Map<String, double>? ?? {};
+  
+  return await humanInsightsService.searchHealthRecommendations(behaviorPattern, healthMetrics);
+});
+
+// Current Behavior Classification Provider
+final currentBehaviorProvider = Provider.family<String, List<SensorData>>((ref, sensorData) {
+  if (sensorData.isEmpty) return 'aguardando_dados';
+  
+  final accelerometerData = sensorData.where((d) => d.sensorType == 'accelerometer').cast<AccelerometerData>();
+  final locationData = sensorData.where((d) => d.sensorType == 'location').cast<LocationData>();
+  
+  if (accelerometerData.isNotEmpty) {
+    final avgMovement = accelerometerData.map((d) => d.magnitude).reduce((a, b) => a + b) / accelerometerData.length;
+    
+    // Check if driving (has location with speed data)
+    if (locationData.isNotEmpty) {
+      final speeds = locationData.where((d) => d.speed != null && d.speed! > 0).map((d) => d.speed!);
+      if (speeds.isNotEmpty) {
+        final avgSpeed = speeds.reduce((a, b) => a + b) / speeds.length;
+        if (avgSpeed > 15 && avgMovement < 6) return 'dirigindo';
+      }
+    }
+    
+    // Classify based on movement
+    if (avgMovement > 15) return 'correndo';
+    if (avgMovement > 5) return 'caminhando';
+    if (avgMovement > 2) return 'movimento_leve';
+    return 'parado';
+  }
+  
+  return 'analisando';
+});
+
+// Environment Classification Provider
+final environmentProvider = Provider.family<String, List<SensorData>>((ref, sensorData) {
+  final lightData = sensorData.where((d) => d.sensorType == 'light').cast<LightData>();
+  
+  if (lightData.isNotEmpty) {
+    final avgLight = lightData.map((d) => d.luxValue).reduce((a, b) => a + b) / lightData.length;
+    
+    if (avgLight < 10) return 'escuro';
+    if (avgLight < 200) return 'interno_escuro';
+    if (avgLight < 1000) return 'interno_claro';
+    if (avgLight < 10000) return 'externo_sombra';
+    return 'externo_sol';
+  }
+  
+  return 'ambiente_desconhecido';
+});
+
+// Wellness Score Provider (0-10 scale)
+final wellnessScoreProvider = Provider.family<int, List<SensorData>>((ref, sensorData) {
+  if (sensorData.isEmpty) return 5;
+  
+  int score = 5; // Start with neutral
+  
+  // Movement score (0-4 points)
+  final behavior = ref.watch(currentBehaviorProvider(sensorData));
+  switch (behavior) {
+    case 'correndo':
+    case 'caminhando':
+      score += 3;
+      break;
+    case 'movimento_leve':
+      score += 2;
+      break;
+    case 'parado':
+      score -= 1;
+      break;
+  }
+  
+  // Environment score (0-3 points)
+  final environment = ref.watch(environmentProvider(sensorData));
+  switch (environment) {
+    case 'externo_sol':
+    case 'interno_claro':
+      score += 2;
+      break;
+    case 'externo_sombra':
+      score += 1;
+      break;
+    case 'escuro':
+      score -= 1;
+      break;
+  }
+  
+  // Battery correlation (health awareness) (0-1 point)
+  final batteryData = sensorData.where((d) => d.sensorType == 'battery').cast<BatteryData>();
+  if (batteryData.isNotEmpty) {
+    final avgBattery = batteryData.map((d) => d.batteryLevel).reduce((a, b) => a + b) / batteryData.length;
+    if (avgBattery > 50) score += 1;
+  }
+  
+  return score.clamp(0, 10);
+});
+
+// Insight Display Controller (manages what insights to show and when)
+class InsightDisplayNotifier extends StateNotifier<InsightDisplayState> {
+  InsightDisplayNotifier() : super(const InsightDisplayState());
+  
+  void showInsight(HumanInsight insight) {
+    state = state.copyWith(
+      currentInsight: insight,
+      lastShown: DateTime.now(),
+    );
+  }
+  
+  void hideInsight() {
+    state = state.copyWith(currentInsight: null);
+  }
+  
+  void snoozeInsight(Duration duration) {
+    state = state.copyWith(
+      snoozedUntil: DateTime.now().add(duration),
+    );
+  }
+}
+
+final insightDisplayProvider = StateNotifierProvider<InsightDisplayNotifier, InsightDisplayState>((ref) {
+  return InsightDisplayNotifier();
+});
+
+// State class for insight display
+class InsightDisplayState {
+  final HumanInsight? currentInsight;
+  final DateTime? lastShown;
+  final DateTime? snoozedUntil;
+  
+  const InsightDisplayState({
+    this.currentInsight,
+    this.lastShown,
+    this.snoozedUntil,
+  });
+  
+  InsightDisplayState copyWith({
+    HumanInsight? currentInsight,
+    DateTime? lastShown,
+    DateTime? snoozedUntil,
+  }) {
+    return InsightDisplayState(
+      currentInsight: currentInsight ?? this.currentInsight,
+      lastShown: lastShown ?? this.lastShown,
+      snoozedUntil: snoozedUntil ?? this.snoozedUntil,
+    );
+  }
+  
+  bool get isSnoozeActive => 
+    snoozedUntil != null && DateTime.now().isBefore(snoozedUntil!);
+}

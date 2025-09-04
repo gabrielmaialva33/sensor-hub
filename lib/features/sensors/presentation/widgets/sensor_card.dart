@@ -29,152 +29,199 @@ class _SensorCardState extends ConsumerState<SensorCard> {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final sensorName =
         AppConstants.sensorDisplayNames[widget.sensorType] ?? widget.sensorType;
-    final sensorIcon = AppConstants.sensorIcons[widget.sensorType] ?? '📊';
+    final sensorIcon = AppConstants.sensorIcons[widget.sensorType] ?? Icons.sensors;
+    final sensorColor = AppTheme.getSensorColor(widget.sensorType);
 
     return Container(
       decoration: BoxDecoration(
         color: isDark ? AppTheme.darkCard : AppTheme.lightCard,
-        borderRadius: BorderRadius.circular(AppTheme.radiusLG),
+        borderRadius: BorderRadius.circular(16),
         border: Border.all(
           color: isDark ? AppTheme.darkBorder : AppTheme.lightBorder,
           width: 1,
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
+            color: Colors.black.withValues(alpha: isDark ? 0.2 : 0.05),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
           ),
         ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Header
+          // Professional Header
           Container(
-            padding: const EdgeInsets.all(AppTheme.paddingMD),
-            decoration: BoxDecoration(
-              color: isDark
-                  ? AppTheme.primaryColor.withValues(alpha: 0.1)
-                  : AppTheme.primaryColor.withValues(alpha: 0.05),
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(AppTheme.radiusLG),
-                topRight: Radius.circular(AppTheme.radiusLG),
-              ),
-            ),
+            padding: const EdgeInsets.all(AppTheme.paddingLG),
             child: Row(
               children: [
-                // Icon
+                // Modern Icon Design
                 Container(
-                  width: 40,
-                  height: 40,
+                  width: 44,
+                  height: 44,
                   decoration: BoxDecoration(
-                    gradient: const LinearGradient(
-                      colors: [AppTheme.primaryColor, AppTheme.secondaryColor],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
+                    color: sensorColor.withValues(alpha: 0.1),
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(
+                      color: sensorColor.withValues(alpha: 0.2),
+                      width: 1,
                     ),
-                    borderRadius: BorderRadius.circular(AppTheme.radiusMD),
                   ),
-                  child: Center(
-                    child: Text(
-                      sensorIcon,
-                      style: const TextStyle(fontSize: 20),
-                    ),
+                  child: Icon(
+                    sensorIcon,
+                    color: sensorColor,
+                    size: 22,
                   ),
                 ),
-                const SizedBox(width: AppTheme.paddingSM),
-                // Title
+                const SizedBox(width: AppTheme.paddingMD),
+                // Title and Status
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         sensorName,
-                        style: Theme.of(context).textTheme.titleMedium
-                            ?.copyWith(fontWeight: FontWeight.bold),
-                      ),
-                      Text(
-                        widget.isMonitoring ? 'Ativo' : 'Inativo',
-                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: widget.isMonitoring
-                              ? AppTheme.successColor
-                              : AppTheme.mutedText,
+                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                          fontWeight: FontWeight.w600,
+                          color: isDark ? AppTheme.darkText : AppTheme.lightText,
                         ),
+                      ),
+                      const SizedBox(height: 2),
+                      Row(
+                        children: [
+                          Container(
+                            width: 6,
+                            height: 6,
+                            decoration: BoxDecoration(
+                              color: widget.isMonitoring
+                                  ? AppTheme.successColor
+                                  : AppTheme.mutedText,
+                              shape: BoxShape.circle,
+                            ),
+                          )
+                          .animate(
+                            onPlay: (controller) =>
+                                widget.isMonitoring ? controller.repeat() : null,
+                          )
+                          .scale(
+                            duration: 2.seconds,
+                            begin: const Offset(1, 1),
+                            end: const Offset(1.3, 1.3),
+                          )
+                          .then()
+                          .scale(
+                            begin: const Offset(1.3, 1.3),
+                            end: const Offset(1, 1),
+                          ),
+                          const SizedBox(width: AppTheme.paddingSM),
+                          Text(
+                            widget.isMonitoring ? 'Ativo' : 'Inativo',
+                            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                              color: widget.isMonitoring
+                                  ? AppTheme.successColor
+                                  : AppTheme.mutedText,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
                 ),
-                // Status Indicator
-                Container(
-                      width: 8,
-                      height: 8,
-                      decoration: BoxDecoration(
-                        color: widget.isMonitoring
-                            ? AppTheme.successColor
-                            : AppTheme.mutedText,
-                        shape: BoxShape.circle,
-                      ),
-                    )
-                    .animate(
-                      onPlay: (controller) =>
-                          widget.isMonitoring ? controller.repeat() : null,
-                    )
-                    .scale(
-                      duration: 1.seconds,
-                      begin: const Offset(1, 1),
-                      end: const Offset(1.2, 1.2),
-                    )
-                    .then()
-                    .scale(
-                      begin: const Offset(1.2, 1.2),
-                      end: const Offset(1, 1),
+                // Minimal Actions
+                if (widget.isMonitoring)
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: AppTheme.paddingSM,
+                      vertical: 4,
                     ),
+                    decoration: BoxDecoration(
+                      color: sensorColor.withValues(alpha: 0.1),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Text(
+                      'LIVE',
+                      style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                        color: sensorColor,
+                        fontWeight: FontWeight.w700,
+                        fontSize: 10,
+                      ),
+                    ),
+                  ),
               ],
             ),
           ),
-          // Content
-          Padding(
-            padding: const EdgeInsets.all(AppTheme.paddingMD),
-            child: _buildSensorContent(),
-          ),
-          // Chart
-          if (widget.isMonitoring && _chartData.isNotEmpty)
+          // Divider
+          if (widget.isMonitoring)
             Container(
-              height: 100,
-              padding: const EdgeInsets.only(
-                left: AppTheme.paddingMD,
-                right: AppTheme.paddingMD,
-                bottom: AppTheme.paddingMD,
+              margin: const EdgeInsets.symmetric(horizontal: AppTheme.paddingLG),
+              height: 1,
+              color: (isDark ? AppTheme.darkBorder : AppTheme.lightBorder)
+                  .withValues(alpha: 0.5),
+            ),
+          // Content
+          if (widget.isMonitoring) ...[
+            Padding(
+              padding: const EdgeInsets.all(AppTheme.paddingLG),
+              child: _buildSensorContent(),
+            ),
+            // Mini Chart
+            if (_chartData.isNotEmpty)
+              Container(
+                height: 80,
+                margin: const EdgeInsets.fromLTRB(
+                  AppTheme.paddingLG, 0, AppTheme.paddingLG, AppTheme.paddingLG),
+                child: _buildMiniChart(sensorColor),
               ),
-              child: _buildChart(isDark),
+          ] else
+            // Empty State
+            Container(
+              padding: const EdgeInsets.all(AppTheme.paddingLG),
+              child: _buildEmptyState(),
             ),
         ],
       ),
     );
   }
 
-  Widget _buildSensorContent() {
-    if (!widget.isMonitoring) {
-      return Center(
-        child: Column(
-          children: [
-            Icon(
-              Icons.sensors_off,
-              size: 48,
-              color: AppTheme.mutedText.withValues(alpha: 0.5),
-            ),
-            const SizedBox(height: AppTheme.paddingSM),
-            Text(
-              'Sensor não ativo',
-              style: Theme.of(
-                context,
-              ).textTheme.bodyMedium?.copyWith(color: AppTheme.mutedText),
-            ),
-          ],
+  Widget _buildEmptyState() {
+    return Column(
+      children: [
+        Container(
+          width: 64,
+          height: 64,
+          decoration: BoxDecoration(
+            color: AppTheme.mutedText.withValues(alpha: 0.1),
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Icon(
+            Icons.sensors_off,
+            size: 28,
+            color: AppTheme.mutedText.withValues(alpha: 0.6),
+          ),
         ),
-      );
-    }
+        const SizedBox(height: AppTheme.paddingMD),
+        Text(
+          'Sensor Inativo',
+          style: Theme.of(context).textTheme.titleSmall?.copyWith(
+            color: AppTheme.mutedText,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        const SizedBox(height: AppTheme.paddingSM),
+        Text(
+          'Inicie o monitoramento para ver dados em tempo real',
+          textAlign: TextAlign.center,
+          style: Theme.of(context).textTheme.bodySmall?.copyWith(
+            color: AppTheme.mutedText.withValues(alpha: 0.8),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildSensorContent() {
 
     // Build content based on sensor type
     switch (widget.sensorType) {
@@ -472,7 +519,7 @@ class _SensorCardState extends ConsumerState<SensorCard> {
     );
   }
 
-  Widget _buildChart(bool isDark) {
+  Widget _buildMiniChart(Color sensorColor) {
     return LineChart(
       LineChartData(
         gridData: const FlGridData(show: false),
@@ -482,18 +529,16 @@ class _SensorCardState extends ConsumerState<SensorCard> {
           LineChartBarData(
             spots: _chartData,
             isCurved: true,
-            gradient: const LinearGradient(
-              colors: [AppTheme.primaryColor, AppTheme.secondaryColor],
-            ),
-            barWidth: 2,
+            color: sensorColor,
+            barWidth: 2.5,
             isStrokeCapRound: true,
             dotData: const FlDotData(show: false),
             belowBarData: BarAreaData(
               show: true,
               gradient: LinearGradient(
                 colors: [
-                  AppTheme.primaryColor.withValues(alpha: 0.3),
-                  AppTheme.secondaryColor.withValues(alpha: 0.1),
+                  sensorColor.withValues(alpha: 0.2),
+                  sensorColor.withValues(alpha: 0.05),
                 ],
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
@@ -502,7 +547,7 @@ class _SensorCardState extends ConsumerState<SensorCard> {
           ),
         ],
       ),
-      duration: const Duration(milliseconds: 300),
+      duration: const Duration(milliseconds: 200),
       curve: Curves.easeInOut,
     );
   }

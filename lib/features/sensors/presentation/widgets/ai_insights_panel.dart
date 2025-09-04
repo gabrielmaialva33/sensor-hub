@@ -55,44 +55,103 @@ class _AIInsightsPanelState extends ConsumerState<AIInsightsPanel> {
   }
 
   Widget _buildHeader(BuildContext context, bool isDark) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+    return Container(
+      padding: const EdgeInsets.all(AppTheme.paddingLG),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [
+            AppTheme.primaryColor.withValues(alpha: 0.05),
+            AppTheme.accentColor.withValues(alpha: 0.05),
+          ],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: AppTheme.lightBorder,
+          width: 1,
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
             children: [
-              Text(
-                '🤖 Insights de IA',
-                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
+              Container(
+                width: 56,
+                height: 56,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      AppTheme.primaryColor,
+                      AppTheme.accentColor,
+                    ],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: Icon(
+                  Icons.psychology_outlined,
+                  color: Colors.white,
+                  size: 28,
                 ),
               ),
-              const SizedBox(height: AppTheme.paddingXS),
-              Text(
-                'Desenvolvido com NVIDIA AI',
-                style: Theme.of(
-                  context,
-                ).textTheme.bodyMedium?.copyWith(color: AppTheme.mutedText),
+              const SizedBox(width: AppTheme.paddingMD),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Assistente Pessoal de Saúde',
+                      style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                        fontWeight: FontWeight.w700,
+                        color: isDark ? AppTheme.darkText : AppTheme.lightText,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      'Análises inteligentes dos seus padrões de atividade',
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        color: AppTheme.mutedText,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
-        ),
-        ElevatedButton.icon(
-          onPressed: _isAnalyzing ? null : () => _performAnalysis(),
-          icon: _isAnalyzing
-              ? const SizedBox(
-                  width: 16,
-                  height: 16,
-                  child: CircularProgressIndicator(strokeWidth: 2),
-                )
-              : const Icon(Icons.psychology),
-          label: Text(_isAnalyzing ? 'Analisando...' : 'Analisar Agora'),
-          style: ElevatedButton.styleFrom(
-            backgroundColor: AppTheme.primaryColor,
+          const SizedBox(height: AppTheme.paddingLG),
+          // Action Button
+          SizedBox(
+            width: double.infinity,
+            child: ElevatedButton.icon(
+              onPressed: _isAnalyzing ? null : () => _performAnalysis(),
+              icon: _isAnalyzing
+                  ? SizedBox(
+                      width: 16,
+                      height: 16,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                      ),
+                    )
+                  : Icon(Icons.auto_awesome, size: 20),
+              label: Text(
+                _isAnalyzing ? 'Analisando seus dados...' : 'Gerar Insights Personalizados',
+                style: TextStyle(fontWeight: FontWeight.w600),
+              ),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppTheme.primaryColor,
+                padding: const EdgeInsets.symmetric(vertical: AppTheme.paddingMD),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -101,85 +160,158 @@ class _AIInsightsPanelState extends ConsumerState<AIInsightsPanel> {
     bool isDark,
     Map<String, List<SensorData>> sensorHistory,
   ) {
-    final totalDataPoints = sensorHistory.values.fold(
-      0,
-      (sum, list) => sum + list.length,
-    );
-    final activeSensors = sensorHistory.values
-        .where((list) => list.isNotEmpty)
-        .length;
-
-    return Row(
+    final totalDataPoints = sensorHistory.values.fold(0, (sum, list) => sum + list.length);
+    final activeSensors = sensorHistory.values.where((list) => list.isNotEmpty).length;
+    final timeActive = _calculateActiveTime();
+    
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Expanded(
-          child: _buildStatCard(
-            context,
-            isDark,
-            '📊',
-            'Pontos de Dados',
-            totalDataPoints.toString(),
-            AppTheme.primaryColor,
+        Text(
+          'Resumo da Atividade',
+          style: Theme.of(context).textTheme.titleLarge?.copyWith(
+            fontWeight: FontWeight.w600,
           ),
         ),
-        const SizedBox(width: AppTheme.paddingMD),
-        Expanded(
-          child: _buildStatCard(
-            context,
-            isDark,
-            '📡',
-            'Sensores Ativos',
-            '$activeSensors/7',
-            AppTheme.secondaryColor,
-          ),
+        const SizedBox(height: AppTheme.paddingMD),
+        Row(
+          children: [
+            Expanded(
+              child: _buildHumanStatCard(
+                context,
+                isDark,
+                Icons.timeline,
+                'Tempo Ativo',
+                timeActive,
+                'Monitoramento contínuo',
+                AppTheme.primaryColor,
+              ),
+            ),
+            const SizedBox(width: AppTheme.paddingMD),
+            Expanded(
+              child: _buildHumanStatCard(
+                context,
+                isDark,
+                Icons.sensors,
+                'Sensores',
+                '$activeSensors de 7',
+                'Coletando dados',
+                AppTheme.secondaryColor,
+              ),
+            ),
+          ],
         ),
-        const SizedBox(width: AppTheme.paddingMD),
-        Expanded(
-          child: _buildStatCard(
-            context,
-            isDark,
-            '⚡',
-            'Status da IA',
-            _currentInsight != null ? 'Pronto' : 'Inativo',
-            _currentInsight != null
-                ? AppTheme.successColor
-                : AppTheme.warningColor,
-          ),
+        const SizedBox(height: AppTheme.paddingMD),
+        Row(
+          children: [
+            Expanded(
+              child: _buildHumanStatCard(
+                context,
+                isDark,
+                Icons.analytics,
+                'Pontos de Dados',
+                _formatDataPoints(totalDataPoints),
+                'Prontos para análise',
+                AppTheme.infoColor,
+              ),
+            ),
+            const SizedBox(width: AppTheme.paddingMD),
+            Expanded(
+              child: _buildHumanStatCard(
+                context,
+                isDark,
+                Icons.psychology,
+                'Status da IA',
+                _currentInsight != null ? 'Pronto' : 'Aguardando',
+                _currentInsight != null ? 'Insights disponíveis' : 'Precisa de mais dados',
+                _currentInsight != null ? AppTheme.successColor : AppTheme.warningColor,
+              ),
+            ),
+          ],
         ),
       ],
     ).animate().fadeIn(duration: 500.ms).slideY(begin: 0.2, end: 0);
   }
 
-  Widget _buildStatCard(
+  String _calculateActiveTime() {
+    // Mock implementation - in real app, track actual monitoring time
+    final duration = Duration(hours: 2, minutes: 30); // Mock data
+    if (duration.inHours > 0) {
+      return '${duration.inHours}h ${duration.inMinutes % 60}m';
+    }
+    return '${duration.inMinutes}m';
+  }
+
+  String _formatDataPoints(int points) {
+    if (points > 1000) {
+      return '${(points / 1000).toStringAsFixed(1)}K';
+    }
+    return points.toString();
+  }
+
+  Widget _buildHumanStatCard(
     BuildContext context,
     bool isDark,
-    String icon,
+    IconData icon,
     String label,
     String value,
+    String subtitle,
     Color color,
   ) {
     return Container(
-      padding: const EdgeInsets.all(AppTheme.paddingMD),
+      padding: const EdgeInsets.all(AppTheme.paddingLG),
       decoration: BoxDecoration(
         color: isDark ? AppTheme.darkCard : AppTheme.lightCard,
-        borderRadius: BorderRadius.circular(AppTheme.radiusMD),
-        border: Border.all(color: color.withValues(alpha: 0.3), width: 1),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: color.withValues(alpha: 0.2),
+          width: 1,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: color.withValues(alpha: 0.1),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
       ),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(icon, style: const TextStyle(fontSize: 24)),
-          const SizedBox(height: AppTheme.paddingXS),
+          Row(
+            children: [
+              Container(
+                width: 36,
+                height: 36,
+                decoration: BoxDecoration(
+                  color: color.withValues(alpha: 0.1),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Icon(icon, color: color, size: 20),
+              ),
+              const Spacer(),
+              Text(
+                value,
+                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                  fontWeight: FontWeight.w700,
+                  color: color,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: AppTheme.paddingMD),
           Text(
             label,
-            style: Theme.of(
-              context,
-            ).textTheme.bodySmall?.copyWith(color: AppTheme.mutedText),
+            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+              fontWeight: FontWeight.w600,
+              color: isDark ? AppTheme.darkText : AppTheme.lightText,
+            ),
           ),
-          const SizedBox(height: AppTheme.paddingXS),
+          const SizedBox(height: 2),
           Text(
-            value,
-            style: Theme.of(context).textTheme.titleLarge?.copyWith(
-              fontWeight: FontWeight.bold,
-              color: color,
+            subtitle,
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+              color: AppTheme.mutedText,
             ),
           ),
         ],

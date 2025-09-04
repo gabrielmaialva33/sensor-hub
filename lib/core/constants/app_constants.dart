@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 class AppConstants {
   // App Info
   static const String appName = 'SensorHub';
@@ -219,4 +221,115 @@ class AppConstants {
       'description': 'Descubra gráficos, opções de exportação e muito mais!',
     },
   ];
+
+  // Human Insights Templates
+  static const Map<String, List<String>> humanInsights = {
+    'activity_patterns': [
+      'Você está mais ativo entre {start_time} e {end_time}',
+      'Seus níveis de movimento aumentaram {percentage}% esta semana',
+      'Padrão de atividade sugere trabalho {work_type}',
+      'Você mantém consistência em seus horários de movimento',
+    ],
+    'environmental_awareness': [
+      'A iluminação sugere que você está {location_type}',
+      'Mudanças ambientais detectadas às {time}',
+      'Ambiente {brightness_level} pode afetar seu bem-estar',
+      'Padrões de localização indicam rotina estabelecida',
+    ],
+    'health_suggestions': [
+      'Seu padrão de movimento indica bons níveis de atividade',
+      'Considere fazer uma pausa - você está imóvel há {duration}',
+      'Níveis de bateria baixos podem indicar uso intenso',
+      'Excelente! Você mantém um bom equilíbrio entre atividade e descanso',
+    ],
+    'contextual_alerts': [
+      'Inatividade incomum detectada por {duration} minutos',
+      'Padrão de movimento alterado - novo ambiente?',
+      'Seus sensores detectaram uma mudança significativa no ambiente',
+      'Atividade consistente com {activity_type} - mantenha o ritmo!',
+    ],
+  };
+
+  // Activity Recognition Patterns
+  static const Map<String, Map<String, dynamic>> activityPatterns = {
+    'stationary': {
+      'name': 'Parado',
+      'description': 'Pouco ou nenhum movimento detectado',
+      'icon': Icons.event_seat,
+      'color': 0xFF94A3B8, // Slate-400
+      'threshold': {'acceleration': 2.0, 'duration': 300}, // 5 minutes
+    },
+    'walking': {
+      'name': 'Caminhando',
+      'description': 'Movimento moderado e consistente',
+      'icon': Icons.directions_walk,
+      'color': 0xFF10B981, // Green
+      'threshold': {'acceleration': 8.0, 'step_frequency': 2.0},
+    },
+    'running': {
+      'name': 'Correndo',
+      'description': 'Movimento intenso e rápido',
+      'icon': Icons.directions_run,
+      'color': 0xFFEF4444, // Red
+      'threshold': {'acceleration': 25.0, 'step_frequency': 3.5},
+    },
+    'driving': {
+      'name': 'Dirigindo',
+      'description': 'Movimento constante com velocidade',
+      'icon': Icons.directions_car,
+      'color': 0xFF3B82F6, // Blue
+      'threshold': {'speed': 15.0, 'acceleration_variance': 4.0},
+    },
+    'cycling': {
+      'name': 'Pedalando',
+      'description': 'Movimento rítmico moderado',
+      'icon': Icons.directions_bike,
+      'color': 0xFF8B5CF6, // Purple
+      'threshold': {'acceleration': 12.0, 'rhythm_pattern': 1.5},
+    },
+  };
+
+  // Environment Detection
+  static const Map<String, Map<String, dynamic>> environmentTypes = {
+    'indoor_dim': {
+      'name': 'Ambiente Interno',
+      'description': 'Luz artificial, baixa luminosidade',
+      'icon': Icons.home,
+      'lux_range': {'min': 0, 'max': 500},
+    },
+    'indoor_bright': {
+      'name': 'Escritório/Loja',
+      'description': 'Iluminação artificial intensa',
+      'icon': Icons.business,
+      'lux_range': {'min': 500, 'max': 1000},
+    },
+    'outdoor_shade': {
+      'name': 'Área Externa Sombreada',
+      'description': 'Luz natural indireta',
+      'icon': Icons.park,
+      'lux_range': {'min': 1000, 'max': 10000},
+    },
+    'outdoor_sunny': {
+      'name': 'Luz Solar Direta',
+      'description': 'Ambiente externo ensolarado',
+      'icon': Icons.wb_sunny,
+      'lux_range': {'min': 10000, 'max': 100000},
+    },
+  };
+
+  // Health Metrics
+  static const Map<String, Map<String, dynamic>> healthMetrics = {
+    'movement_score': {
+      'excellent': {'min': 8, 'message': 'Excelente nível de atividade!'},
+      'good': {'min': 6, 'message': 'Bom equilíbrio entre atividade e descanso'},
+      'moderate': {'min': 4, 'message': 'Tente aumentar sua atividade física'},
+      'low': {'min': 0, 'message': 'Considere se mover mais ao longo do dia'},
+    },
+    'consistency_score': {
+      'excellent': {'min': 8, 'message': 'Rotina muito consistente'},
+      'good': {'min': 6, 'message': 'Boa regularidade nos padrões'},
+      'moderate': {'min': 4, 'message': 'Padrões um pouco irregulares'},
+      'low': {'min': 0, 'message': 'Rotina bastante variável'},
+    },
+  };
 }

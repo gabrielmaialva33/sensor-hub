@@ -28,17 +28,25 @@ class QuickActionsPanel extends ConsumerWidget {
         children: [
           Row(
             children: [
-              const Icon(
-                Icons.flash_on,
-                color: AppTheme.warningColor,
-                size: 20,
+              Container(
+                width: 32,
+                height: 32,
+                decoration: BoxDecoration(
+                  color: AppTheme.primaryColor.withValues(alpha: 0.1),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Icon(
+                  Icons.touch_app,
+                  color: AppTheme.primaryColor,
+                  size: 18,
+                ),
               ),
               const SizedBox(width: AppTheme.paddingSM),
               Text(
-                'Ações Rápidas',
-                style: Theme.of(
-                  context,
-                ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+                'Controles Rápidos',
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             ],
           ),

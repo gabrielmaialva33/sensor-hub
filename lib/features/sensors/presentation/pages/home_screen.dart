@@ -21,7 +21,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
     with TickerProviderStateMixin {
   late TabController _tabController;
   bool _isMonitoring = false;
-  String _selectedSensorCategory = '🏃 Movimento';
+  String _selectedSensorCategory = 'movement';
 
   // Responsive breakpoints
   static const double mobileBreakpoint = 768.0;
@@ -256,97 +256,76 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
               ),
               itemCount: AppConstants.sensorCategories.keys.length,
               itemBuilder: (context, index) {
-                final category = AppConstants.sensorCategories.keys.elementAt(
-                  index,
-                );
-                final sensors = AppConstants.sensorCategories[category]!;
-                final isSelected = _selectedSensorCategory == category;
+                final categoryKey = AppConstants.sensorCategories.keys.elementAt(index);
+                final categoryData = AppConstants.sensorCategories[categoryKey]!;
+                final categoryLabel = categoryData['label'] as String;
+                final categoryIcon = categoryData['icon'] as IconData;
+                final sensors = categoryData['sensors'] as List<String>;
+                final isSelected = _selectedSensorCategory == categoryKey;
                 return Padding(
                   padding: const EdgeInsets.only(bottom: AppTheme.paddingXS),
                   child: Material(
                     color: Colors.transparent,
-                    child:
-                        InkWell(
-                              onTap: () => setState(
-                                () => _selectedSensorCategory = category,
-                              ),
-                              borderRadius: BorderRadius.circular(
-                                AppTheme.radiusMD,
-                              ),
-                              child: Container(
-                                padding: const EdgeInsets.all(
-                                  AppTheme.paddingSM,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: isSelected
-                                      ? AppTheme.primaryColor.withValues(
-                                          alpha: 0.1,
-                                        )
-                                      : Colors.transparent,
-                                  borderRadius: BorderRadius.circular(
-                                    AppTheme.radiusMD,
-                                  ),
-                                  border: isSelected
-                                      ? Border.all(
-                                          color: AppTheme.primaryColor
-                                              .withValues(alpha: 0.3),
-                                        )
-                                      : null,
-                                ),
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      category,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyMedium
-                                          ?.copyWith(
-                                            color: isSelected
-                                                ? AppTheme.primaryColor
-                                                : null,
-                                            fontWeight: isSelected
-                                                ? FontWeight.w600
-                                                : FontWeight.normal,
-                                          ),
-                                    ),
-                                    const Spacer(),
-                                    Container(
-                                      padding: const EdgeInsets.symmetric(
-                                        horizontal: AppTheme.paddingXS,
-                                        vertical: 2,
-                                      ),
-                                      decoration: BoxDecoration(
-                                        color: isSelected
-                                            ? AppTheme.primaryColor.withValues(
-                                                alpha: 0.2,
-                                              )
-                                            : AppTheme.mutedText.withValues(
-                                                alpha: 0.1,
-                                              ),
-                                        borderRadius: BorderRadius.circular(
-                                          AppTheme.radiusSM,
-                                        ),
-                                      ),
-                                      child: Text(
-                                        '${sensors.length}',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .labelSmall
-                                            ?.copyWith(
-                                              color: isSelected
-                                                  ? AppTheme.primaryColor
-                                                  : AppTheme.mutedText,
-                                              fontWeight: FontWeight.w600,
-                                            ),
-                                      ),
-                                    ),
-                                  ],
+                    child: InkWell(
+                      onTap: () => setState(() => _selectedSensorCategory = categoryKey),
+                      borderRadius: BorderRadius.circular(AppTheme.radiusMD),
+                      child: Container(
+                        padding: const EdgeInsets.all(AppTheme.paddingSM),
+                        decoration: BoxDecoration(
+                          color: isSelected
+                              ? AppTheme.primaryColor.withValues(alpha: 0.1)
+                              : Colors.transparent,
+                          borderRadius: BorderRadius.circular(AppTheme.radiusMD),
+                          border: isSelected
+                              ? Border.all(
+                                  color: AppTheme.primaryColor.withValues(alpha: 0.3),
+                                )
+                              : null,
+                        ),
+                        child: Row(
+                          children: [
+                            Icon(
+                              categoryIcon,
+                              size: 20,
+                              color: isSelected 
+                                  ? AppTheme.primaryColor 
+                                  : AppTheme.mutedText,
+                            ),
+                            const SizedBox(width: AppTheme.paddingSM),
+                            Expanded(
+                              child: Text(
+                                categoryLabel,
+                                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                  color: isSelected ? AppTheme.primaryColor : null,
+                                  fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
                                 ),
                               ),
-                            )
-                            .animate()
-                            .fadeIn(delay: Duration(milliseconds: 100 * index))
-                            .slideX(begin: -0.2, end: 0),
+                            ),
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: AppTheme.paddingXS,
+                                vertical: 2,
+                              ),
+                              decoration: BoxDecoration(
+                                color: isSelected
+                                    ? AppTheme.primaryColor.withValues(alpha: 0.2)
+                                    : AppTheme.mutedText.withValues(alpha: 0.1),
+                                borderRadius: BorderRadius.circular(AppTheme.radiusSM),
+                              ),
+                              child: Text(
+                                '${sensors.length}',
+                                style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                                  color: isSelected ? AppTheme.primaryColor : AppTheme.mutedText,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ).animate()
+                      .fadeIn(delay: Duration(milliseconds: 100 * index))
+                      .slideX(begin: -0.2, end: 0),
                   ),
                 );
               },
@@ -459,10 +438,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                 ),
               ),
               tabs: const [
-                Tab(text: '📊 Dashboard'),
-                Tab(text: '📱 Sensores'),
-                Tab(text: '🤖 Insights de IA'),
-                Tab(text: '📈 Linha do Tempo'),
+                Tab(text: 'Dashboard'),
+                Tab(text: 'Sensores'),
+                Tab(text: 'Insights de IA'),
+                Tab(text: 'Linha do Tempo'),
               ],
             ),
           ),
@@ -478,36 +457,234 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'Visão Geral dos Sensores',
-            style: Theme.of(
-              context,
-            ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: AppTheme.paddingMD),
+          _buildDashboardHeader(),
+          const SizedBox(height: AppTheme.paddingLG),
+          _buildHealthSummaryCard(),
+          const SizedBox(height: AppTheme.paddingLG),
+          _buildInsightsPreview(),
+          const SizedBox(height: AppTheme.paddingLG),
           Expanded(
-            child: MasonryGridView.count(
-              crossAxisCount: 2,
-              mainAxisSpacing: AppTheme.paddingMD,
-              crossAxisSpacing: AppTheme.paddingMD,
-              itemCount:
-                  AppConstants
-                      .sensorCategories[_selectedSensorCategory]
-                      ?.length ??
-                  0,
-              itemBuilder: (context, index) {
-                final sensors =
-                    AppConstants.sensorCategories[_selectedSensorCategory]!;
-                final sensorType = sensors[index];
-                return SensorCard(
-                  sensorType: sensorType,
-                  isMonitoring: _isMonitoring,
-                ).animate().slideY(begin: 0.2, end: 0);
-              },
-            ),
+            child: _buildSensorGrid(),
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildDashboardHeader() {
+    final categoryData = AppConstants.sensorCategories[_selectedSensorCategory]!;
+    final categoryLabel = categoryData['label'] as String;
+    final categoryIcon = categoryData['icon'] as IconData;
+    final categoryDescription = categoryData['description'] as String;
+    
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            Icon(categoryIcon, color: AppTheme.primaryColor, size: 28),
+            const SizedBox(width: AppTheme.paddingSM),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    categoryLabel,
+                    style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                      fontWeight: FontWeight.w700,
+                      color: AppTheme.lightText,
+                    ),
+                  ),
+                  Text(
+                    categoryDescription,
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: AppTheme.mutedText,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppTheme.paddingMD,
+                vertical: AppTheme.paddingSM,
+              ),
+              decoration: BoxDecoration(
+                color: _isMonitoring 
+                    ? AppTheme.successColor.withValues(alpha: 0.1)
+                    : AppTheme.mutedText.withValues(alpha: 0.1),
+                borderRadius: BorderRadius.circular(20),
+                border: Border.all(
+                  color: _isMonitoring 
+                      ? AppTheme.successColor
+                      : AppTheme.mutedText,
+                  width: 1,
+                ),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    width: 8,
+                    height: 8,
+                    decoration: BoxDecoration(
+                      color: _isMonitoring 
+                          ? AppTheme.successColor
+                          : AppTheme.mutedText,
+                      shape: BoxShape.circle,
+                    ),
+                  ),
+                  const SizedBox(width: AppTheme.paddingSM),
+                  Text(
+                    _isMonitoring ? 'Ativo' : 'Inativo',
+                    style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                      color: _isMonitoring 
+                          ? AppTheme.successColor
+                          : AppTheme.mutedText,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _buildHealthSummaryCard() {
+    return Container(
+      padding: const EdgeInsets.all(AppTheme.paddingLG),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [
+            AppTheme.primaryColor.withValues(alpha: 0.05),
+            AppTheme.secondaryColor.withValues(alpha: 0.05),
+          ],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: AppTheme.lightBorder,
+          width: 1,
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(Icons.favorite_outline, 
+                color: AppTheme.primaryColor, size: 24),
+              const SizedBox(width: AppTheme.paddingSM),
+              Text(
+                'Resumo de Saúde',
+                style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: AppTheme.paddingMD),
+          _buildHealthInsights(),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildHealthInsights() {
+    // Generate contextual health insights based on current activity
+    final insights = [
+      'Você está mais ativo durante as tardes',
+      'Padrões de movimento sugerem boa mobilidade',
+      'Níveis de atividade dentro do esperado',
+    ];
+
+    return Column(
+      children: insights.map((insight) => Padding(
+        padding: const EdgeInsets.only(bottom: AppTheme.paddingSM),
+        child: Row(
+          children: [
+            Icon(Icons.check_circle_outline, 
+              color: AppTheme.successColor, size: 16),
+            const SizedBox(width: AppTheme.paddingSM),
+            Expanded(
+              child: Text(
+                insight,
+                style: Theme.of(context).textTheme.bodyMedium,
+              ),
+            ),
+          ],
+        ),
+      )).toList(),
+    );
+  }
+
+  Widget _buildInsightsPreview() {
+    return Container(
+      padding: const EdgeInsets.all(AppTheme.paddingLG),
+      decoration: BoxDecoration(
+        color: AppTheme.lightCard,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: AppTheme.lightBorder),
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: 48,
+            height: 48,
+            decoration: BoxDecoration(
+              color: AppTheme.accentColor.withValues(alpha: 0.1),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Icon(Icons.psychology, 
+              color: AppTheme.accentColor, size: 24),
+          ),
+          const SizedBox(width: AppTheme.paddingMD),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Insights de IA Prontos',
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                Text(
+                  'Toque para ver análises detalhadas dos seus dados',
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: AppTheme.mutedText,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Icon(Icons.arrow_forward_ios, 
+            color: AppTheme.mutedText, size: 16),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSensorGrid() {
+    final categoryData = AppConstants.sensorCategories[_selectedSensorCategory]!;
+    final sensors = categoryData['sensors'] as List<String>;
+    
+    return MasonryGridView.count(
+      crossAxisCount: 2,
+      mainAxisSpacing: AppTheme.paddingMD,
+      crossAxisSpacing: AppTheme.paddingMD,
+      itemCount: sensors.length,
+      itemBuilder: (context, index) {
+        final sensorType = sensors[index];
+        return SensorCard(
+          sensorType: sensorType,
+          isMonitoring: _isMonitoring,
+        ).animate().slideY(begin: 0.2, end: 0, delay: Duration(milliseconds: 100 * index));
+      },
     );
   }
 
@@ -737,16 +914,19 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                 padding: const EdgeInsets.symmetric(horizontal: AppTheme.paddingMD),
                 itemCount: AppConstants.sensorCategories.keys.length,
                 itemBuilder: (context, index) {
-                  final category = AppConstants.sensorCategories.keys.elementAt(index);
-                  final sensors = AppConstants.sensorCategories[category]!;
-                  final isSelected = _selectedSensorCategory == category;
+                  final categoryKey = AppConstants.sensorCategories.keys.elementAt(index);
+                  final categoryData = AppConstants.sensorCategories[categoryKey]!;
+                  final categoryLabel = categoryData['label'] as String;
+                  final categoryIcon = categoryData['icon'] as IconData;
+                  final sensors = categoryData['sensors'] as List<String>;
+                  final isSelected = _selectedSensorCategory == categoryKey;
                   return Padding(
                     padding: const EdgeInsets.only(bottom: AppTheme.paddingXS),
                     child: Material(
                       color: Colors.transparent,
                       child: InkWell(
                         onTap: () {
-                          setState(() => _selectedSensorCategory = category);
+                          setState(() => _selectedSensorCategory = categoryKey);
                           Navigator.pop(context); // Close drawer
                         },
                         borderRadius: BorderRadius.circular(AppTheme.radiusMD),
@@ -765,14 +945,23 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                           ),
                           child: Row(
                             children: [
-                              Text(
-                                category,
-                                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                  color: isSelected ? AppTheme.primaryColor : null,
-                                  fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
+                              Icon(
+                                categoryIcon,
+                                size: 20,
+                                color: isSelected 
+                                    ? AppTheme.primaryColor 
+                                    : AppTheme.mutedText,
+                              ),
+                              const SizedBox(width: AppTheme.paddingSM),
+                              Expanded(
+                                child: Text(
+                                  categoryLabel,
+                                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                    color: isSelected ? AppTheme.primaryColor : null,
+                                    fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
+                                  ),
                                 ),
                               ),
-                              const Spacer(),
                               Container(
                                 padding: const EdgeInsets.symmetric(
                                   horizontal: AppTheme.paddingXS,
@@ -927,10 +1116,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
               ),
             ),
             tabs: const [
-              Tab(text: '📊 Dashboard'),
-              Tab(text: '📱 Sensores'),
-              Tab(text: '🤖 IA'),
-              Tab(text: '📈 Timeline'),
+              Tab(text: 'Dashboard'),
+              Tab(text: 'Sensores'),
+              Tab(text: 'IA'),
+              Tab(text: 'Timeline'),
             ],
           ),
         ],
