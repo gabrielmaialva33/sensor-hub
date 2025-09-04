@@ -60,21 +60,21 @@ abstract class SensorFailure {
 }
 
 class SensorPermissionFailure extends SensorFailure {
-  const SensorPermissionFailure(String message) : super(message);
+  const SensorPermissionFailure(super.message);
 }
 
 class SensorNotAvailableFailure extends SensorFailure {
-  const SensorNotAvailableFailure(String message) : super(message);
+  const SensorNotAvailableFailure(super.message);
 }
 
 class SensorDataFailure extends SensorFailure {
-  const SensorDataFailure(String message) : super(message);
+  const SensorDataFailure(super.message);
 }
 
 class NetworkFailure extends SensorFailure {
-  const NetworkFailure(String message) : super(message);
+  const NetworkFailure(super.message);
 }
 
 class AIAnalysisFailure extends SensorFailure {
-  const AIAnalysisFailure(String message) : super(message);
+  const AIAnalysisFailure(super.message);
 }
