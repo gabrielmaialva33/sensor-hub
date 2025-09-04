@@ -96,7 +96,7 @@ class _SensorCardState extends ConsumerState<SensorCard> {
                             ?.copyWith(fontWeight: FontWeight.bold),
                       ),
                       Text(
-                        widget.isMonitoring ? 'Active' : 'Inactive',
+                        widget.isMonitoring ? 'Ativo' : 'Inativo',
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
                           color: widget.isMonitoring
                               ? AppTheme.successColor
