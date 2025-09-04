@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="300" height="80" viewBox="0 0 300 80" xmlns="http://www.w3.org/2000/svg">
+  <!-- Horizontal logo with icon and text -->
+  
+  <!-- Gradient definitions -->
+  <defs>
+    <radialGradient id="primaryGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#818CF8;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#6366F1;stop-opacity:1" />
+    </radialGradient>
+    
+    <radialGradient id="emeraldGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#34D399;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#10B981;stop-opacity:1" />
+    </radialGradient>
+    
+    <radialGradient id="amberGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#FBBF24;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#F59E0B;stop-opacity:1" />
+    </radialGradient>
+  </defs>
+  
+  <!-- Icon section -->
+  <g transform="translate(10, 10)">
+    <!-- Main hexagon -->
+    <polygon points="30,15 45,22.5 45,37.5 30,45 15,37.5 15,22.5" 
+             fill="none" 
+             stroke="url(#primaryGrad)" 
+             stroke-width="2"/>
+    
+    <!-- Connection lines -->
+    <g stroke="#6366F1" stroke-width="0.5" stroke-opacity="0.4" fill="none">
+      <line x1="30" y1="30" x2="30" y2="5"/>
+      <line x1="30" y1="30" x2="50" y2="17.5"/>
+      <line x1="30" y1="30" x2="50" y2="42.5"/>
+      <line x1="30" y1="30" x2="30" y2="55"/>
+      <line x1="30" y1="30" x2="10" y2="42.5"/>
+      <line x1="30" y1="30" x2="10" y2="17.5"/>
+    </g>
+    
+    <!-- Sensor nodes -->
+    <circle cx="30" cy="5" r="3" fill="url(#amberGrad)"/>
+    <circle cx="50" cy="17.5" r="3" fill="url(#emeraldGrad)"/>
+    <circle cx="50" cy="42.5" r="3" fill="url(#amberGrad)"/>
+    <circle cx="30" cy="55" r="3" fill="url(#emeraldGrad)"/>
+    <circle cx="10" cy="42.5" r="3" fill="url(#amberGrad)"/>
+    <circle cx="10" cy="17.5" r="3" fill="url(#emeraldGrad)"/>
+    
+    <!-- Central AI node -->
+    <circle cx="30" cy="30" r="8" fill="url(#primaryGrad)"/>
+    <circle cx="30" cy="30" r="3" fill="#FFFFFF"/>
+  </g>
+  
+  <!-- Text -->
+  <text x="80" y="35" font-family="SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif" 
+        font-size="24" font-weight="600" fill="#1E293B">SensorHub</text>
+  <text x="80" y="55" font-family="SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif" 
+        font-size="12" font-weight="400" fill="#64748B" opacity="0.8">AI-Powered Sensor Monitoring</text>
+</svg>
