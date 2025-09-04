@@ -16,27 +16,26 @@ class ResponsiveWrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Widget content = child;
+    
     // Wrap in Flexible for Row/Column children
     if (useFlexible) {
       content = Flexible(child: content);
     }
+    
     // Wrap in ScrollView for overflow prevention
     if (wrapInScrollView) {
       content = SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: content,
       );
-      return content;
     }
+    
+    return content;
   }
+}
 
-  /// Extension methods for responsive widgets
-  extension ResponsiveExtensions
-
-  on Widget
-
-  {
-
+/// Extension methods for responsive widgets
+extension ResponsiveExtensions on Widget {
   Widget get flexible => Flexible(child: this);
 
   Widget get expanded => Expanded(child: this);
@@ -46,3 +45,4 @@ class ResponsiveWrapper extends StatelessWidget {
 
   Widget get scrollableV =>
       SingleChildScrollView(scrollDirection: Axis.vertical, child: this);
+}
