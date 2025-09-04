@@ -80,14 +80,16 @@ class BehaviorPattern {
 
 /// Advanced ML-based prediction engine for life insights
 class PredictiveInsightsEngine {
-  static final PredictiveInsightsEngine _instance = PredictiveInsightsEngine._internal();
+  static final PredictiveInsightsEngine _instance =
+      PredictiveInsightsEngine._internal();
   factory PredictiveInsightsEngine() => _instance;
   PredictiveInsightsEngine._internal();
 
   final Map<String, List<SensorData>> _sensorHistory = {};
   // final List<BehaviorPattern> _patterns = []; // For future use
   final List<Prediction> _predictions = [];
-  final StreamController<Prediction> _predictionStreamController = StreamController.broadcast();
+  final StreamController<Prediction> _predictionStreamController =
+      StreamController.broadcast();
 
   // Time series data for LSTM-like analysis
   final Map<String, List<double>> _timeSeriesData = {};
@@ -99,7 +101,7 @@ class PredictiveInsightsEngine {
   Future<void> initialize() async {
     // Load existing patterns and predictions
     await _loadHistoricalPatterns();
-    
+
     // Start background analysis timer
     Timer.periodic(const Duration(minutes: 15), (timer) {
       _runPeriodicAnalysis();
@@ -112,7 +114,7 @@ class PredictiveInsightsEngine {
     for (final sensorData in sensorDataList) {
       _sensorHistory.putIfAbsent(sensorData.sensorType, () => []);
       _sensorHistory[sensorData.sensorType]!.add(sensorData);
-      
+
       // Update time series data
       _updateTimeSeries(sensorData);
     }
@@ -127,7 +129,9 @@ class PredictiveInsightsEngine {
   }
 
   /// Generate energy level predictions
-  Future<Prediction?> predictEnergyLevel({Duration lookahead = const Duration(hours: 2)}) async {
+  Future<Prediction?> predictEnergyLevel({
+    Duration lookahead = const Duration(hours: 2),
+  }) async {
     final now = DateTime.now();
     final targetTime = now.add(lookahead);
 
@@ -150,27 +154,33 @@ class PredictiveInsightsEngine {
       historicalPattern: energyPattern,
     );
 
-    final confidence = _calculatePredictionConfidence(energyPattern, sleepQuality);
+    final confidence = _calculatePredictionConfidence(
+      energyPattern,
+      sleepQuality,
+    );
 
     String description;
     List<String> suggestions;
 
     if (predictedEnergy < 0.3) {
-      description = "I'm sensing you might experience an energy dip around ${_formatTime(targetTime)}. Your activity patterns and sleep data suggest this timing for lower energy.";
+      description =
+          "I'm sensing you might experience an energy dip around ${_formatTime(targetTime)}. Your activity patterns and sleep data suggest this timing for lower energy.";
       suggestions = [
         "Consider a 10-minute walk or light stretching session 30 minutes before",
         "A healthy snack or green tea might help maintain energy levels",
         "Schedule lighter tasks during this period if possible",
       ];
     } else if (predictedEnergy > 0.7) {
-      description = "Your energy should be naturally higher around ${_formatTime(targetTime)}. This could be a great window for more demanding activities.";
+      description =
+          "Your energy should be naturally higher around ${_formatTime(targetTime)}. This could be a great window for more demanding activities.";
       suggestions = [
         "This might be ideal timing for exercise or creative work",
         "Consider tackling challenging tasks during this energy peak",
         "Take advantage of this natural rhythm for productivity",
       ];
     } else {
-      description = "Your energy levels should be steady around ${_formatTime(targetTime)}, based on your patterns.";
+      description =
+          "Your energy levels should be steady around ${_formatTime(targetTime)}, based on your patterns.";
       suggestions = [
         "A good time for moderate activities and tasks",
         "Maintain your current rhythm to sustain this balanced energy",
@@ -208,7 +218,8 @@ class PredictiveInsightsEngine {
     List<String> suggestions;
 
     if (riskLevel > 0.7) {
-      description = "I've noticed several changes in your patterns that historically align with stressful periods. ${primaryIndicators.join(', ')} are showing variations from your usual rhythm.";
+      description =
+          "I've noticed several changes in your patterns that historically align with stressful periods. ${primaryIndicators.join(', ')} are showing variations from your usual rhythm.";
       suggestions = [
         "Consider taking a few minutes for deep breathing or meditation",
         "A short walk outside might help reset your nervous system",
@@ -216,7 +227,8 @@ class PredictiveInsightsEngine {
         "Perhaps reach out to someone you trust if you need support",
       ];
     } else {
-      description = "Some minor pattern changes suggest you might be experiencing mild stress. ${primaryIndicators.first} is slightly different from your usual pattern.";
+      description =
+          "Some minor pattern changes suggest you might be experiencing mild stress. ${primaryIndicators.first} is slightly different from your usual pattern.";
       suggestions = [
         "A moment of mindfulness might be helpful right now",
         "Consider what might be contributing to these changes",
@@ -252,43 +264,49 @@ class PredictiveInsightsEngine {
     // final activeOptimalTime = await _findOptimalTimeForActivity('active'); // For future use
 
     if (walkingOptimalTime != null) {
-      suggestions.add(Prediction(
-        id: 'walking_timing_${now.millisecondsSinceEpoch}',
-        timestamp: now,
-        type: 'timing_optimization',
-        title: 'Optimal Walking Time',
-        description: "Based on your patterns, ${_formatTime(walkingOptimalTime)} tends to be when you naturally feel most inclined to walk. Your body seems to align with this timing.",
-        confidence: 0.75,
-        validUntil: walkingOptimalTime.add(const Duration(hours: 2)),
-        parameters: {
-          'optimal_time': walkingOptimalTime.toIso8601String(),
-          'activity_type': 'walking',
-        },
-        actionableSuggestions: [
-          "Consider planning your daily walk around this time",
-          "Your energy and movement patterns align well with this timing",
-        ],
-      ));
+      suggestions.add(
+        Prediction(
+          id: 'walking_timing_${now.millisecondsSinceEpoch}',
+          timestamp: now,
+          type: 'timing_optimization',
+          title: 'Optimal Walking Time',
+          description:
+              "Based on your patterns, ${_formatTime(walkingOptimalTime)} tends to be when you naturally feel most inclined to walk. Your body seems to align with this timing.",
+          confidence: 0.75,
+          validUntil: walkingOptimalTime.add(const Duration(hours: 2)),
+          parameters: {
+            'optimal_time': walkingOptimalTime.toIso8601String(),
+            'activity_type': 'walking',
+          },
+          actionableSuggestions: [
+            "Consider planning your daily walk around this time",
+            "Your energy and movement patterns align well with this timing",
+          ],
+        ),
+      );
     }
 
     if (restOptimalTime != null) {
-      suggestions.add(Prediction(
-        id: 'rest_timing_${now.millisecondsSinceEpoch}',
-        timestamp: now,
-        type: 'timing_optimization',
-        title: 'Natural Rest Period',
-        description: "Your patterns suggest ${_formatTime(restOptimalTime)} is when you naturally tend to slow down. Honoring this rhythm could enhance your well-being.",
-        confidence: 0.70,
-        validUntil: restOptimalTime.add(const Duration(hours: 1)),
-        parameters: {
-          'optimal_time': restOptimalTime.toIso8601String(),
-          'activity_type': 'rest',
-        },
-        actionableSuggestions: [
-          "This might be a good time for quiet activities or reflection",
-          "Consider avoiding demanding tasks during this natural lull",
-        ],
-      ));
+      suggestions.add(
+        Prediction(
+          id: 'rest_timing_${now.millisecondsSinceEpoch}',
+          timestamp: now,
+          type: 'timing_optimization',
+          title: 'Natural Rest Period',
+          description:
+              "Your patterns suggest ${_formatTime(restOptimalTime)} is when you naturally tend to slow down. Honoring this rhythm could enhance your well-being.",
+          confidence: 0.70,
+          validUntil: restOptimalTime.add(const Duration(hours: 1)),
+          parameters: {
+            'optimal_time': restOptimalTime.toIso8601String(),
+            'activity_type': 'rest',
+          },
+          actionableSuggestions: [
+            "This might be a good time for quiet activities or reflection",
+            "Consider avoiding demanding tasks during this natural lull",
+          ],
+        ),
+      );
     }
 
     return suggestions;
@@ -308,21 +326,24 @@ class PredictiveInsightsEngine {
     List<String> suggestions;
 
     if (trend == 'positive') {
-      description = "Your patterns suggest positive health trends! ${indicators.join(' and ')} are showing encouraging improvements over recent weeks.";
+      description =
+          "Your patterns suggest positive health trends! ${indicators.join(' and ')} are showing encouraging improvements over recent weeks.";
       suggestions = [
         "Keep maintaining the habits that are working well for you",
         "These positive changes seem to be building momentum",
         "Consider what you've been doing differently that might be contributing",
       ];
     } else if (trend == 'concerning') {
-      description = "I've noticed some changes in ${indicators.join(' and ')} that might be worth attention. Small shifts in patterns can sometimes indicate changes in well-being.";
+      description =
+          "I've noticed some changes in ${indicators.join(' and ')} that might be worth attention. Small shifts in patterns can sometimes indicate changes in well-being.";
       suggestions = [
         "Consider if any recent changes in routine might be contributing",
         "It might be worth paying attention to sleep, activity, or stress levels",
         "Sometimes our bodies signal for adjustments through subtle pattern changes",
       ];
     } else {
-      description = "Your health indicators show mixed signals. Some patterns are improving while others show minor variations.";
+      description =
+          "Your health indicators show mixed signals. Some patterns are improving while others show minor variations.";
       suggestions = [
         "Continue monitoring how you feel alongside these pattern changes",
         "Small adjustments to routine might help optimize the positive trends",
@@ -354,15 +375,16 @@ class PredictiveInsightsEngine {
 
     final now = DateTime.now();
     final tomorrow = now.add(const Duration(days: 1));
-    
+
     final likelyDisruptions = await _identifyLikelyDisruptions(tomorrow);
-    
+
     return Prediction(
       id: 'routine_disruption_${now.millisecondsSinceEpoch}',
       timestamp: now,
       type: 'routine_forecast',
       title: 'Routine Disruption Forecast',
-      description: "Tomorrow might bring some changes to your usual patterns. ${likelyDisruptions.join(' and ')} could be different from your typical routine.",
+      description:
+          "Tomorrow might bring some changes to your usual patterns. ${likelyDisruptions.join(' and ')} could be different from your typical routine.",
       confidence: disruptionProbability,
       validUntil: tomorrow.add(const Duration(hours: 12)),
       parameters: {
@@ -416,8 +438,9 @@ class PredictiveInsightsEngine {
   }
 
   bool _hasMinimumDataForAnalysis() {
-    return _timeSeriesData.values
-        .any((series) => series.length >= AppConstants.minDataPointsForAnalysis);
+    return _timeSeriesData.values.any(
+      (series) => series.length >= AppConstants.minDataPointsForAnalysis,
+    );
   }
 
   Future<void> _runRealTimeAnalysis() async {
@@ -454,7 +477,6 @@ class PredictiveInsightsEngine {
         _predictions.add(routineDisruption);
         _predictionStreamController.add(routineDisruption);
       }
-
     } catch (e) {
       debugPrint('Error in real-time analysis: $e');
     }
@@ -470,12 +492,12 @@ class PredictiveInsightsEngine {
   Future<Map<String, double>?> _analyzeEnergyPatterns() async {
     final accelerometerData = _timeSeriesData['accelerometer'];
     final accelerometerTimes = _timeSeriesTimestamps['accelerometer'];
-    
+
     if (accelerometerData == null || accelerometerData.length < 50) return null;
 
     // Create hourly energy pattern
     final hourlyEnergy = <int, List<double>>{};
-    
+
     for (int i = 0; i < accelerometerData.length; i++) {
       final hour = accelerometerTimes![i].hour;
       hourlyEnergy.putIfAbsent(hour, () => []);
@@ -485,26 +507,29 @@ class PredictiveInsightsEngine {
     // Calculate average energy per hour
     final energyPattern = <String, double>{};
     hourlyEnergy.forEach((hour, values) {
-      energyPattern[hour.toString()] = values.reduce((a, b) => a + b) / values.length;
+      energyPattern[hour.toString()] =
+          values.reduce((a, b) => a + b) / values.length;
     });
 
     return energyPattern;
   }
 
   Future<double> _estimateSleepQuality() async {
-    final nightData = _sensorHistory['accelerometer']
-        ?.where((data) {
-          final hour = data.timestamp.hour;
-          return hour >= 22 || hour <= 6;
-        })
-        .cast<AccelerometerData>()
-        .toList() ?? [];
+    final nightData =
+        _sensorHistory['accelerometer']
+            ?.where((data) {
+              final hour = data.timestamp.hour;
+              return hour >= 22 || hour <= 6;
+            })
+            .cast<AccelerometerData>()
+            .toList() ??
+        [];
 
     if (nightData.isEmpty) return 0.5;
 
-    final avgNightActivity = nightData
-        .map((data) => data.magnitude)
-        .reduce((a, b) => a + b) / nightData.length;
+    final avgNightActivity =
+        nightData.map((data) => data.magnitude).reduce((a, b) => a + b) /
+        nightData.length;
 
     // Lower activity at night indicates better sleep
     return max(0.0, min(1.0, (10.0 - avgNightActivity) / 10.0));
@@ -512,14 +537,17 @@ class PredictiveInsightsEngine {
 
   double _calculateRecentActivityLevel() {
     final cutoff = DateTime.now().subtract(const Duration(hours: 2));
-    final recentData = _sensorHistory['accelerometer']
-        ?.where((data) => data.timestamp.isAfter(cutoff))
-        .cast<AccelerometerData>()
-        .toList() ?? [];
+    final recentData =
+        _sensorHistory['accelerometer']
+            ?.where((data) => data.timestamp.isAfter(cutoff))
+            .cast<AccelerometerData>()
+            .toList() ??
+        [];
 
     if (recentData.isEmpty) return 0.0;
 
-    return recentData.map((data) => data.magnitude).reduce((a, b) => a + b) / recentData.length;
+    return recentData.map((data) => data.magnitude).reduce((a, b) => a + b) /
+        recentData.length;
   }
 
   double _predictEnergyUsingML({
@@ -539,32 +567,36 @@ class PredictiveInsightsEngine {
 
     // Day of week influence
     if (dayOfWeek <= 5) prediction += 0.1; // Weekdays
-    
+
     // Sleep quality influence
     prediction += (sleepQuality - 0.5) * 0.4;
-    
+
     // Recent activity influence
     prediction += (recentActivity / 20.0) * 0.2;
 
     // Historical pattern influence
     final currentHour = timeOfDay.floor().toString();
     if (historicalPattern.containsKey(currentHour)) {
-      final historicalEnergy = historicalPattern[currentHour]! / 15.0; // Normalize
+      final historicalEnergy =
+          historicalPattern[currentHour]! / 15.0; // Normalize
       prediction = (prediction + historicalEnergy) / 2.0;
     }
 
     return max(0.0, min(1.0, prediction));
   }
 
-  double _calculatePredictionConfidence(Map<String, double> pattern, double sleepQuality) {
+  double _calculatePredictionConfidence(
+    Map<String, double> pattern,
+    double sleepQuality,
+  ) {
     double confidence = 0.6; // Base confidence
 
     // More historical data increases confidence
     confidence += pattern.length * 0.02;
-    
+
     // Good sleep quality increases confidence
     if (sleepQuality > 0.7) confidence += 0.1;
-    
+
     return min(0.95, confidence);
   }
 
@@ -605,13 +637,21 @@ class PredictiveInsightsEngine {
   }
 
   double _calculateActivityPatternDeviation() {
-    final recentWeek = _getTimeSeriesForPeriod('accelerometer', const Duration(days: 7));
-    final previousWeek = _getTimeSeriesForPeriod('accelerometer', const Duration(days: 14), const Duration(days: 7));
+    final recentWeek = _getTimeSeriesForPeriod(
+      'accelerometer',
+      const Duration(days: 7),
+    );
+    final previousWeek = _getTimeSeriesForPeriod(
+      'accelerometer',
+      const Duration(days: 14),
+      const Duration(days: 7),
+    );
 
     if (recentWeek.isEmpty || previousWeek.isEmpty) return 0.0;
 
     final recentAvg = recentWeek.reduce((a, b) => a + b) / recentWeek.length;
-    final previousAvg = previousWeek.reduce((a, b) => a + b) / previousWeek.length;
+    final previousAvg =
+        previousWeek.reduce((a, b) => a + b) / previousWeek.length;
 
     return (recentAvg - previousAvg).abs() / max(recentAvg, previousAvg);
   }
@@ -626,10 +666,14 @@ class PredictiveInsightsEngine {
     return 0.0; // Simplified for example
   }
 
-  List<double> _getTimeSeriesForPeriod(String sensorType, Duration period, [Duration? offset]) {
+  List<double> _getTimeSeriesForPeriod(
+    String sensorType,
+    Duration period, [
+    Duration? offset,
+  ]) {
     final data = _timeSeriesData[sensorType];
     final timestamps = _timeSeriesTimestamps[sensorType];
-    
+
     if (data == null || timestamps == null) return [];
 
     final now = DateTime.now();
@@ -650,10 +694,16 @@ class PredictiveInsightsEngine {
     // Analyze when the user typically performs certain activities
     // This would use historical pattern matching
     final now = DateTime.now();
-    
+
     switch (activityType) {
       case 'walking':
-        return DateTime(now.year, now.month, now.day, 10, 30); // Example optimal time
+        return DateTime(
+          now.year,
+          now.month,
+          now.day,
+          10,
+          30,
+        ); // Example optimal time
       case 'rest':
         return DateTime(now.year, now.month, now.day, 15, 0);
       case 'active':
@@ -692,7 +742,7 @@ class PredictiveInsightsEngine {
 
   void _cleanupOldData() {
     final cutoff = DateTime.now().subtract(const Duration(days: 30));
-    
+
     _sensorHistory.forEach((sensorType, dataList) {
       dataList.removeWhere((data) => data.timestamp.isBefore(cutoff));
     });
@@ -700,7 +750,9 @@ class PredictiveInsightsEngine {
 
   void _cleanupExpiredPredictions() {
     final now = DateTime.now();
-    _predictions.removeWhere((prediction) => prediction.validUntil.isBefore(now));
+    _predictions.removeWhere(
+      (prediction) => prediction.validUntil.isBefore(now),
+    );
   }
 
   Future<void> _loadHistoricalPatterns() async {

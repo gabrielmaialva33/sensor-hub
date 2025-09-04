@@ -15,12 +15,12 @@ class _LifeStoryWidgetState extends State<LifeStoryWidget>
     with TickerProviderStateMixin {
   final LifeNarrativeService _narrativeService = LifeNarrativeService();
   final PredictiveInsightsEngine _predictiveEngine = PredictiveInsightsEngine();
-  
+
   late AnimationController _fadeController;
   late AnimationController _slideController;
   late Animation<double> _fadeAnimation;
   late Animation<Offset> _slideAnimation;
-  
+
   StreamSubscription<String>? _narrativeSubscription;
   StreamSubscription<Prediction>? _predictionSubscription;
   StreamSubscription<LifeEvent>? _eventSubscription;
@@ -30,7 +30,7 @@ class _LifeStoryWidgetState extends State<LifeStoryWidget>
   List<String> _proactiveSuggestions = [];
   final List<Prediction> _predictions = [];
   List<LifeEvent> _lifeMemories = [];
-  
+
   bool _isLoading = true;
   int _currentNarrativeIndex = 0;
   Timer? _narrativeTimer;
@@ -49,34 +49,29 @@ class _LifeStoryWidgetState extends State<LifeStoryWidget>
       duration: const Duration(milliseconds: 800),
       vsync: this,
     );
-    
+
     _slideController = AnimationController(
       duration: const Duration(milliseconds: 600),
       vsync: this,
     );
 
-    _fadeAnimation = Tween<double>(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(CurvedAnimation(
-      parent: _fadeController,
-      curve: Curves.easeInOut,
-    ));
+    _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _fadeController, curve: Curves.easeInOut),
+    );
 
-    _slideAnimation = Tween<Offset>(
-      begin: const Offset(0.0, 0.3),
-      end: Offset.zero,
-    ).animate(CurvedAnimation(
-      parent: _slideController,
-      curve: Curves.easeOutCubic,
-    ));
+    _slideAnimation =
+        Tween<Offset>(begin: const Offset(0.0, 0.3), end: Offset.zero).animate(
+          CurvedAnimation(parent: _slideController, curve: Curves.easeOutCubic),
+        );
 
     _fadeController.forward();
     _slideController.forward();
   }
 
   void _subscribeToStreams() {
-    _narrativeSubscription = _narrativeService.narrativeStream.listen((narrative) {
+    _narrativeSubscription = _narrativeService.narrativeStream.listen((
+      narrative,
+    ) {
       setState(() {
         if (!_dailyNarratives.contains(narrative)) {
           _dailyNarratives.add(narrative);
@@ -84,11 +79,13 @@ class _LifeStoryWidgetState extends State<LifeStoryWidget>
       });
     });
 
-    _predictionSubscription = _predictiveEngine.predictionStream.listen((prediction) {
+    _predictionSubscription = _predictiveEngine.predictionStream.listen((
+      prediction,
+    ) {
       setState(() {
         _predictions.add(prediction);
         // Add to proactive suggestions if it's actionable
-        if (prediction.actionableSuggestions.isNotEmpty && 
+        if (prediction.actionableSuggestions.isNotEmpty &&
             !_proactiveSuggestions.contains(prediction.description)) {
           _proactiveSuggestions.add(prediction.description);
         }
@@ -106,7 +103,8 @@ class _LifeStoryWidgetState extends State<LifeStoryWidget>
     try {
       final dailyNarratives = await _narrativeService.generateDailyNarratives();
       final weeklyInsights = await _narrativeService.generateWeeklyInsights();
-      final proactiveSuggestions = await _narrativeService.generateProactiveSuggestions();
+      final proactiveSuggestions = await _narrativeService
+          .generateProactiveSuggestions();
       final lifeMemories = _narrativeService.getLifeMemories(limit: 5);
 
       setState(() {
@@ -128,7 +126,8 @@ class _LifeStoryWidgetState extends State<LifeStoryWidget>
     _narrativeTimer = Timer.periodic(const Duration(seconds: 8), (timer) {
       if (_dailyNarratives.isNotEmpty) {
         setState(() {
-          _currentNarrativeIndex = (_currentNarrativeIndex + 1) % _dailyNarratives.length;
+          _currentNarrativeIndex =
+              (_currentNarrativeIndex + 1) % _dailyNarratives.length;
         });
       }
     });
@@ -148,7 +147,7 @@ class _LifeStoryWidgetState extends State<LifeStoryWidget>
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    
+
     return AnimatedBuilder(
       animation: _fadeAnimation,
       builder: (context, child) {
@@ -170,7 +169,9 @@ class _LifeStoryWidgetState extends State<LifeStoryWidget>
                     end: Alignment.bottomRight,
                     colors: [
                       theme.colorScheme.primaryContainer.withValues(alpha: 0.1),
-                      theme.colorScheme.secondaryContainer.withValues(alpha: 0.1),
+                      theme.colorScheme.secondaryContainer.withValues(
+                        alpha: 0.1,
+                      ),
                     ],
                   ),
                 ),
@@ -181,9 +182,7 @@ class _LifeStoryWidgetState extends State<LifeStoryWidget>
                     if (_isLoading)
                       _buildLoadingState()
                     else
-                      Expanded(
-                        child: _buildContent(),
-                      ),
+                      Expanded(child: _buildContent()),
                   ],
                 ),
               ),
@@ -226,10 +225,7 @@ class _LifeStoryWidgetState extends State<LifeStoryWidget>
                 ),
                 Text(
                   'Your felt life insights',
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Colors.grey,
-                  ),
+                  style: TextStyle(fontSize: 14, color: Colors.grey),
                 ),
               ],
             ),
@@ -249,10 +245,7 @@ class _LifeStoryWidgetState extends State<LifeStoryWidget>
             SizedBox(height: 16),
             Text(
               'Reading your life patterns...',
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.grey,
-              ),
+              style: TextStyle(fontSize: 16, color: Colors.grey),
             ),
           ],
         ),
@@ -278,7 +271,7 @@ class _LifeStoryWidgetState extends State<LifeStoryWidget>
     }
 
     final currentNarrative = _dailyNarratives[_currentNarrativeIndex];
-    
+
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20),
       padding: const EdgeInsets.all(20),
@@ -298,11 +291,7 @@ class _LifeStoryWidgetState extends State<LifeStoryWidget>
         children: [
           Row(
             children: [
-              const Icon(
-                Icons.favorite,
-                color: Colors.pink,
-                size: 20,
-              ),
+              const Icon(Icons.favorite, color: Colors.pink, size: 20),
               const SizedBox(width: 8),
               Text(
                 'Today\'s Story',
@@ -396,7 +385,9 @@ class _LifeStoryWidgetState extends State<LifeStoryWidget>
 
   Widget _buildWeeklyInsights() {
     if (_weeklyInsights.isEmpty) {
-      return _buildEmptyTabState('Weekly insights will appear here as patterns emerge.');
+      return _buildEmptyTabState(
+        'Weekly insights will appear here as patterns emerge.',
+      );
     }
 
     return ListView.builder(
@@ -419,7 +410,9 @@ class _LifeStoryWidgetState extends State<LifeStoryWidget>
         .toList();
 
     if (activePredictions.isEmpty) {
-      return _buildEmptyTabState('Predictions will appear based on your patterns.');
+      return _buildEmptyTabState(
+        'Predictions will appear based on your patterns.',
+      );
     }
 
     return ListView.builder(
@@ -473,12 +466,7 @@ class _LifeStoryWidgetState extends State<LifeStoryWidget>
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
-        border: BorderDirectional(
-          start: BorderSide(
-            width: 4,
-            color: color,
-          ),
-        ),
+        border: BorderDirectional(start: BorderSide(width: 4, color: color)),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.05),
@@ -557,34 +545,21 @@ class _LifeStoryWidgetState extends State<LifeStoryWidget>
         ),
         title: Text(
           prediction.title,
-          style: const TextStyle(
-            fontSize: 15,
-            fontWeight: FontWeight.w600,
-          ),
+          style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
         ),
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(height: 4),
-            Text(
-              prediction.description,
-              style: const TextStyle(fontSize: 13),
-            ),
+            Text(prediction.description, style: const TextStyle(fontSize: 13)),
             const SizedBox(height: 4),
             Row(
               children: [
-                Icon(
-                  Icons.stars,
-                  size: 12,
-                  color: Colors.grey[600],
-                ),
+                Icon(Icons.stars, size: 12, color: Colors.grey[600]),
                 const SizedBox(width: 4),
                 Text(
                   '${(prediction.confidence * 100).round()}% confidence',
-                  style: TextStyle(
-                    fontSize: 11,
-                    color: Colors.grey[600],
-                  ),
+                  style: TextStyle(fontSize: 11, color: Colors.grey[600]),
                 ),
               ],
             ),
@@ -599,10 +574,7 @@ class _LifeStoryWidgetState extends State<LifeStoryWidget>
                 children: [
                   const Text(
                     'Suggestions:',
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                    ),
+                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
                   ),
                   const SizedBox(height: 8),
                   ...prediction.actionableSuggestions.map(
@@ -662,11 +634,7 @@ class _LifeStoryWidgetState extends State<LifeStoryWidget>
                   color: Colors.deepPurple.withValues(alpha: 0.1),
                   shape: BoxShape.circle,
                 ),
-                child: Icon(
-                  Icons.memory,
-                  size: 16,
-                  color: Colors.deepPurple,
-                ),
+                child: Icon(Icons.memory, size: 16, color: Colors.deepPurple),
               ),
               const SizedBox(width: 12),
               Expanded(
@@ -682,10 +650,7 @@ class _LifeStoryWidgetState extends State<LifeStoryWidget>
                     ),
                     Text(
                       _formatMemoryDate(memory.timestamp),
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Colors.grey[600],
-                      ),
+                      style: TextStyle(fontSize: 12, color: Colors.grey[600]),
                     ),
                   ],
                 ),
@@ -710,10 +675,7 @@ class _LifeStoryWidgetState extends State<LifeStoryWidget>
           const SizedBox(height: 12),
           Text(
             memory.description,
-            style: const TextStyle(
-              fontSize: 14,
-              height: 1.4,
-            ),
+            style: const TextStyle(fontSize: 14, height: 1.4),
           ),
         ],
       ),
@@ -744,10 +706,7 @@ class _LifeStoryWidgetState extends State<LifeStoryWidget>
             color: Colors.white,
             borderRadius: BorderRadius.circular(12),
             border: BorderDirectional(
-              start: BorderSide(
-                width: 4,
-                color: color,
-              ),
+              start: BorderSide(width: 4, color: color),
             ),
             boxShadow: [
               BoxShadow(
@@ -765,27 +724,16 @@ class _LifeStoryWidgetState extends State<LifeStoryWidget>
                   color: color.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(8),
                 ),
-                child: Icon(
-                  Icons.lightbulb_outline,
-                  color: color,
-                  size: 20,
-                ),
+                child: Icon(Icons.lightbulb_outline, color: color, size: 20),
               ),
               const SizedBox(width: 12),
               Expanded(
                 child: Text(
                   suggestion,
-                  style: const TextStyle(
-                    fontSize: 14,
-                    height: 1.4,
-                  ),
+                  style: const TextStyle(fontSize: 14, height: 1.4),
                 ),
               ),
-              Icon(
-                Icons.arrow_forward_ios,
-                size: 16,
-                color: Colors.grey[400],
-              ),
+              Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey[400]),
             ],
           ),
         ),
@@ -804,11 +752,7 @@ class _LifeStoryWidgetState extends State<LifeStoryWidget>
       ),
       child: Column(
         children: [
-          Icon(
-            Icons.auto_stories_outlined,
-            size: 48,
-            color: Colors.grey[400],
-          ),
+          Icon(Icons.auto_stories_outlined, size: 48, color: Colors.grey[400]),
           const SizedBox(height: 16),
           Text(
             'Your Story is Beginning',
@@ -822,10 +766,7 @@ class _LifeStoryWidgetState extends State<LifeStoryWidget>
           Text(
             'Keep using the app to generate your personalized life insights',
             textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 14,
-              color: Colors.grey[600],
-            ),
+            style: TextStyle(fontSize: 14, color: Colors.grey[600]),
           ),
         ],
       ),
@@ -839,19 +780,12 @@ class _LifeStoryWidgetState extends State<LifeStoryWidget>
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              Icons.hourglass_empty,
-              size: 48,
-              color: Colors.grey[400],
-            ),
+            Icon(Icons.hourglass_empty, size: 48, color: Colors.grey[400]),
             const SizedBox(height: 16),
             Text(
               message,
               textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 14,
-                color: Colors.grey[600],
-              ),
+              style: TextStyle(fontSize: 14, color: Colors.grey[600]),
             ),
           ],
         ),
