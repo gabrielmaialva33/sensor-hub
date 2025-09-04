@@ -154,11 +154,11 @@ class AppConstants {
 
   // Success Messages
   static const Map<String, String> successMessages = {
-    'monitoring_started': 'Sensor monitoring started successfully!',
-    'monitoring_stopped': 'Sensor monitoring stopped.',
-    'data_exported': 'Data exported successfully!',
-    'analysis_complete': 'AI analysis completed.',
-    'backup_complete': 'Data backup completed.',
+    'monitoring_started': 'Monitoramento de sensores iniciado com sucesso!',
+    'monitoring_stopped': 'Monitoramento de sensores parado.',
+    'data_exported': 'Dados exportados com sucesso!',
+    'analysis_complete': 'Análise de IA concluída.',
+    'backup_complete': 'Backup de dados concluído.',
   };
 
   // URLs and API Endpoints
