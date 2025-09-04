@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="1024" height="1024" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
-  <!-- App icon version optimized for iOS/Android -->
-  
   <!-- Background with rounded corners for iOS -->
-  <rect x="0" y="0" width="1024" height="1024" rx="180" ry="180" fill="url(#bgGradient)"/>
+  <rect x="0" y="0" width="1024" height="1024" rx="230" ry="230" fill="url(#bgGradient)"/>
   
   <!-- Gradient definitions -->
   <defs>
@@ -28,50 +26,70 @@
     </radialGradient>
   </defs>
   
-  <!-- Main hexagonal structure (scaled for icon) -->
-  <polygon points="512,200 650,300 650,500 512,600 374,500 374,300" 
-           fill="none" 
-           stroke="#FFFFFF" 
-           stroke-width="20" 
-           stroke-opacity="0.9"/>
-  
-  <!-- Connection lines -->
-  <g stroke="#FFFFFF" stroke-width="8" stroke-opacity="0.6" fill="none">
-    <line x1="512" y1="400" x2="512" y2="150"/>
-    <line x1="512" y1="400" x2="700" y2="250"/>
-    <line x1="512" y1="400" x2="700" y2="550"/>
-    <line x1="512" y1="400" x2="512" y2="650"/>
-    <line x1="512" y1="400" x2="324" y2="550"/>
-    <line x1="512" y1="400" x2="324" y2="250"/>
+  <!-- Main hexagonal structure (centered and properly sized) -->
+  <g transform="translate(512, 512)">
+    <!-- Hexagon outline -->
+    <polygon points="0,-200 173.2,-100 173.2,100 0,200 -173.2,100 -173.2,-100" 
+             fill="none" 
+             stroke="#FFFFFF" 
+             stroke-width="24" 
+             stroke-opacity="0.95"
+             stroke-linejoin="round"/>
+    
+    <!-- Connection lines from center to nodes -->
+    <g stroke="#FFFFFF" stroke-width="10" stroke-opacity="0.7" fill="none">
+      <line x1="0" y1="0" x2="0" y2="-200"/>
+      <line x1="0" y1="0" x2="173.2" y2="-100"/>
+      <line x1="0" y1="0" x2="173.2" y2="100"/>
+      <line x1="0" y1="0" x2="0" y2="200"/>
+      <line x1="0" y1="0" x2="-173.2" y2="100"/>
+      <line x1="0" y1="0" x2="-173.2" y2="-100"/>
+    </g>
+    
+    <!-- Sensor nodes at hexagon vertices -->
+    <circle cx="0" cy="-200" r="50" fill="url(#emeraldNode)" stroke="#FFFFFF" stroke-width="8"/>
+    <circle cx="173.2" cy="-100" r="50" fill="url(#amberNode)" stroke="#FFFFFF" stroke-width="8"/>
+    <circle cx="173.2" cy="100" r="50" fill="url(#emeraldNode)" stroke="#FFFFFF" stroke-width="8"/>
+    <circle cx="0" cy="200" r="50" fill="url(#amberNode)" stroke="#FFFFFF" stroke-width="8"/>
+    <circle cx="-173.2" cy="100" r="50" fill="url(#emeraldNode)" stroke="#FFFFFF" stroke-width="8"/>
+    <circle cx="-173.2" cy="-100" r="50" fill="url(#amberNode)" stroke="#FFFFFF" stroke-width="8"/>
+    
+    <!-- Central AI core -->
+    <circle cx="0" cy="0" r="100" fill="url(#centerGradient)" stroke="#FFFFFF" stroke-width="10"/>
+    
+    <!-- Neural network pattern in center -->
+    <g fill="#6366F1">
+      <!-- Central hub -->
+      <circle cx="0" cy="0" r="25" opacity="0.9"/>
+      
+      <!-- Neural nodes around center -->
+      <circle cx="-30" cy="0" r="8" opacity="0.7"/>
+      <circle cx="30" cy="0" r="8" opacity="0.7"/>
+      <circle cx="0" cy="-30" r="8" opacity="0.7"/>
+      <circle cx="0" cy="30" r="8" opacity="0.7"/>
+      
+      <!-- Diagonal nodes -->
+      <circle cx="-21" cy="-21" r="6" opacity="0.6"/>
+      <circle cx="21" cy="-21" r="6" opacity="0.6"/>
+      <circle cx="21" cy="21" r="6" opacity="0.6"/>
+      <circle cx="-21" cy="21" r="6" opacity="0.6"/>
+      
+      <!-- Connecting lines -->
+      <g stroke="#6366F1" stroke-width="3" opacity="0.5">
+        <line x1="0" y1="0" x2="-30" y2="0"/>
+        <line x1="0" y1="0" x2="30" y2="0"/>
+        <line x1="0" y1="0" x2="0" y2="-30"/>
+        <line x1="0" y1="0" x2="0" y2="30"/>
+        <line x1="0" y1="0" x2="-21" y2="-21"/>
+        <line x1="0" y1="0" x2="21" y2="-21"/>
+        <line x1="0" y1="0" x2="21" y2="21"/>
+        <line x1="0" y1="0" x2="-21" y2="21"/>
+      </g>
+    </g>
+    
+    <!-- Pulse effect rings -->
+    <circle cx="0" cy="0" r="140" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-opacity="0.15"/>
+    <circle cx="0" cy="0" r="180" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-opacity="0.1"/>
+    <circle cx="0" cy="0" r="220" fill="none" stroke="#FFFFFF" stroke-width="1" stroke-opacity="0.05"/>
   </g>
-  
-  <!-- Sensor nodes -->
-  <circle cx="512" cy="150" r="40" fill="url(#amberNode)" stroke="#FFFFFF" stroke-width="6"/>
-  <circle cx="700" cy="250" r="40" fill="url(#emeraldNode)" stroke="#FFFFFF" stroke-width="6"/>
-  <circle cx="700" cy="550" r="40" fill="url(#amberNode)" stroke="#FFFFFF" stroke-width="6"/>
-  <circle cx="512" cy="650" r="40" fill="url(#emeraldNode)" stroke="#FFFFFF" stroke-width="6"/>
-  <circle cx="324" cy="550" r="40" fill="url(#amberNode)" stroke="#FFFFFF" stroke-width="6"/>
-  <circle cx="324" cy="250" r="40" fill="url(#emeraldNode)" stroke="#FFFFFF" stroke-width="6"/>
-  
-  <!-- Central AI core -->
-  <circle cx="512" cy="400" r="80" fill="url(#centerGradient)" stroke="#FFFFFF" stroke-width="8"/>
-  
-  <!-- Neural network pattern in center -->
-  <g fill="#6366F1" opacity="0.8">
-    <circle cx="512" cy="400" r="20"/>
-    <!-- Connection nodes -->
-    <circle cx="490" cy="385" r="6"/>
-    <circle cx="534" cy="385" r="6"/>
-    <circle cx="534" cy="415" r="6"/>
-    <circle cx="490" cy="415" r="6"/>
-    <!-- Connecting lines -->
-    <line x1="512" y1="400" x2="490" y2="385" stroke="#6366F1" stroke-width="3"/>
-    <line x1="512" y1="400" x2="534" y2="385" stroke="#6366F1" stroke-width="3"/>
-    <line x1="512" y1="400" x2="534" y2="415" stroke="#6366F1" stroke-width="3"/>
-    <line x1="512" y1="400" x2="490" y2="415" stroke="#6366F1" stroke-width="3"/>
-  </g>
-  
-  <!-- Subtle outer glow rings -->
-  <circle cx="512" cy="400" r="200" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-opacity="0.1"/>
-  <circle cx="512" cy="400" r="250" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-opacity="0.05"/>
 </svg>
