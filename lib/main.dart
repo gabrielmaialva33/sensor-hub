@@ -23,6 +23,13 @@ void main() async {
     SupabaseService().initialize();
     NvidiaAiService().initialize();
 
+    // Log platform information
+    if (kIsWeb) {
+      Logger.info('SensorHub running on Web - Mock sensors will be used');
+    } else {
+      Logger.info('SensorHub running on ${defaultTargetPlatform.name} - Real sensors enabled');
+    }
+
     Logger.success('SensorHub initialized successfully');
   } catch (e) {
     Logger.error('Failed to initialize SensorHub', e);
