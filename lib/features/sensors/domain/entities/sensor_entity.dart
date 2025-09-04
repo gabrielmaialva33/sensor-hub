@@ -1,21 +1,24 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
-
-part 'sensor_entity.freezed.dart';
+import 'dart:math' as math;
 
 /// Entidade de domínio para dados de sensor - 2025 Clean Architecture
-@freezed
-class SensorEntity with _$SensorEntity {
-  const factory SensorEntity({
-    required String id,
-    required SensorType type,
-    required DateTime timestamp,
-    required Map<String, dynamic> values,
-    @Default(false) bool isProcessing,
-    String? aiAnalysis,
-    double? confidence,
-  }) = _SensorEntity;
-  
-  const SensorEntity._();
+class SensorEntity {
+  final String id;
+  final SensorType type;
+  final DateTime timestamp;
+  final Map<String, dynamic> values;
+  final bool isProcessing;
+  final String? aiAnalysis;
+  final double? confidence;
+
+  const SensorEntity({
+    required this.id,
+    required this.type,
+    required this.timestamp,
+    required this.values,
+    this.isProcessing = false,
+    this.aiAnalysis,
+    this.confidence,
+  });
   
   /// Magnitude para sensores de movimento
   double? get magnitude {
@@ -26,7 +29,7 @@ class SensorEntity with _$SensorEntity {
       final y = values['y'] as double?;
       final z = values['z'] as double?;
       if (x != null && y != null && z != null) {
-        return (x * x + y * y + z * z).sqrt();
+        return math.sqrt(x * x + y * y + z * z);
       }
     }
     return null;

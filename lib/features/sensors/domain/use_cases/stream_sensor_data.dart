@@ -1,17 +1,14 @@
-import 'package:dartz/dartz.dart';
-import 'package:injectable/injectable.dart';
 import '../entities/sensor_entity.dart';
 import '../repositories/sensor_repository.dart';
 
 /// Use case para streaming de dados de sensor - 2025 Clean Architecture
-@injectable
 class StreamSensorDataUseCase {
   final SensorRepository _repository;
   
   const StreamSensorDataUseCase(this._repository);
   
   /// Executa o use case
-  Stream<Either<SensorFailure, List<SensorEntity>>> call(
+  Stream<SensorResult<List<SensorEntity>>> call(
     StreamSensorParams params,
   ) {
     return _repository.getSensorStream(params.type);
@@ -29,4 +26,16 @@ class StreamSensorParams {
     this.throttleDuration,
     this.enableAIAnalysis = false,
   });
+}
+
+/// Result simplificado enquanto não configuramos dartz
+class SensorResult<T> {
+  final T? data;
+  final SensorFailure? error;
+  
+  const SensorResult.success(this.data) : error = null;
+  const SensorResult.failure(this.error) : data = null;
+  
+  bool get isSuccess => error == null;
+  bool get isFailure => error != null;
 }
