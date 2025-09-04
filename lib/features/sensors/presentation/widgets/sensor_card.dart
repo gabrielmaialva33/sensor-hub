@@ -444,18 +444,27 @@ class _SensorCardState extends ConsumerState<SensorCard> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            label,
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: isHighlighted ? null : AppTheme.mutedText,
-              fontWeight: isHighlighted ? FontWeight.w600 : FontWeight.normal,
+          Expanded(
+            flex: 2,
+            child: Text(
+              label,
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                color: isHighlighted ? null : AppTheme.mutedText,
+                fontWeight: isHighlighted ? FontWeight.w600 : FontWeight.normal,
+              ),
+              overflow: TextOverflow.ellipsis,
             ),
           ),
-          Text(
-            '$value $unit',
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              fontWeight: isHighlighted ? FontWeight.bold : FontWeight.w600,
-              color: isHighlighted ? AppTheme.primaryColor : null,
+          const SizedBox(width: AppTheme.paddingSM),
+          Flexible(
+            child: Text(
+              '$value $unit',
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                fontWeight: isHighlighted ? FontWeight.bold : FontWeight.w600,
+                color: isHighlighted ? AppTheme.primaryColor : null,
+              ),
+              textAlign: TextAlign.end,
+              overflow: TextOverflow.ellipsis,
             ),
           ),
         ],
