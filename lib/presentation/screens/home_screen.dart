@@ -22,7 +22,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
     with TickerProviderStateMixin {
   late TabController _tabController;
   bool _isMonitoring = false;
-  String _selectedSensorCategory = '🏃 Movement';
+  String _selectedSensorCategory = '🏃 Movimento';
 
   @override
   void initState() {
