@@ -170,6 +170,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     size: 32,
                     color: AppTheme.errorColor,
                   ).animate().fadeIn(duration: 400.ms).shake(),
+                  const Spacer(),
                   // Version Info
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -205,3 +206,5 @@ class _SplashScreenState extends State<SplashScreen> {
             ),
           ),
         );
+  }
+}
