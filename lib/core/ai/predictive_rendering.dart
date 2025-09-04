@@ -24,7 +24,7 @@ class PredictiveRenderingEngine {
 
   // Configuration
   static const int _maxHistorySize = 100;
-  static const int _maxPreRenderedWidgets = 20;
+  // static const int _maxPreRenderedWidgets = 20; // Reserved for future use
   final double _confidenceThreshold = 0.7;
   final bool _isEnabled = !kDebugMode;
 
