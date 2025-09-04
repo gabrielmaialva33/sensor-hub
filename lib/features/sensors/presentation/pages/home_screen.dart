@@ -51,14 +51,21 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
           ),
         );
       }
-      void _toggleMonitoring() async {
+    }
+
+  void _toggleMonitoring() async {
         final sensorService = SensorService();
         if (_isMonitoring) {
           await sensorService.stopMonitoring();
           setState(() => _isMonitoring = false);
         } else {
+          await sensorService.startMonitoring();
           setState(() => _isMonitoring = true);
-          Widget build(BuildContext context) {
+        }
+      }
+
+  @override
+  Widget build(BuildContext context) {
             final isDark = Theme
                 .of(context)
                 .brightness == Brightness.dark;
@@ -96,8 +103,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                 ),
               ),
             );
-            // Sidebar inspired by Pieces
-            Widget _buildSidebar(bool isDark) {
+  }
+
+  // Sidebar inspired by Pieces
+  Widget _buildSidebar(bool isDark) {
               return Container(
                   width: 280,
                   decoration: BoxDecoration(
