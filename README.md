@@ -141,7 +141,8 @@
 ### Data Visualization
 
 - **[fl_chart](https://pub.dev/packages/fl_chart)** 0.68.0 - Beautiful animated charts
-- **[syncfusion_flutter_charts](https://pub.dev/packages/syncfusion_flutter_charts)** 26.0.0 - Professional charts
+- **[syncfusion_flutter_charts](https://pub.dev/packages/syncfusion_flutter_charts)** 26.0.0 -
+  Professional charts
 - **[charts_flutter](https://pub.dev/packages/charts_flutter)** - Google Charts integration
 - **Custom Widgets** - Real-time gauge and meter components
 
@@ -161,7 +162,9 @@
 
 ### Internationalization
 
-- **[flutter_localizations](https://api.flutter.dev/flutter/flutter_localizations/flutter_localizations-library.html)** - Multi-language support
+- *
+  *[flutter_localizations](https://api.flutter.dev/flutter/flutter_localizations/flutter_localizations-library.html)
+  ** - Multi-language support
 - **[intl](https://pub.dev/packages/intl)** 0.19.0 - Internationalization and localization
 - **Portuguese (pt-BR)** - Full Brazilian Portuguese translation
 - **English** - Default language support
@@ -171,7 +174,8 @@
 - **[pdf](https://pub.dev/packages/pdf)** 3.11.0 - PDF generation
 - **[csv](https://pub.dev/packages/csv)** 6.0.0 - CSV export
 - **[share_plus](https://pub.dev/packages/share_plus)** 10.0.0 - Share functionality
-- **[permission_handler](https://pub.dev/packages/permission_handler)** 11.3.0 - Permission management
+- **[permission_handler](https://pub.dev/packages/permission_handler)** 11.3.0 - Permission
+  management
 
 <br>
 
@@ -180,7 +184,8 @@
 ### Prerequisites
 
 - **[Flutter SDK](https://flutter.dev/docs/get-started/install)** 3.9.0+
-- **[Android Studio](https://developer.android.com/studio)** or **[VS Code](https://code.visualstudio.com/)**
+- **[Android Studio](https://developer.android.com/studio)** or *
+  *[VS Code](https://code.visualstudio.com/)**
 - **[Git](https://git-scm.com/)**
 - **Android SDK** 21+ / **iOS** 12.0+
 - **Physical Device** (recommended for sensor testing)
@@ -242,19 +247,19 @@ flutter build ios --release
 
 ```xml
 <!-- Location and sensors -->
-<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-<uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
-<uses-permission android:name="android.permission.HIGH_SAMPLING_RATE_SENSORS" />
+<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /><uses-permission
+android:name="android.permission.ACCESS_COARSE_LOCATION" /><uses-permission
+android:name="android.permission.ACCESS_BACKGROUND_LOCATION" /><uses-permission
+android:name="android.permission.HIGH_SAMPLING_RATE_SENSORS" />
 
-<!-- Storage for data export -->
-<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <!-- Storage for data export -->
+<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /><uses-permission
+android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
-<!-- Battery monitoring -->
+    <!-- Battery monitoring -->
 <uses-permission android:name="android.permission.BATTERY_STATS" />
 
-<!-- Network for AI services -->
+    <!-- Network for AI services -->
 <uses-permission android:name="android.permission.INTERNET" />
 ```
 
@@ -262,18 +267,20 @@ flutter build ios --release
 
 ```xml
 <!-- Location services -->
-<key>NSLocationWhenInUseUsageDescription</key>
-<string>SensorHub needs location access to monitor GPS data</string>
-<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-<string>SensorHub needs location access for continuous monitoring</string>
+<key>NSLocationWhenInUseUsageDescription</key><string>SensorHub needs location access to monitor GPS
+data
+</string><key>NSLocationAlwaysAndWhenInUseUsageDescription</key><string>SensorHub needs location
+access for continuous monitoring
+</string>
 
-<!-- Motion sensors -->
-<key>NSMotionUsageDescription</key>
-<string>SensorHub needs motion sensor access for activity tracking</string>
+    <!-- Motion sensors -->
+<key>NSMotionUsageDescription</key><string>SensorHub needs motion sensor access for activity
+tracking
+</string>
 
-<!-- File access for exports -->
-<key>NSPhotoLibraryUsageDescription</key>
-<string>SensorHub needs access to save exported data</string>
+    <!-- File access for exports -->
+<key>NSPhotoLibraryUsageDescription</key><string>SensorHub needs access to save exported data
+</string>
 ```
 
 ### Sensor Configuration
@@ -285,17 +292,17 @@ class AppConstants {
   static const double accelerometerSamplingRate = 10.0;
   static const double gyroscopeSamplingRate = 10.0;
   static const double magnetometerSamplingRate = 5.0;
-  
+
   // Update intervals
   static const Duration locationUpdateInterval = Duration(seconds: 5);
   static const Duration lightSensorInterval = Duration(seconds: 1);
   static const Duration proximitySensorInterval = Duration(milliseconds: 500);
-  
+
   // Thresholds
   static const double activityThreshold = 2.0; // m/s²
   static const double batteryLowThreshold = 20.0; // %
   static const double lightDarkThreshold = 10.0; // lux
-  
+
   // Data retention
   static const int maxRecordsPerSensor = 10000;
   static const Duration dataRetentionPeriod = Duration(days: 30);
@@ -345,18 +352,21 @@ class AIServiceConfig {
 ### AI Analysis Features
 
 **Activity Detection**:
+
 - Automatically classifies current activity
 - Provides activity history and patterns
 - Suggests health improvements
 - Tracks daily activity goals
 
 **Environment Analysis**:
+
 - Detects indoor vs outdoor environments
 - Monitors lighting conditions
 - Provides environmental health insights
 - Suggests optimal conditions
 
 **Predictive Insights**:
+
 - Battery life predictions
 - Activity trend forecasting
 - Health risk assessments
