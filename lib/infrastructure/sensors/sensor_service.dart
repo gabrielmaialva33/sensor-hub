@@ -44,6 +44,20 @@ class SensorService {
   final Battery _battery = Battery();
   bool _isMonitoring = false;
 
+  // Mock data generation for web platform
+  final Random _random = Random();
+  Timer? _mockDataTimer;
+  
+  // Mock data state
+  double _mockAccelBase = 1.0;
+  double _mockGyroBase = 0.1;
+  double _mockMagnetoBase = 25.0;
+  double _mockLocationLat = 37.7749; // San Francisco
+  double _mockLocationLng = -122.4194;
+  int _mockBatteryLevel = 75;
+  double _mockLightLux = 300.0;
+  bool _mockProximityNear = false;
+
   // Stream getters
   Stream<AccelerometerData> get accelerometerStream =>
       _accelerometerController.stream;
