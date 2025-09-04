@@ -155,7 +155,7 @@ class _AIInsightsPanelState extends ConsumerState<AIInsightsPanel> {
         color: isDark ? AppTheme.darkCard : AppTheme.lightCard,
         borderRadius: BorderRadius.circular(AppTheme.radiusMD),
         border: Border.all(
-          color: color.withOpacity(0.3),
+          color: color.withValues(alpha: 0.3),
           width: 1,
         ),
       ),
@@ -207,14 +207,14 @@ class _AIInsightsPanelState extends ConsumerState<AIInsightsPanel> {
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: isDark
-            ? [AppTheme.primaryColor.withOpacity(0.1), AppTheme.secondaryColor.withOpacity(0.05)]
-            : [AppTheme.primaryColor.withOpacity(0.05), AppTheme.secondaryColor.withOpacity(0.02)],
+            ? [AppTheme.primaryColor.withValues(alpha: 0.1), AppTheme.secondaryColor.withValues(alpha: 0.05)]
+            : [AppTheme.primaryColor.withValues(alpha: 0.05), AppTheme.secondaryColor.withValues(alpha: 0.02)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
         borderRadius: BorderRadius.circular(AppTheme.radiusLG),
         border: Border.all(
-          color: AppTheme.primaryColor.withOpacity(0.2),
+          color: AppTheme.primaryColor.withValues(alpha: 0.2),
           width: 1,
         ),
       ),
@@ -238,7 +238,7 @@ class _AIInsightsPanelState extends ConsumerState<AIInsightsPanel> {
                   vertical: AppTheme.paddingXS,
                 ),
                 decoration: BoxDecoration(
-                  color: AppTheme.successColor.withOpacity(0.1),
+                  color: AppTheme.successColor.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(AppTheme.radiusSM),
                 ),
                 child: Text(
@@ -411,14 +411,14 @@ class _AIInsightsPanelState extends ConsumerState<AIInsightsPanel> {
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: isDark
-            ? [AppTheme.successColor.withOpacity(0.1), AppTheme.successColor.withOpacity(0.05)]
-            : [AppTheme.successColor.withOpacity(0.05), AppTheme.successColor.withOpacity(0.02)],
+            ? [AppTheme.successColor.withValues(alpha: 0.1), AppTheme.successColor.withValues(alpha: 0.05)]
+            : [AppTheme.successColor.withValues(alpha: 0.05), AppTheme.successColor.withValues(alpha: 0.02)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
         borderRadius: BorderRadius.circular(AppTheme.radiusLG),
         border: Border.all(
-          color: AppTheme.successColor.withOpacity(0.2),
+          color: AppTheme.successColor.withValues(alpha: 0.2),
           width: 1,
         ),
       ),
@@ -498,7 +498,7 @@ class _AIInsightsPanelState extends ConsumerState<AIInsightsPanel> {
       margin: const EdgeInsets.only(bottom: AppTheme.paddingSM),
       padding: const EdgeInsets.all(AppTheme.paddingSM),
       decoration: BoxDecoration(
-        color: AppTheme.secondaryColor.withOpacity(0.05),
+        color: AppTheme.secondaryColor.withValues(alpha: 0.05),
         borderRadius: BorderRadius.circular(AppTheme.radiusSM),
       ),
       child: Row(
@@ -549,7 +549,7 @@ class _AIInsightsPanelState extends ConsumerState<AIInsightsPanel> {
             child: LinearProgressIndicator(
               value: percentage / 100,
               minHeight: 6,
-              backgroundColor: AppTheme.warningColor.withOpacity(0.2),
+              backgroundColor: AppTheme.warningColor.withValues(alpha: 0.2),
               valueColor: AlwaysStoppedAnimation<Color>(AppTheme.warningColor),
             ),
           ),
@@ -614,7 +614,7 @@ class _AIInsightsPanelState extends ConsumerState<AIInsightsPanel> {
           Icon(
             icon,
             size: 64,
-            color: AppTheme.mutedText.withOpacity(0.3),
+            color: AppTheme.mutedText.withValues(alpha: 0.3),
           ),
           const SizedBox(height: AppTheme.paddingMD),
           Text(
@@ -640,10 +640,10 @@ class _AIInsightsPanelState extends ConsumerState<AIInsightsPanel> {
     return Container(
       padding: const EdgeInsets.all(AppTheme.paddingLG),
       decoration: BoxDecoration(
-        color: AppTheme.errorColor.withOpacity(0.1),
+        color: AppTheme.errorColor.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(AppTheme.radiusLG),
         border: Border.all(
-          color: AppTheme.errorColor.withOpacity(0.3),
+          color: AppTheme.errorColor.withValues(alpha: 0.3),
           width: 1,
         ),
       ),
@@ -670,7 +670,7 @@ class _AIInsightsPanelState extends ConsumerState<AIInsightsPanel> {
                 Text(
                   message,
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: AppTheme.errorColor.withOpacity(0.8),
+                    color: AppTheme.errorColor.withValues(alpha: 0.8),
                   ),
                 ),
               ],
