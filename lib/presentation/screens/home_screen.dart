@@ -185,7 +185,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                   ),
                   const SizedBox(width: AppTheme.paddingSM),
                   Text(
-                    _isMonitoring ? 'Monitoring Active' : 'Monitoring Stopped',
+                    _isMonitoring ? 'Monitoramento Ativo' : 'Monitoramento Parado',
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
                       color: _isMonitoring
                           ? AppTheme.secondaryColor
@@ -204,7 +204,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: AppTheme.paddingMD),
             child: Text(
-              'Sensor Categories',
+              'Categorias de Sensores',
               style: Theme.of(context).textTheme.labelMedium?.copyWith(
                 color: AppTheme.mutedText,
                 fontWeight: FontWeight.w600,
@@ -327,7 +327,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                     onPressed: _toggleMonitoring,
                     icon: Icon(_isMonitoring ? Icons.stop : Icons.play_arrow),
                     label: Text(
-                      _isMonitoring ? 'Stop Monitoring' : 'Start Monitoring',
+                      _isMonitoring ? 'Parar Monitoramento' : 'Iniciar Monitoramento',
                     ),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: _isMonitoring
@@ -346,14 +346,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                       child: TextButton.icon(
                         onPressed: () => _showExportDialog(context),
                         icon: const Icon(Icons.download, size: 16),
-                        label: const Text('Export'),
+                        label: const Text('Exportar'),
                       ),
                     ),
                     Expanded(
                       child: TextButton.icon(
                         onPressed: () => _showSettingsDialog(context),
                         icon: const Icon(Icons.settings, size: 16),
-                        label: const Text('Settings'),
+                        label: const Text('Configurações'),
                       ),
                     ),
                   ],
@@ -394,7 +394,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
               ),
               child: TextField(
                 decoration: InputDecoration(
-                  hintText: 'Search sensor data, insights, patterns...',
+                  hintText: 'Buscar dados de sensores, insights, padrões...',
                   prefixIcon: const Icon(Icons.search, size: 18),
                   border: InputBorder.none,
                   contentPadding: const EdgeInsets.symmetric(
@@ -424,9 +424,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
             ),
             tabs: const [
               Tab(text: '📊 Dashboard'),
-              Tab(text: '📱 Sensors'),
-              Tab(text: '🤖 AI Insights'),
-              Tab(text: '📈 Timeline'),
+              Tab(text: '📱 Sensores'),
+              Tab(text: '🤖 Insights de IA'),
+              Tab(text: '📈 Linha do Tempo'),
             ],
           ),
         ],
@@ -442,7 +442,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Sensor Overview',
+'Visão Geral dos Sensores',
             style: Theme.of(
               context,
             ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
@@ -480,7 +480,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
 
   // Sensors Tab
   Widget _buildSensorsTab() {
-    return const Center(child: Text('Detailed Sensor Views'));
+    return const Center(child: Text('Visualizações Detalhadas dos Sensores'));
   }
 
   // AI Insights Tab
@@ -498,12 +498,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Export Sensor Data'),
-        content: const Text('Choose export format:'),
+        title: const Text('Exportar Dados dos Sensores'),
+        content: const Text('Escolha o formato de exportação:'),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+            child: const Text('Cancelar'),
           ),
           TextButton(
             onPressed: () => Navigator.pop(context),
@@ -523,12 +523,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Settings'),
-        content: const Text('Sensor monitoring settings coming soon!'),
+        title: const Text('Configurações'),
+        content: const Text('Configurações de monitoramento de sensores em breve!'),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Close'),
+            child: const Text('Fechar'),
           ),
         ],
       ),
