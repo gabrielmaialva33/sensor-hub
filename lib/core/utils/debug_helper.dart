@@ -7,7 +7,6 @@ import 'package:flutter/foundation.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import 'package:sensor_hub/infrastructure/infrastructure.dart';
-import 'package:sensor_hub/infrastructure/infrastructure.dart';
 
 /// Debug helper for testing and troubleshooting sensor functionality
 class DebugHelper {
