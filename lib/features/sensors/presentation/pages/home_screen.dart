@@ -156,75 +156,59 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
               ],
             ),
           ),
-                                              // Monitoring Status
-                                              padding: const EdgeInsets.symmetric(horizontal:
-                                                  AppTheme.paddingMD),
-                                              child: Container(
-                                                  padding: const EdgeInsets.all(
-                                                      AppTheme.paddingSM),
-                                                  decoration: BoxDecoration(
-                                                      color: _isMonitoring
-                                                          ? AppTheme
-                                                          .secondaryColor
-                                                          .withValues(
-                                                          alpha: 0.1)
-                                                          : AppTheme.errorColor
-                                                          .withValues(
-                                                          alpha: 0.1),
-                                                      borderRadius: BorderRadius
-                                                          .circular(
-                                                          AppTheme.radiusMD),
-                                                      border: Border.all(
-                                                          color: _isMonitoring
-                                                              ? AppTheme
-                                                              .secondaryColor
-                                                              : AppTheme
-                                                              .errorColor,
-                                                          width: 1,
-                                                          child: Row(
-                                                              Icon(
-                                                                  _isMonitoring
-                                                                      ? Icons
-                                                                      .sensors
-                                                                      : Icons
-                                                                      .sensors_off,
-                                                                  color: _isMonitoring
-                                                                      ? AppTheme
-                                                                      .secondaryColor
-                                                                      : AppTheme
-                                                                      .errorColor,
-                                                                  size: 16,
-                                                                  const SizedBox(
-                                                                      width: AppTheme
-                                                                          .paddingSM),
-                                                                  Text(
-                                                                      _isMonitoring
-                                                                          ? 'Monitoramento Ativo'
-                                                                          : 'Monitoramento Parado',
-                                                                      style: Theme
-                                                                          .of(
-                                                                          context)
-                                                                          .textTheme
-                                                                          .bodySmall
-                                                                          ?.copyWith(
-                                                                        color: _isMonitoring
-                                                                            ? AppTheme
-                                                                            .secondaryColor
-                                                                            : AppTheme
-                                                                            .errorColor,
-                                                                        fontWeight: FontWeight
-                                                                            .w600,
-                                                                      )
-                                                                          .animate()
-                                                                          .fadeIn()
-                                                                          .scale(
-                                                                          delay: 200
-                                                                              .ms),
-                                                                      const SizedBox(
-                                                                          height: AppTheme
-                                                                              .paddingLG),
-                                                                      // Sensor Categories
-                                                                      child: Text(
+          // Monitoring Status
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: AppTheme.paddingMD),
+            child: Container(
+              padding: const EdgeInsets.all(AppTheme.paddingSM),
+              decoration: BoxDecoration(
+                color: _isMonitoring
+                    ? AppTheme.secondaryColor.withValues(alpha: 0.1)
+                    : AppTheme.errorColor.withValues(alpha: 0.1),
+                borderRadius: BorderRadius.circular(AppTheme.radiusMD),
+                border: Border.all(
+                  color: _isMonitoring
+                      ? AppTheme.secondaryColor
+                      : AppTheme.errorColor,
+                  width: 1,
+                ),
+              ),
+              child: Row(
+                children: [
+                  Icon(
+                    _isMonitoring ? Icons.sensors : Icons.sensors_off,
+                    color: _isMonitoring
+                        ? AppTheme.secondaryColor
+                        : AppTheme.errorColor,
+                    size: 16,
+                  ),
+                  const SizedBox(width: AppTheme.paddingSM),
+                  Text(
+                    _isMonitoring
+                        ? 'Monitoramento Ativo'
+                        : 'Monitoramento Parado',
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodySmall
+                        ?.copyWith(
+                      color: _isMonitoring
+                          ? AppTheme.secondaryColor
+                          : AppTheme.errorColor,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  )
+                      .animate()
+                      .fadeIn()
+                      .scale(delay: 200.ms),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(height: AppTheme.paddingLG),
+          // Sensor Categories
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: AppTheme.paddingMD),
+            child: Text(
                                                                           'Categorias de Sensores',
                                                                           style: Theme
                                                                               .of(
