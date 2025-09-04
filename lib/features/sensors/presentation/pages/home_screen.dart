@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -21,6 +22,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
   late TabController _tabController;
   bool _isMonitoring = false;
   String _selectedSensorCategory = '🏃 Movimento';
+  bool _isMobileMenuOpen = false;
+
+  // Responsive breakpoints
+  static const double mobileBreakpoint = 768.0;
+  static const double tabletBreakpoint = 1024.0;
 
   @override
   void initState() {

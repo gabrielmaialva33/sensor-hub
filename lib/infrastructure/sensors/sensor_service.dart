@@ -432,6 +432,7 @@ class SensorService {
   /// Dispose all resources
   void dispose() {
     stopMonitoring();
+    _mockDataTimer?.cancel();
     _accelerometerController.close();
     _gyroscopeController.close();
     _magnetometerController.close();
