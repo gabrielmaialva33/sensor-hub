@@ -22,16 +22,20 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
   bool _isMonitoring = false;
   String _selectedSensorCategory = '🏃 Movimento';
 
+  @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 4, vsync: this);
     _initializeSensors();
   }
 
+  @override
   void dispose() {
     _tabController.dispose();
     super.dispose();
-    Future<void> _initializeSensors() async {
+  }
+
+  Future<void> _initializeSensors() async {
       try {
         final sensorService = SensorService();
         await sensorService.startMonitoring();
