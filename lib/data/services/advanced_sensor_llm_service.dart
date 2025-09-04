@@ -362,7 +362,7 @@ class AdvancedSensorLLMService {
       } else if (d is GyroscopeData) {
         stats['gyro_rot'] = sqrt(d.x * d.x + d.y * d.y + d.z * d.z);
       } else if (d is BatteryData) {
-        stats['battery'] = d.level;
+        stats['battery'] = d.batteryLevel;
       }
     }
     
