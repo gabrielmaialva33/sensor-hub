@@ -103,14 +103,12 @@ class NvidiaAiService {
     try {
       final dataContext = _preparePredictionContext(historicalData);
       
-      final response = await _dio.post(
-        '/v1/chat/completions',
-        data: {
-          'model': _predictionModel,
-          'messages': [
-            {
-              'role': 'system',
-              'content': '''Você é uma IA de análise preditiva especializada em padrões de dados de sensores móveis.
+      final requestData = {
+        'model': _predictionModel,
+        'messages': [
+          {
+            'role': 'system',
+            'content': '''Você é uma IA de análise preditiva especializada em padrões de dados de sensores móveis.
               
               Baseado nos dados históricos dos sensores, preveja:
               1. Próximas atividades prováveis
@@ -122,25 +120,25 @@ class NvidiaAiService {
               A resposta deve ser JSON com as chaves: nextActivity, batteryPrediction, movementForecast, environmentalChanges, recommendations, confidence.
               
               Responda SEMPRE em português brasileiro.'''
-            },
-            {
-              'role': 'user',
-              'content': 'Com base nestes dados históricos dos sensores, preveja padrões futuros:\n\n$dataContext'
-            }
-          ],
-          'max_tokens': 4096,
-          'temperature': 0.5,
-          'top_p': 0.8,
-          'frequency_penalty': 0,
-          'presence_penalty': 0,
-        },
-      );
+          },
+          {
+            'role': 'user',
+            'content': 'Com base nestes dados históricos dos sensores, preveja padrões futuros:\n\n$dataContext'
+          }
+        ],
+        'max_tokens': 4096,
+        'temperature': 0.5,
+        'top_p': 0.8,
+        'frequency_penalty': 0,
+        'presence_penalty': 0,
+      };
 
+      final response = await _makeApiCall(requestData);
       final content = response.data['choices'][0]['message']['content'];
       return _parsePredictionResponse(content);
     } catch (e) {
       Logger.error('NVIDIA prediction error', e);
-      return Prediction.error('Failed to predict patterns: ${e.toString()}');
+      return Prediction.error('Falha ao prever padrões: ${e.toString()}');
     }
   }
 
@@ -149,14 +147,12 @@ class NvidiaAiService {
     try {
       final summary = _generateDataSummary(dailyData);
       
-      final response = await _dio.post(
-        '/v1/chat/completions',
-        data: {
-          'model': _primaryModel,
-          'messages': [
-            {
-              'role': 'system',
-              'content': '''Você é uma IA coach de saúde e atividade. Crie um resumo diário abrangente de atividades baseado nos dados dos sensores.
+      final requestData = {
+        'model': _primaryModel,
+        'messages': [
+          {
+            'role': 'system',
+            'content': '''Você é uma IA coach de saúde e atividade. Crie um resumo diário abrangente de atividades baseado nos dados dos sensores.
               
               Forneça:
               1. Detalhamento das atividades (tempo gasto em diferentes atividades)
@@ -168,25 +164,25 @@ class NvidiaAiService {
               A resposta deve ser encorajadora e acionável. Formate como JSON com as chaves: activities, movement, environment, health, recommendations, score.
               
               Responda SEMPRE em português brasileiro.'''
-            },
-            {
-              'role': 'user',
-              'content': 'Crie um resumo diário de atividades para estes dados:\n\n$summary'
-            }
-          ],
-          'max_tokens': 4096,
-          'temperature': 0.8,
-          'top_p': 0.8,
-          'frequency_penalty': 0,
-          'presence_penalty': 0,
-        },
-      );
+          },
+          {
+            'role': 'user',
+            'content': 'Crie um resumo diário de atividades para estes dados:\n\n$summary'
+          }
+        ],
+        'max_tokens': 4096,
+        'temperature': 0.8,
+        'top_p': 0.8,
+        'frequency_penalty': 0,
+        'presence_penalty': 0,
+      };
 
+      final response = await _makeApiCall(requestData);
       final content = response.data['choices'][0]['message']['content'];
       return _parseActivitySummary(content);
     } catch (e) {
       Logger.error('Activity summary error', e);
-      return ActivitySummary.error('Failed to generate summary: ${e.toString()}');
+      return ActivitySummary.error('Falha ao gerar resumo: ${e.toString()}');
     }
   }
 
@@ -296,23 +292,21 @@ class NvidiaAiService {
   /// Test API connection
   Future<bool> testConnection() async {
     try {
-      final response = await _dio.post(
-        '/v1/chat/completions',
-        data: {
-          'model': _primaryModel,
-          'messages': [
-            {
-              'role': 'user',
-              'content': 'Olá, você está funcionando?'
-            }
-          ],
-          'max_tokens': 50,
-          'top_p': 0.8,
-          'frequency_penalty': 0,
-          'presence_penalty': 0,
-        },
-      );
+      final requestData = {
+        'model': _primaryModel,
+        'messages': [
+          {
+            'role': 'user',
+            'content': 'Olá, você está funcionando?'
+          }
+        ],
+        'max_tokens': 50,
+        'top_p': 0.8,
+        'frequency_penalty': 0,
+        'presence_penalty': 0,
+      };
 
+      final response = await _makeApiCall(requestData);
       return response.statusCode == 200;
     } catch (e) {
       Logger.error('NVIDIA API connection test failed', e);
