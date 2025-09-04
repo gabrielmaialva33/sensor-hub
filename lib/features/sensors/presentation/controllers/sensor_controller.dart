@@ -1,34 +1,22 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../domain/entities/sensor_entity.dart';
 import '../../domain/use_cases/stream_sensor_data.dart';
 
-part 'sensor_controller.g.dart';
+/// Controller Riverpod 2.6+ - 2025 Pattern (sem code generation por enquanto)
+class SensorController extends StateNotifier<AsyncValue<SensorState>> {
+  SensorController(this.ref, this.type) : super(const AsyncValue.loading()) {
+    _init();
+  }
 
-/// Controller Riverpod 2.6+ com code generation - 2025 Pattern
-@riverpod
-class SensorController extends _$SensorController {
-  @override
-  Stream<SensorState> build(SensorType type) {
-    // Auto-dispose quando não usado
-    ref.onDispose(() {
-      // Cleanup logic
-    });
+  final Ref ref;
+  final SensorType type;
+
+  void _init() {
+    // TODO: Inject use case via dependency injection quando configurado
+    // final useCase = ref.watch(streamSensorDataUseCaseProvider);
     
-    final useCase = ref.watch(streamSensorDataUseCaseProvider);
-    
-    return useCase(
-      StreamSensorParams(
-        type: type,
-        enableAIAnalysis: true,
-        throttleDuration: const Duration(milliseconds: 100),
-      ),
-    ).map((either) {
-      return either.fold(
-        (failure) => SensorState.error(failure.message),
-        (data) => SensorState.data(data),
-      );
-    });
+    // Placeholder implementation por enquanto
+    state = const AsyncValue.data(SensorState.initial());
   }
   
   /// Pausar streaming
@@ -38,12 +26,13 @@ class SensorController extends _$SensorController {
   
   /// Retomar streaming
   void resume() {
-    ref.invalidateSelf();
+    _init();
   }
   
   /// Limpar dados
   Future<void> clearData() async {
     // Implementation
+    state = const AsyncValue.data(SensorState.initial());
   }
 }
 
@@ -75,8 +64,8 @@ class ErrorSensorState extends SensorState {
   const ErrorSensorState(this.message);
 }
 
-/// Provider para o use case (seria gerado pelo Injectable)
-@riverpod
-StreamSensorDataUseCase streamSensorDataUseCase(StreamSensorDataUseCaseRef ref) {
-  throw UnimplementedError('Configure dependency injection');
-}
+/// Provider para o controller
+final sensorControllerProvider = StateNotifierProvider.family<
+    SensorController, AsyncValue<SensorState>, SensorType>(
+  (ref, type) => SensorController(ref, type),
+);

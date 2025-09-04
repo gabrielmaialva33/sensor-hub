@@ -5,22 +5,17 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
 import 'package:sensor_hub/core/core.dart';
-import 'package:sensor_hub/core/core.dart';
 import 'package:sensor_hub/features/sensors/data/models/sensor_data.dart';
 import '../providers/sensor_providers.dart';
-
 class SensorTimeline extends ConsumerStatefulWidget {
   const SensorTimeline({super.key});
-
   @override
   ConsumerState<SensorTimeline> createState() => _SensorTimelineState();
 }
-
 class _SensorTimelineState extends ConsumerState<SensorTimeline> {
   String _selectedSensor = 'accelerometer';
   String _selectedTimeRange = '1 Hora';
   bool _showLegend = true;
-
   final Map<String, Duration> _timeRanges = {
     '15 Minutos': const Duration(minutes: 15),
     '30 Minutos': const Duration(minutes: 30),
@@ -29,19 +24,15 @@ class _SensorTimelineState extends ConsumerState<SensorTimeline> {
     '6 Horas': const Duration(hours: 6),
     'Todos os Dados': const Duration(days: 365),
   };
-
-  @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final sensorHistory = ref.watch(sensorHistoryProvider);
-
     return Container(
       color: isDark ? AppTheme.darkBackground : AppTheme.lightBackground,
       child: Column(
         children: [
           // Header with controls
           _buildHeader(context, isDark),
-
           // Main Chart Area
           Expanded(
             child: Padding(
@@ -49,16 +40,13 @@ class _SensorTimelineState extends ConsumerState<SensorTimeline> {
               child: _buildMainChart(context, isDark, sensorHistory),
             ),
           ),
-
           // Bottom Timeline Events
           _buildTimelineEvents(context, isDark, sensorHistory),
         ],
       ),
     );
   }
-
   Widget _buildHeader(BuildContext context, bool isDark) {
-    return Container(
       padding: const EdgeInsets.all(AppTheme.paddingLG),
       decoration: BoxDecoration(
         color: isDark ? AppTheme.darkSurface : AppTheme.lightSurface,
@@ -66,18 +54,13 @@ class _SensorTimelineState extends ConsumerState<SensorTimeline> {
           bottom: BorderSide(
             color: isDark ? AppTheme.darkBorder : AppTheme.lightBorder,
             width: 1,
-          ),
         ),
-      ),
-      child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
           Text(
             '📈 Linha do Tempo dos Sensores',
             style: Theme.of(
               context,
             ).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold),
-          ),
           const SizedBox(height: AppTheme.paddingMD),
           Row(
             children: [
@@ -95,7 +78,6 @@ class _SensorTimelineState extends ConsumerState<SensorTimeline> {
                           ? AppTheme.darkBorder
                           : AppTheme.lightBorder,
                     ),
-                  ),
                   child: DropdownButton<String>(
                     value: _selectedSensor,
                     isExpanded: true,
@@ -126,45 +108,14 @@ class _SensorTimelineState extends ConsumerState<SensorTimeline> {
                         ),
                       );
                     }).toList(),
-                  ),
                 ),
               ),
-
               const SizedBox(width: AppTheme.paddingMD),
-
               // Time Range Selector
-              Expanded(
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: AppTheme.paddingSM,
-                  ),
-                  decoration: BoxDecoration(
-                    color: isDark ? AppTheme.darkCard : AppTheme.lightCard,
-                    borderRadius: BorderRadius.circular(AppTheme.radiusMD),
-                    border: Border.all(
-                      color: isDark
-                          ? AppTheme.darkBorder
-                          : AppTheme.lightBorder,
-                    ),
-                  ),
-                  child: DropdownButton<String>(
                     value: _selectedTimeRange,
-                    underline: const SizedBox(),
-                    icon: const Icon(Icons.arrow_drop_down),
-                    onChanged: (value) {
-                      setState(() {
                         _selectedTimeRange = value!;
-                      });
-                    },
                     items: _timeRanges.keys.map((range) {
                       return DropdownMenuItem(value: range, child: Text(range));
-                    }).toList(),
-                  ),
-                ),
-              ),
-
-              const SizedBox(width: AppTheme.paddingMD),
-
               // Legend Toggle
               IconButton(
                 onPressed: () {
@@ -179,30 +130,18 @@ class _SensorTimelineState extends ConsumerState<SensorTimeline> {
                   color: _showLegend
                       ? AppTheme.primaryColor
                       : AppTheme.mutedText,
-                ),
                 tooltip: 'Alternar Legenda',
-              ),
-
               // Export Button
-              IconButton(
                 onPressed: () => _showExportDialog(context),
                 icon: const Icon(Icons.download),
                 tooltip: 'Exportar Dados',
-              ),
             ],
-          ),
-        ],
-      ),
-    );
-  }
-
   Widget _buildMainChart(
     BuildContext context,
     bool isDark,
     Map<String, List<SensorData>> sensorHistory,
   ) {
     final selectedData = sensorHistory[_selectedSensor] ?? [];
-
     if (selectedData.isEmpty) {
       return Center(
         child: Column(
@@ -212,26 +151,19 @@ class _SensorTimelineState extends ConsumerState<SensorTimeline> {
               Icons.show_chart,
               size: 64,
               color: AppTheme.mutedText.withValues(alpha: 0.3),
-            ),
             const SizedBox(height: AppTheme.paddingMD),
             Text(
               'Nenhum dado disponível',
               style: Theme.of(
                 context,
               ).textTheme.titleMedium?.copyWith(color: AppTheme.mutedText),
-            ),
             const SizedBox(height: AppTheme.paddingSM),
-            Text(
               'Inicie o monitoramento para ver a linha do tempo dos sensores',
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                 color: AppTheme.mutedText.withValues(alpha: 0.7),
-              ),
-            ),
           ],
-        ),
       );
     }
-
     // Filter data based on time range
     final now = DateTime.now();
     final timeRange = _timeRanges[_selectedTimeRange]!;
@@ -239,16 +171,12 @@ class _SensorTimelineState extends ConsumerState<SensorTimeline> {
       if (_selectedTimeRange == 'Todos os Dados') return true;
       return data.timestamp.isAfter(now.subtract(timeRange));
     }).toList();
-
-    return Container(
           decoration: BoxDecoration(
             color: isDark ? AppTheme.darkCard : AppTheme.lightCard,
             borderRadius: BorderRadius.circular(AppTheme.radiusLG),
             border: Border.all(
               color: isDark ? AppTheme.darkBorder : AppTheme.lightBorder,
               width: 1,
-            ),
-          ),
           child: Padding(
             padding: const EdgeInsets.all(AppTheme.paddingLG),
             child: Column(
@@ -265,14 +193,10 @@ class _SensorTimelineState extends ConsumerState<SensorTimeline> {
                               _selectedSensor,
                           style: Theme.of(context).textTheme.titleMedium
                               ?.copyWith(fontWeight: FontWeight.bold),
-                        ),
-                        Text(
                           '${filteredData.length} pontos de dados',
                           style: Theme.of(context).textTheme.bodySmall
                               ?.copyWith(color: AppTheme.mutedText),
-                        ),
                       ],
-                    ),
                     Container(
                       padding: const EdgeInsets.symmetric(
                         horizontal: AppTheme.paddingSM,
@@ -281,60 +205,41 @@ class _SensorTimelineState extends ConsumerState<SensorTimeline> {
                       decoration: BoxDecoration(
                         color: AppTheme.primaryColor.withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(AppTheme.radiusSM),
-                      ),
                       child: Text(
                         DateFormat('MMM dd, HH:mm').format(now),
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
                           color: AppTheme.primaryColor,
                           fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
                   ],
-                ),
-
                 const SizedBox(height: AppTheme.paddingLG),
-
                 // The Chart
                 Expanded(child: _buildChart(filteredData, isDark)),
-
                 // Legend
                 if (_showLegend)
                   Container(
                     margin: const EdgeInsets.only(top: AppTheme.paddingMD),
                     child: _buildLegend(context),
-                  ),
               ],
-            ),
-          ),
         )
         .animate()
         .fadeIn(duration: 500.ms)
         .scale(begin: const Offset(0.98, 0.98), end: const Offset(1, 1));
-  }
-
   Widget _buildChart(List<SensorData> data, bool isDark) {
     if (data.isEmpty) {
       return const Center(child: Text('Nenhum dado no intervalo selecionado'));
-    }
-
     // Prepare chart data based on sensor type
     List<FlSpot> spots = [];
     double minY = double.infinity;
     double maxY = double.negativeInfinity;
-
     for (int i = 0; i < data.length; i++) {
       double value = _getValueFromSensorData(data[i]);
       spots.add(FlSpot(i.toDouble(), value));
       if (value < minY) minY = value;
       if (value > maxY) maxY = value;
-    }
-
     // Add padding to Y axis
     final yPadding = (maxY - minY) * 0.1;
     minY -= yPadding;
     maxY += yPadding;
-
     return LineChart(
       LineChartData(
         gridData: FlGridData(
@@ -351,16 +256,9 @@ class _SensorTimelineState extends ConsumerState<SensorTimeline> {
             );
           },
           getDrawingVerticalLine: (value) {
-            return FlLine(
-              color: isDark
                   ? AppTheme.darkBorder.withValues(alpha: 0.2)
                   : AppTheme.lightBorder.withValues(alpha: 0.2),
-              strokeWidth: 1,
-            );
-          },
-        ),
         titlesData: FlTitlesData(
-          show: true,
           rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
           topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
           leftTitles: AxisTitles(
@@ -373,31 +271,14 @@ class _SensorTimelineState extends ConsumerState<SensorTimeline> {
                   style: TextStyle(color: AppTheme.mutedText, fontSize: 10),
                 );
               },
-            ),
-          ),
           bottomTitles: AxisTitles(
-            sideTitles: SideTitles(
-              showTitles: true,
               reservedSize: 30,
               interval: data.length / 5,
-              getTitlesWidget: (value, meta) {
                 if (value.toInt() >= data.length) return const SizedBox();
                 final date = data[value.toInt()].timestamp;
-                return Text(
                   DateFormat('HH:mm').format(date),
-                  style: TextStyle(color: AppTheme.mutedText, fontSize: 10),
-                );
-              },
-            ),
-          ),
-        ),
         borderData: FlBorderData(
-          show: true,
           border: Border.all(
-            color: isDark ? AppTheme.darkBorder : AppTheme.lightBorder,
-            width: 1,
-          ),
-        ),
         minX: 0,
         maxX: (data.length - 1).toDouble(),
         minY: minY,
@@ -408,7 +289,6 @@ class _SensorTimelineState extends ConsumerState<SensorTimeline> {
             isCurved: true,
             gradient: const LinearGradient(
               colors: [AppTheme.primaryColor, AppTheme.secondaryColor],
-            ),
             barWidth: 2,
             isStrokeCapRound: true,
             dotData: FlDotData(
@@ -419,9 +299,6 @@ class _SensorTimelineState extends ConsumerState<SensorTimeline> {
                   color: AppTheme.primaryColor,
                   strokeWidth: 1,
                   strokeColor: Colors.white,
-                );
-              },
-            ),
             belowBarData: BarAreaData(
               show: true,
               gradient: LinearGradient(
@@ -431,10 +308,6 @@ class _SensorTimelineState extends ConsumerState<SensorTimeline> {
                 ],
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
-              ),
-            ),
-          ),
-        ],
         lineTouchData: LineTouchData(
           enabled: true,
           touchTooltipData: LineTouchTooltipData(
@@ -447,69 +320,35 @@ class _SensorTimelineState extends ConsumerState<SensorTimeline> {
                   const TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
-                  ),
-                );
               }).toList();
             },
-          ),
-        ),
-      ),
       duration: const Duration(milliseconds: 250),
       curve: Curves.easeInOut,
-    );
-  }
-
   Widget _buildLegend(BuildContext context) {
     final legends = _getLegendItems();
-
     return Wrap(
       spacing: AppTheme.paddingMD,
       runSpacing: AppTheme.paddingSM,
       children: legends.map((legend) {
         return Row(
           mainAxisSize: MainAxisSize.min,
-          children: [
             Container(
               width: 12,
               height: 12,
               decoration: BoxDecoration(
                 color: legend['color'] as Color,
                 borderRadius: BorderRadius.circular(2),
-              ),
-            ),
             const SizedBox(width: AppTheme.paddingXS),
-            Text(
               legend['label'] as String,
               style: Theme.of(context).textTheme.bodySmall,
-            ),
-          ],
         );
       }).toList(),
-    );
-  }
-
   Widget _buildTimelineEvents(
-    BuildContext context,
-    bool isDark,
-    Map<String, List<SensorData>> sensorHistory,
-  ) {
     final events = _generateTimelineEvents(sensorHistory);
-
     if (events.isEmpty) {
       return const SizedBox.shrink();
-    }
-
-    return Container(
       height: 120,
-      decoration: BoxDecoration(
-        color: isDark ? AppTheme.darkSurface : AppTheme.lightSurface,
-        border: Border(
           top: BorderSide(
-            color: isDark ? AppTheme.darkBorder : AppTheme.lightBorder,
-            width: 1,
-          ),
-        ),
-      ),
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.all(AppTheme.paddingMD),
@@ -524,63 +363,37 @@ class _SensorTimelineState extends ConsumerState<SensorTimeline> {
                   color: isDark ? AppTheme.darkCard : AppTheme.lightCard,
                   borderRadius: BorderRadius.circular(AppTheme.radiusMD),
                   border: Border.all(color: event['color'] as Color, width: 1),
-                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
                     Row(
-                      children: [
                         Icon(
                           event['icon'] as IconData,
                           size: 16,
                           color: event['color'] as Color,
-                        ),
                         const SizedBox(width: AppTheme.paddingXS),
-                        Text(
                           event['type'] as String,
-                          style: Theme.of(context).textTheme.bodySmall
                               ?.copyWith(
                                 fontWeight: FontWeight.w600,
                                 color: event['color'] as Color,
-                              ),
-                        ),
-                      ],
-                    ),
                     const SizedBox(height: AppTheme.paddingXS),
                     Text(
                       event['title'] as String,
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                         fontWeight: FontWeight.w600,
-                      ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                    ),
-                    Text(
                       event['description'] as String,
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
                         color: AppTheme.mutedText,
-                      ),
                       maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
                     const Spacer(),
-                    Text(
                       event['time'] as String,
                       style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                        color: AppTheme.mutedText,
-                      ),
-                    ),
-                  ],
-                ),
               )
               .animate()
               .fadeIn(delay: Duration(milliseconds: 100 * index))
               .slideX(begin: 0.2, end: 0);
         },
-      ),
-    );
-  }
-
   double _getValueFromSensorData(SensorData data) {
     switch (data.sensorType) {
       case 'accelerometer':
@@ -600,49 +413,20 @@ class _SensorTimelineState extends ConsumerState<SensorTimeline> {
         return (data as LocationData).speed ?? 0;
       default:
         return 0;
-    }
-  }
-
   List<Map<String, dynamic>> _getLegendItems() {
     switch (_selectedSensor) {
-      case 'accelerometer':
         return [
           {'label': 'Magnitude (m/s²)', 'color': AppTheme.primaryColor},
         ];
-      case 'gyroscope':
-        return [
           {'label': 'Rotation (rad/s)', 'color': AppTheme.primaryColor},
-        ];
-      case 'magnetometer':
-        return [
           {'label': 'Field Strength (μT)', 'color': AppTheme.primaryColor},
-        ];
-      case 'battery':
-        return [
           {'label': 'Battery Level (%)', 'color': AppTheme.primaryColor},
-        ];
-      case 'light':
-        return [
           {'label': 'Luminosity (lux)', 'color': AppTheme.primaryColor},
-        ];
-      case 'proximity':
-        return [
           {'label': 'Distance (cm)', 'color': AppTheme.primaryColor},
-        ];
-      case 'location':
-        return [
           {'label': 'Speed (m/s)', 'color': AppTheme.primaryColor},
-        ];
-      default:
         return [];
-    }
-  }
-
   List<Map<String, dynamic>> _generateTimelineEvents(
-    Map<String, List<SensorData>> sensorHistory,
-  ) {
     final events = <Map<String, dynamic>>[];
-
     // Check for significant events in sensor data
     sensorHistory.forEach((sensorType, dataList) {
       if (dataList.isNotEmpty) {
@@ -660,96 +444,56 @@ class _SensorTimelineState extends ConsumerState<SensorTimeline> {
             });
           }
         }
-
         // Battery events
         if (sensorType == 'battery' && dataList.isNotEmpty) {
           final batteryData = dataList.last as BatteryData;
           if (batteryData.batteryLevel < 20) {
-            events.add({
               'type': 'Alert',
               'icon': Icons.battery_alert,
               'color': AppTheme.errorColor,
               'title': 'Low Battery',
               'description': '${batteryData.batteryLevel}% remaining',
               'time': DateFormat('HH:mm').format(batteryData.timestamp),
-            });
-          }
-        }
-
         // Location events
         if (sensorType == 'location' && dataList.length > 1) {
           final locationData = dataList.last as LocationData;
           if (locationData.speed != null && locationData.speed! > 10) {
-            events.add({
               'type': 'Movement',
               'icon': Icons.speed,
               'color': AppTheme.secondaryColor,
               'title': 'Fast Movement',
               'description': '${locationData.speed!.toStringAsFixed(1)} m/s',
               'time': DateFormat('HH:mm').format(locationData.timestamp),
-            });
-          }
-        }
       }
     });
-
     // Sort by time (most recent first)
     events.sort((a, b) => b['time'].compareTo(a['time']));
-
     return events.take(10).toList();
-  }
-
   void _showExportDialog(BuildContext context) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
         title: const Text('Export Timeline Data'),
         content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
             ListTile(
               leading: const Icon(Icons.code),
               title: const Text('JSON'),
               onTap: () {
                 Navigator.pop(context);
                 _exportData('json');
-              },
-            ),
-            ListTile(
               leading: const Icon(Icons.table_chart),
               title: const Text('CSV'),
-              onTap: () {
-                Navigator.pop(context);
                 _exportData('csv');
-              },
-            ),
-            ListTile(
               leading: const Icon(Icons.picture_as_pdf),
               title: const Text('PDF'),
-              onTap: () {
-                Navigator.pop(context);
                 _exportData('pdf');
-              },
-            ),
-          ],
-        ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
             child: const Text('Cancel'),
-          ),
-        ],
-      ),
-    );
-  }
-
   void _exportData(String format) {
     // TODO: Implement actual export functionality
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text('Exporting data as $format...'),
         backgroundColor: AppTheme.successColor,
-      ),
-    );
-  }
-}

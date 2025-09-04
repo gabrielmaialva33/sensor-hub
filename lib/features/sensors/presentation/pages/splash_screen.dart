@@ -2,46 +2,33 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
 import 'package:sensor_hub/core/core.dart';
-import 'package:sensor_hub/core/core.dart';
-import 'package:sensor_hub/core/core.dart';
 import 'package:sensor_hub/infrastructure/infrastructure.dart';
-import 'package:sensor_hub/infrastructure/infrastructure.dart';
-
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
-
   @override
   State<SplashScreen> createState() => _SplashScreenState();
 }
-
 class _SplashScreenState extends State<SplashScreen> {
   String _status = 'Inicializando SensorHub...';
   bool _hasError = false;
-
-  @override
   void initState() {
     super.initState();
     _initializeApp();
   }
-
   Future<void> _initializeApp() async {
     try {
       // Step 1: Initialize Supabase
       setState(() => _status = 'Conectando aos serviços na nuvem...');
       await Future.delayed(const Duration(milliseconds: 800));
-
       final supabaseService = SupabaseService();
       if (!supabaseService.isInitialized) {
         await supabaseService.initialize();
       }
-
       // Step 2: Test connections
       setState(() => _status = 'Testando serviços de IA...');
       await Future.delayed(const Duration(milliseconds: 600));
-
       final aiService = NvidiaAiService();
       aiService.initialize();
-
       // Optional: Test API connection (non-blocking)
       aiService.testConnection().then((isConnected) {
         if (!isConnected) {
@@ -50,33 +37,20 @@ class _SplashScreenState extends State<SplashScreen> {
           );
         }
       });
-
       // Step 3: Setup complete
       setState(() => _status = 'Pronto para monitorar sensores!');
-      await Future.delayed(const Duration(milliseconds: 800));
-
       // Navigate to home screen
       if (mounted) {
         Navigator.pushReplacementNamed(context, '/home');
-      }
     } catch (e) {
       setState(() {
         _status = 'Falha ao inicializar: ${e.toString()}';
         _hasError = true;
-      });
-
       // After showing error, still navigate to home (offline mode)
       await Future.delayed(const Duration(seconds: 3));
-      if (mounted) {
-        Navigator.pushReplacementNamed(context, '/home');
-      }
     }
-  }
-
-  @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-
     return Scaffold(
       backgroundColor: isDark
           ? AppTheme.darkBackground
@@ -88,7 +62,6 @@ class _SplashScreenState extends State<SplashScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Spacer(),
-
               // App Logo/Icon
               Container(
                     width: 120,
@@ -109,43 +82,30 @@ class _SplashScreenState extends State<SplashScreen> {
                       Icons.sensors,
                       size: 60,
                       color: Colors.white,
-                    ),
                   )
                   .animate()
                   .scale(duration: 800.ms, curve: Curves.elasticOut)
                   .shimmer(delay: 400.ms, duration: 1200.ms),
-
               const SizedBox(height: AppTheme.paddingXL),
-
               // App Name
               Text(
                     AppConstants.appName,
                     style: Theme.of(context).textTheme.headlineLarge?.copyWith(
                       fontWeight: FontWeight.bold,
                       color: isDark ? AppTheme.darkText : AppTheme.lightText,
-                    ),
-                  )
-                  .animate()
                   .fadeIn(delay: 200.ms, duration: 600.ms)
                   .slideY(begin: 0.3, end: 0),
-
               const SizedBox(height: AppTheme.paddingSM),
-
               // App Description
-              Text(
                 AppConstants.appDescription,
                 textAlign: TextAlign.center,
                 style: Theme.of(
                   context,
                 ).textTheme.bodyMedium?.copyWith(color: AppTheme.mutedText),
               ).animate().fadeIn(delay: 400.ms, duration: 600.ms),
-
               const SizedBox(height: AppTheme.paddingXL * 2),
-
               // Status Text
-              Text(
                 _status,
-                textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   color: _hasError
                       ? AppTheme.errorColor
@@ -153,9 +113,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   fontWeight: FontWeight.w500,
                 ),
               ).animate().fadeIn(delay: 600.ms, duration: 400.ms),
-
               const SizedBox(height: AppTheme.paddingLG),
-
               // Loading Indicator
               if (!_hasError)
                 const SizedBox(
@@ -164,12 +122,10 @@ class _SplashScreenState extends State<SplashScreen> {
                       child: CircularProgressIndicator(
                         strokeWidth: 3,
                         color: AppTheme.primaryColor,
-                      ),
                     )
                     .animate()
                     .fadeIn(delay: 800.ms)
                     .scale(delay: 800.ms, duration: 400.ms),
-
               // Error Icon
               if (_hasError)
                 const Icon(
@@ -177,9 +133,6 @@ class _SplashScreenState extends State<SplashScreen> {
                   size: 32,
                   color: AppTheme.errorColor,
                 ).animate().fadeIn(duration: 400.ms).shake(),
-
-              const Spacer(),
-
               // Version Info
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -206,12 +159,8 @@ class _SplashScreenState extends State<SplashScreen> {
                       .fadeOut(delay: 800.ms, duration: 800.ms),
                 ],
               ).animate().fadeIn(delay: 1000.ms, duration: 600.ms),
-
-              const SizedBox(height: AppTheme.paddingLG),
             ],
           ),
         ),
       ),
     );
-  }
-}
