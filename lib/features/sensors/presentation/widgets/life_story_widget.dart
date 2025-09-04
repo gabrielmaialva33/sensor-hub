@@ -169,8 +169,8 @@ class _LifeStoryWidgetState extends State<LifeStoryWidget>
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                     colors: [
-                      theme.colorScheme.primaryContainer.withOpacity(0.1),
-                      theme.colorScheme.secondaryContainer.withOpacity(0.1),
+                      theme.colorScheme.primaryContainer.withValues(alpha: 0.1),
+                      theme.colorScheme.secondaryContainer.withValues(alpha: 0.1),
                     ],
                   ),
                 ),
@@ -202,7 +202,7 @@ class _LifeStoryWidgetState extends State<LifeStoryWidget>
           Container(
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: Colors.deepPurple.withOpacity(0.1),
+              color: Colors.deepPurple.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(12),
             ),
             child: const Icon(
@@ -287,7 +287,7 @@ class _LifeStoryWidgetState extends State<LifeStoryWidget>
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, 2),
           ),
@@ -481,7 +481,7 @@ class _LifeStoryWidgetState extends State<LifeStoryWidget>
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 5,
             offset: const Offset(0, 2),
           ),
@@ -550,7 +550,7 @@ class _LifeStoryWidgetState extends State<LifeStoryWidget>
         leading: Container(
           padding: const EdgeInsets.all(6),
           decoration: BoxDecoration(
-            color: color.withOpacity(0.1),
+            color: color.withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(8),
           ),
           child: Icon(icon, color: color, size: 20),
@@ -644,7 +644,7 @@ class _LifeStoryWidgetState extends State<LifeStoryWidget>
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 5,
             offset: const Offset(0, 2),
           ),
@@ -659,7 +659,7 @@ class _LifeStoryWidgetState extends State<LifeStoryWidget>
                 width: 32,
                 height: 32,
                 decoration: BoxDecoration(
-                  color: Colors.deepPurple.withOpacity(0.1),
+                  color: Colors.deepPurple.withValues(alpha: 0.1),
                   shape: BoxShape.circle,
                 ),
                 child: Icon(
@@ -751,7 +751,7 @@ class _LifeStoryWidgetState extends State<LifeStoryWidget>
             ),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.05),
+                color: Colors.black.withValues(alpha: 0.05),
                 blurRadius: 5,
                 offset: const Offset(0, 2),
               ),
@@ -762,7 +762,7 @@ class _LifeStoryWidgetState extends State<LifeStoryWidget>
               Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: color.withOpacity(0.1),
+                  color: color.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Icon(
