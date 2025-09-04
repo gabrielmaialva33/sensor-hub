@@ -137,13 +137,13 @@ class QuickActionsPanel extends ConsumerWidget {
           padding: const EdgeInsets.all(AppTheme.paddingSM),
           decoration: BoxDecoration(
             color: isEnabled 
-              ? color.withOpacity(0.1)
-              : AppTheme.mutedText.withOpacity(0.05),
+              ? color.withValues(alpha: 0.1)
+              : AppTheme.mutedText.withValues(alpha: 0.05),
             borderRadius: BorderRadius.circular(AppTheme.radiusMD),
             border: Border.all(
               color: isEnabled 
-                ? color.withOpacity(0.3)
-                : AppTheme.mutedText.withOpacity(0.1),
+                ? color.withValues(alpha: 0.3)
+                : AppTheme.mutedText.withValues(alpha: 0.1),
               width: 1,
             ),
           ),
@@ -153,13 +153,13 @@ class QuickActionsPanel extends ConsumerWidget {
               Icon(
                 icon,
                 size: 16,
-                color: isEnabled ? color : AppTheme.mutedText.withOpacity(0.5),
+                color: isEnabled ? color : AppTheme.mutedText.withValues(alpha: 0.5),
               ),
               const SizedBox(width: AppTheme.paddingXS),
               Text(
                 label,
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: isEnabled ? color : AppTheme.mutedText.withOpacity(0.5),
+                  color: isEnabled ? color : AppTheme.mutedText.withValues(alpha: 0.5),
                   fontWeight: FontWeight.w600,
                 ),
               ),
