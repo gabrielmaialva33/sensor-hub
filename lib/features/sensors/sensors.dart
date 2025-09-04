@@ -1,5 +1,5 @@
-/// Barrel export para o módulo de sensores - 2025 Pattern
-/// Facilita imports: import 'package:sensor_hub/features/sensors/sensors.dart';
+// Barrel export para o módulo de sensores - 2025 Pattern
+// Facilita imports: import 'package:sensor_hub/features/sensors/sensors.dart';
 
 // Domain
 export 'domain/entities/sensor_entity.dart';
