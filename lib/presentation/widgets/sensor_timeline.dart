@@ -18,16 +18,16 @@ class SensorTimeline extends ConsumerStatefulWidget {
 
 class _SensorTimelineState extends ConsumerState<SensorTimeline> {
   String _selectedSensor = 'accelerometer';
-  String _selectedTimeRange = '1 Hour';
+  String _selectedTimeRange = '1 Hora';
   bool _showLegend = true;
 
   final Map<String, Duration> _timeRanges = {
-    '15 Minutes': const Duration(minutes: 15),
-    '30 Minutes': const Duration(minutes: 30),
-    '1 Hour': const Duration(hours: 1),
-    '3 Hours': const Duration(hours: 3),
-    '6 Hours': const Duration(hours: 6),
-    'All Data': const Duration(days: 365),
+    '15 Minutos': const Duration(minutes: 15),
+    '30 Minutos': const Duration(minutes: 30),
+    '1 Hora': const Duration(hours: 1),
+    '3 Horas': const Duration(hours: 3),
+    '6 Horas': const Duration(hours: 6),
+    'Todos os Dados': const Duration(days: 365),
   };
 
   @override
@@ -73,7 +73,7 @@ class _SensorTimelineState extends ConsumerState<SensorTimeline> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            '📈 Sensor Timeline',
+            '📈 Linha do Tempo dos Sensores',
             style: Theme.of(
               context,
             ).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold),
@@ -171,14 +171,14 @@ class _SensorTimelineState extends ConsumerState<SensorTimeline> {
                       ? AppTheme.primaryColor
                       : AppTheme.mutedText,
                 ),
-                tooltip: 'Toggle Legend',
+                tooltip: 'Alternar Legenda',
               ),
 
               // Export Button
               IconButton(
                 onPressed: () => _showExportDialog(context),
                 icon: const Icon(Icons.download),
-                tooltip: 'Export Data',
+                tooltip: 'Exportar Dados',
               ),
             ],
           ),
@@ -206,14 +206,14 @@ class _SensorTimelineState extends ConsumerState<SensorTimeline> {
             ),
             const SizedBox(height: AppTheme.paddingMD),
             Text(
-              'No data available',
+              'Nenhum dado disponível',
               style: Theme.of(
                 context,
               ).textTheme.titleMedium?.copyWith(color: AppTheme.mutedText),
             ),
             const SizedBox(height: AppTheme.paddingSM),
             Text(
-              'Start monitoring to see sensor timeline',
+              'Inicie o monitoramento para ver a linha do tempo dos sensores',
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                 color: AppTheme.mutedText.withValues(alpha: 0.7),
               ),
@@ -227,7 +227,7 @@ class _SensorTimelineState extends ConsumerState<SensorTimeline> {
     final now = DateTime.now();
     final timeRange = _timeRanges[_selectedTimeRange]!;
     final filteredData = selectedData.where((data) {
-      if (_selectedTimeRange == 'All Data') return true;
+      if (_selectedTimeRange == 'Todos os Dados') return true;
       return data.timestamp.isAfter(now.subtract(timeRange));
     }).toList();
 
@@ -258,7 +258,7 @@ class _SensorTimelineState extends ConsumerState<SensorTimeline> {
                               ?.copyWith(fontWeight: FontWeight.bold),
                         ),
                         Text(
-                          '${filteredData.length} data points',
+                          '${filteredData.length} pontos de dados',
                           style: Theme.of(context).textTheme.bodySmall
                               ?.copyWith(color: AppTheme.mutedText),
                         ),
@@ -306,7 +306,7 @@ class _SensorTimelineState extends ConsumerState<SensorTimeline> {
 
   Widget _buildChart(List<SensorData> data, bool isDark) {
     if (data.isEmpty) {
-      return const Center(child: Text('No data in selected range'));
+      return const Center(child: Text('Nenhum dado no intervalo selecionado'));
     }
 
     // Prepare chart data based on sensor type

@@ -36,7 +36,7 @@ class QuickActionsPanel extends ConsumerWidget {
               ),
               const SizedBox(width: AppTheme.paddingSM),
               Text(
-                'Quick Actions',
+                'Ações Rápidas',
                 style: Theme.of(
                   context,
                 ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
@@ -57,7 +57,7 @@ class QuickActionsPanel extends ConsumerWidget {
               _buildActionButton(
                 context,
                 icon: Icons.play_arrow,
-                label: 'Start All',
+                label: 'Iniciar Todos',
                 color: AppTheme.successColor,
                 onTap: isMonitoring ? null : () => _startAllSensors(ref),
               ).animate().fadeIn(delay: 100.ms).slideX(begin: -0.1, end: 0),
@@ -65,7 +65,7 @@ class QuickActionsPanel extends ConsumerWidget {
               _buildActionButton(
                 context,
                 icon: Icons.stop,
-                label: 'Stop All',
+                label: 'Parar Todos',
                 color: AppTheme.errorColor,
                 onTap: !isMonitoring ? null : () => _stopAllSensors(ref),
               ).animate().fadeIn(delay: 200.ms).slideX(begin: 0.1, end: 0),
@@ -73,7 +73,7 @@ class QuickActionsPanel extends ConsumerWidget {
               _buildActionButton(
                 context,
                 icon: Icons.refresh,
-                label: 'Reset Data',
+                label: 'Resetar Dados',
                 color: AppTheme.warningColor,
                 onTap: () => _resetData(context, ref),
               ).animate().fadeIn(delay: 300.ms).slideX(begin: -0.1, end: 0),
@@ -81,7 +81,7 @@ class QuickActionsPanel extends ConsumerWidget {
               _buildActionButton(
                 context,
                 icon: Icons.download,
-                label: 'Export',
+                label: 'Exportar',
                 color: AppTheme.primaryColor,
                 onTap: () => _exportData(context, ref),
               ).animate().fadeIn(delay: 400.ms).slideX(begin: 0.1, end: 0),
@@ -89,7 +89,7 @@ class QuickActionsPanel extends ConsumerWidget {
               _buildActionButton(
                 context,
                 icon: Icons.analytics,
-                label: 'Analyze',
+                label: 'Analisar',
                 color: AppTheme.secondaryColor,
                 onTap: () => _runAnalysis(context, ref),
               ).animate().fadeIn(delay: 500.ms).slideX(begin: -0.1, end: 0),
@@ -97,7 +97,7 @@ class QuickActionsPanel extends ConsumerWidget {
               _buildActionButton(
                 context,
                 icon: Icons.settings,
-                label: 'Settings',
+                label: 'Configurações',
                 color: AppTheme.mutedText,
                 onTap: () => _openSettings(context),
               ).animate().fadeIn(delay: 600.ms).slideX(begin: 0.1, end: 0),
@@ -188,7 +188,7 @@ class QuickActionsPanel extends ConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'System Status',
+'Status do Sistema',
           style: Theme.of(
             context,
           ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600),
@@ -198,26 +198,26 @@ class QuickActionsPanel extends ConsumerWidget {
         // Status Items
         _buildStatusItem(
           context,
-          'Active Sensors',
+          'Sensores Ativos',
           '$activeSensors / ${AppConstants.availableSensors.length}',
           activeSensors > 0 ? AppTheme.successColor : AppTheme.mutedText,
         ),
         _buildStatusItem(
           context,
-          'Data Points',
+          'Pontos de Dados',
           totalDataPoints.toString(),
           AppTheme.primaryColor,
         ),
         _buildStatusItem(
           context,
-          'Memory Usage',
+          'Uso de Memória',
           _calculateMemoryUsage(totalDataPoints),
           _getMemoryColor(totalDataPoints),
         ),
         _buildStatusItem(
           context,
-          'AI Status',
-          'Connected',
+          'Status da IA',
+          'Conectado',
           AppTheme.secondaryColor,
         ),
       ],
@@ -387,7 +387,7 @@ class QuickActionsPanel extends ConsumerWidget {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+            child: const Text('Cancelar'),
           ),
           TextButton(
             onPressed: () {
@@ -435,7 +435,7 @@ class QuickActionsPanel extends ConsumerWidget {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+            child: const Text('Cancelar'),
           ),
         ],
       ),
