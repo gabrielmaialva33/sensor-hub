@@ -3,7 +3,7 @@ class AppConstants {
   static const String appName = 'SensorHub';
   static const String appVersion = '1.0.0';
   static const String appDescription =
-      'AI-powered comprehensive sensor monitoring';
+      'Monitoramento abrangente de sensores com IA';
 
   // Sensor Types
   static const List<String> availableSensors = [
@@ -18,13 +18,13 @@ class AppConstants {
 
   // Sensor Display Names
   static const Map<String, String> sensorDisplayNames = {
-    'accelerometer': 'Accelerometer',
-    'gyroscope': 'Gyroscope',
-    'magnetometer': 'Magnetometer',
-    'location': 'Location',
-    'battery': 'Battery',
-    'light': 'Light Sensor',
-    'proximity': 'Proximity',
+    'accelerometer': 'Acelerômetro',
+    'gyroscope': 'Giroscópio',
+    'magnetometer': 'Magnetômetro',
+    'location': 'Localização',
+    'battery': 'Bateria',
+    'light': 'Sensor de Luz',
+    'proximity': 'Proximidade',
   };
 
   // Sensor Icons
@@ -40,9 +40,9 @@ class AppConstants {
 
   // Categories
   static const Map<String, List<String>> sensorCategories = {
-    '🏃 Movement': ['accelerometer', 'gyroscope', 'magnetometer'],
-    '🌍 Environment': ['location', 'light', 'proximity'],
-    '🔋 System': ['battery'],
+    '🏃 Movimento': ['accelerometer', 'gyroscope', 'magnetometer'],
+    '🌍 Ambiente': ['location', 'light', 'proximity'],
+    '🔋 Sistema': ['battery'],
   };
 
   // Sampling Rates (in milliseconds)
@@ -84,9 +84,9 @@ class AppConstants {
 
   // Notification Configuration
   static const String notificationChannelId = 'sensor_monitoring';
-  static const String notificationChannelName = 'Sensor Monitoring';
+  static const String notificationChannelName = 'Monitoramento de Sensores';
   static const String notificationChannelDescription =
-      'Notifications for sensor monitoring status';
+      'Notificações sobre o status do monitoramento de sensores';
 
   // Export Configuration
   static const List<String> supportedExportFormats = ['json', 'csv', 'pdf'];
