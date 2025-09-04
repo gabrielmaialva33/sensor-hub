@@ -323,7 +323,7 @@ class SupabaseService {
   // =============================================================================
 
   /// Subscribe to real-time sensor data updates
-  RealtimeChannel subscribeTo SensorUpdates({
+  RealtimeChannel subscribeToSensorUpdates({
     required Function(Map<String, dynamic>) onInsert,
     required Function(Map<String, dynamic>) onUpdate,
     required Function(Map<String, dynamic>) onDelete,
