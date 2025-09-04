@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-import '../lib/core/core.dart';
-import '../lib/infrastructure/infrastructure.dart';
+import 'package:sensor_hub/core/core.dart';
+import 'package:sensor_hub/infrastructure/infrastructure.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
