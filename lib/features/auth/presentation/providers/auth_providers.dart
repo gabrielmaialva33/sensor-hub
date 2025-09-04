@@ -4,6 +4,7 @@ import 'package:local_auth/local_auth.dart';
 
 import '../../../../infrastructure/supabase/supabase_service.dart';
 import '../../data/repositories/auth_repository_impl.dart';
+import '../../domain/entities/auth_state.dart';
 import '../../domain/repositories/auth_repository.dart';
 import '../../domain/usecases/login_usecase.dart';
 import '../../domain/usecases/register_usecase.dart';
