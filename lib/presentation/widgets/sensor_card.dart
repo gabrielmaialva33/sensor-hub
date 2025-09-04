@@ -167,7 +167,7 @@ class _SensorCardState extends ConsumerState<SensorCard> {
             ),
             const SizedBox(height: AppTheme.paddingSM),
             Text(
-              'Sensor not active',
+              'Sensor não ativo',
               style: Theme.of(
                 context,
               ).textTheme.bodyMedium?.copyWith(color: AppTheme.mutedText),
@@ -194,7 +194,7 @@ class _SensorCardState extends ConsumerState<SensorCard> {
       case 'proximity':
         return _buildProximityContent();
       default:
-        return const Text('Unknown sensor');
+        return const Text('Sensor desconhecido');
     }
   }
 
@@ -221,7 +221,7 @@ class _SensorCardState extends ConsumerState<SensorCard> {
         );
       },
       loading: () => const Center(child: CircularProgressIndicator()),
-      error: (error, stack) => Text('Error: $error'),
+      error: (error, stack) => Text('Erro: $error'),
     );
   }
 
@@ -242,7 +242,7 @@ class _SensorCardState extends ConsumerState<SensorCard> {
         );
       },
       loading: () => const Center(child: CircularProgressIndicator()),
-      error: (error, stack) => Text('Error: $error'),
+      error: (error, stack) => Text('Erro: $error'),
     );
   }
 
@@ -260,7 +260,7 @@ class _SensorCardState extends ConsumerState<SensorCard> {
             _buildDataRow('Z', data.z.toStringAsFixed(2), 'μT'),
             const Divider(height: AppTheme.paddingMD),
             _buildDataRow(
-              'Field Strength',
+              'Força do Campo',
               data.fieldStrength.toStringAsFixed(2),
               'μT',
               isHighlighted: true,
@@ -269,7 +269,7 @@ class _SensorCardState extends ConsumerState<SensorCard> {
         );
       },
       loading: () => const Center(child: CircularProgressIndicator()),
-      error: (error, stack) => Text('Error: $error'),
+      error: (error, stack) => Text('Erro: $error'),
     );
   }
 
@@ -291,7 +291,7 @@ class _SensorCardState extends ConsumerState<SensorCard> {
         );
       },
       loading: () => const Center(child: CircularProgressIndicator()),
-      error: (error, stack) => Text('Error: $error'),
+      error: (error, stack) => Text('Erro: $error'),
     );
   }
 
@@ -344,12 +344,12 @@ class _SensorCardState extends ConsumerState<SensorCard> {
             ),
             const SizedBox(height: AppTheme.paddingMD),
             _buildDataRow('Status', data.batteryState, ''),
-            _buildDataRow('Charging', data.isCharging ? 'Yes' : 'No', ''),
+            _buildDataRow('Carregamento', data.isCharging ? 'Sim' : 'Não', ''),
           ],
         );
       },
       loading: () => const Center(child: CircularProgressIndicator()),
-      error: (error, stack) => Text('Error: $error'),
+      error: (error, stack) => Text('Erro: $error'),
     );
   }
 
@@ -368,7 +368,7 @@ class _SensorCardState extends ConsumerState<SensorCard> {
               'lx',
               isHighlighted: true,
             ),
-            _buildDataRow('Condition', data.lightCondition, ''),
+            _buildDataRow('Condição', data.lightCondition, ''),
             const SizedBox(height: AppTheme.paddingMD),
             // Visual indicator
             Container(
@@ -406,7 +406,7 @@ class _SensorCardState extends ConsumerState<SensorCard> {
         );
       },
       loading: () => const Center(child: CircularProgressIndicator()),
-      error: (error, stack) => Text('Error: $error'),
+      error: (error, stack) => Text('Erro: $error'),
     );
   }
 
@@ -428,10 +428,10 @@ class _SensorCardState extends ConsumerState<SensorCard> {
               ),
             ),
             const SizedBox(height: AppTheme.paddingMD),
-            _buildDataRow('Status', data.isNear ? 'Object Near' : 'Clear', ''),
+            _buildDataRow('Status', data.isNear ? 'Objeto Próximo' : 'Livre', ''),
             if (data.distance != null)
               _buildDataRow(
-                'Distance',
+                'Distância',
                 data.distance!.toStringAsFixed(1),
                 'cm',
               ),
@@ -439,7 +439,7 @@ class _SensorCardState extends ConsumerState<SensorCard> {
         );
       },
       loading: () => const Center(child: CircularProgressIndicator()),
-      error: (error, stack) => Text('Error: $error'),
+      error: (error, stack) => Text('Erro: $error'),
     );
   }
 
