@@ -570,4 +570,372 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
       ),
     );
   }
+
+  /// Web platform indicator
+  Widget _buildWebIndicator(bool isDark) {
+    return Container(
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppTheme.paddingSM,
+        vertical: AppTheme.paddingXS,
+      ),
+      decoration: BoxDecoration(
+        color: kIsWeb 
+            ? AppTheme.secondaryColor.withValues(alpha: 0.1)
+            : AppTheme.primaryColor.withValues(alpha: 0.1),
+        borderRadius: BorderRadius.circular(AppTheme.radiusSM),
+        border: Border.all(
+          color: kIsWeb 
+              ? AppTheme.secondaryColor
+              : AppTheme.primaryColor,
+        ),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            kIsWeb ? Icons.web : Icons.phone_android,
+            size: 16,
+            color: kIsWeb 
+                ? AppTheme.secondaryColor
+                : AppTheme.primaryColor,
+          ),
+          const SizedBox(width: AppTheme.paddingXS),
+          Text(
+            kIsWeb ? 'Web Demo' : 'Mobile',
+            style: Theme.of(context).textTheme.labelSmall?.copyWith(
+              color: kIsWeb 
+                  ? AppTheme.secondaryColor
+                  : AppTheme.primaryColor,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  /// Mobile drawer for navigation
+  Widget _buildMobileDrawer(bool isDark) {
+    return Drawer(
+      backgroundColor: isDark ? AppTheme.darkSurface : AppTheme.lightSurface,
+      child: SafeArea(
+        child: Column(
+          children: [
+            // Header
+            Padding(
+              padding: const EdgeInsets.all(AppTheme.paddingLG),
+              child: Row(
+                children: [
+                  Container(
+                    width: 32,
+                    height: 32,
+                    decoration: const BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [AppTheme.primaryColor, AppTheme.secondaryColor],
+                      ),
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(
+                      Icons.sensors,
+                      size: 18,
+                      color: Colors.white,
+                    ),
+                  ),
+                  const SizedBox(width: AppTheme.paddingSM),
+                  Text(
+                    AppConstants.appName,
+                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            // Web indicator for mobile drawer
+            if (kIsWeb) ...[
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: AppTheme.paddingLG),
+                child: Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(AppTheme.paddingSM),
+                  decoration: BoxDecoration(
+                    color: AppTheme.warningColor.withValues(alpha: 0.1),
+                    borderRadius: BorderRadius.circular(AppTheme.radiusMD),
+                    border: Border.all(
+                      color: AppTheme.warningColor.withValues(alpha: 0.3),
+                    ),
+                  ),
+                  child: Row(
+                    children: [
+                      const Icon(
+                        Icons.info_outline,
+                        color: AppTheme.warningColor,
+                        size: 16,
+                      ),
+                      const SizedBox(width: AppTheme.paddingXS),
+                      Expanded(
+                        child: Text(
+                          'Demo mode with simulated sensors',
+                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                            color: AppTheme.warningColor,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: AppTheme.paddingMD),
+            ],
+            // Monitoring Status
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: AppTheme.paddingLG),
+              child: Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(AppTheme.paddingSM),
+                decoration: BoxDecoration(
+                  color: _isMonitoring
+                      ? AppTheme.secondaryColor.withValues(alpha: 0.1)
+                      : AppTheme.errorColor.withValues(alpha: 0.1),
+                  borderRadius: BorderRadius.circular(AppTheme.radiusMD),
+                  border: Border.all(
+                    color: _isMonitoring
+                        ? AppTheme.secondaryColor
+                        : AppTheme.errorColor,
+                    width: 1,
+                  ),
+                ),
+                child: Row(
+                  children: [
+                    Icon(
+                      _isMonitoring ? Icons.sensors : Icons.sensors_off,
+                      color: _isMonitoring
+                          ? AppTheme.secondaryColor
+                          : AppTheme.errorColor,
+                      size: 16,
+                    ),
+                    const SizedBox(width: AppTheme.paddingSM),
+                    Text(
+                      _isMonitoring
+                          ? 'Monitoramento Ativo'
+                          : 'Monitoramento Parado',
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        color: _isMonitoring
+                            ? AppTheme.secondaryColor
+                            : AppTheme.errorColor,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ).animate().fadeIn().scale(delay: 200.ms),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: AppTheme.paddingLG),
+            // Category List - Mobile Optimized
+            Expanded(
+              child: ListView.builder(
+                padding: const EdgeInsets.symmetric(horizontal: AppTheme.paddingMD),
+                itemCount: AppConstants.sensorCategories.keys.length,
+                itemBuilder: (context, index) {
+                  final category = AppConstants.sensorCategories.keys.elementAt(index);
+                  final sensors = AppConstants.sensorCategories[category]!;
+                  final isSelected = _selectedSensorCategory == category;
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: AppTheme.paddingXS),
+                    child: Material(
+                      color: Colors.transparent,
+                      child: InkWell(
+                        onTap: () {
+                          setState(() => _selectedSensorCategory = category);
+                          Navigator.pop(context); // Close drawer
+                        },
+                        borderRadius: BorderRadius.circular(AppTheme.radiusMD),
+                        child: Container(
+                          padding: const EdgeInsets.all(AppTheme.paddingSM),
+                          decoration: BoxDecoration(
+                            color: isSelected
+                                ? AppTheme.primaryColor.withValues(alpha: 0.1)
+                                : Colors.transparent,
+                            borderRadius: BorderRadius.circular(AppTheme.radiusMD),
+                            border: isSelected
+                                ? Border.all(
+                                    color: AppTheme.primaryColor.withValues(alpha: 0.3),
+                                  )
+                                : null,
+                          ),
+                          child: Row(
+                            children: [
+                              Text(
+                                category,
+                                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                  color: isSelected ? AppTheme.primaryColor : null,
+                                  fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
+                                ),
+                              ),
+                              const Spacer(),
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: AppTheme.paddingXS,
+                                  vertical: 2,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: isSelected
+                                      ? AppTheme.primaryColor.withValues(alpha: 0.2)
+                                      : AppTheme.mutedText.withValues(alpha: 0.1),
+                                  borderRadius: BorderRadius.circular(AppTheme.radiusSM),
+                                ),
+                                child: Text(
+                                  '${sensors.length}',
+                                  style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                                    color: isSelected
+                                        ? AppTheme.primaryColor
+                                        : AppTheme.mutedText,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+            // Bottom Actions - Mobile Optimized
+            Padding(
+              padding: const EdgeInsets.all(AppTheme.paddingLG),
+              child: Column(
+                children: [
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton.icon(
+                      onPressed: _toggleMonitoring,
+                      icon: Icon(_isMonitoring ? Icons.stop : Icons.play_arrow),
+                      label: Text(
+                        _isMonitoring ? 'Parar' : 'Iniciar',
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: _isMonitoring
+                            ? AppTheme.errorColor
+                            : AppTheme.primaryColor,
+                        padding: const EdgeInsets.symmetric(vertical: AppTheme.paddingSM),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: AppTheme.paddingSM),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: TextButton.icon(
+                          onPressed: () => _showExportDialog(context),
+                          icon: const Icon(Icons.download, size: 16),
+                          label: const Text('Exportar'),
+                        ),
+                      ),
+                      Expanded(
+                        child: TextButton.icon(
+                          onPressed: () => _showSettingsDialog(context),
+                          icon: const Icon(Icons.settings, size: 16),
+                          label: const Text('Config'),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  /// Mobile-optimized top bar
+  Widget _buildMobileTopBar(bool isDark) {
+    return Container(
+      padding: const EdgeInsets.all(AppTheme.paddingSM),
+      decoration: BoxDecoration(
+        color: isDark ? AppTheme.darkSurface : AppTheme.lightSurface,
+        border: Border(
+          bottom: BorderSide(
+            color: isDark ? AppTheme.darkBorder : AppTheme.lightBorder,
+          ),
+        ),
+      ),
+      child: Column(
+        children: [
+          // Header Row
+          Row(
+            children: [
+              Builder(
+                builder: (context) => IconButton(
+                  onPressed: () => Scaffold.of(context).openDrawer(),
+                  icon: const Icon(Icons.menu),
+                  tooltip: 'Menu',
+                ),
+              ),
+              Expanded(
+                child: Container(
+                  height: 36,
+                  decoration: BoxDecoration(
+                    color: isDark ? AppTheme.darkCard : AppTheme.lightCard,
+                    borderRadius: BorderRadius.circular(AppTheme.radiusMD),
+                    border: Border.all(
+                      color: isDark ? AppTheme.darkBorder : AppTheme.lightBorder,
+                    ),
+                  ),
+                  child: TextField(
+                    decoration: InputDecoration(
+                      hintText: 'Buscar sensores...',
+                      prefixIcon: const Icon(Icons.search, size: 18),
+                      border: InputBorder.none,
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: AppTheme.paddingSM,
+                        vertical: AppTheme.paddingXS,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(width: AppTheme.paddingSM),
+              IconButton(
+                onPressed: () => _toggleMonitoring(),
+                icon: Icon(
+                  _isMonitoring ? Icons.sensors : Icons.sensors_off,
+                  color: _isMonitoring 
+                      ? AppTheme.successColor 
+                      : AppTheme.mutedText,
+                ),
+                tooltip: _isMonitoring ? 'Parar' : 'Iniciar',
+              ),
+            ],
+          ),
+          const SizedBox(height: AppTheme.paddingSM),
+          // Mobile Tab Bar
+          TabBar(
+            controller: _tabController,
+            isScrollable: true,
+            tabAlignment: TabAlignment.start,
+            labelPadding: const EdgeInsets.symmetric(horizontal: AppTheme.paddingMD),
+            indicator: BoxDecoration(
+              color: AppTheme.primaryColor.withValues(alpha: 0.1),
+              borderRadius: BorderRadius.circular(AppTheme.radiusMD),
+              border: Border.all(
+                color: AppTheme.primaryColor.withValues(alpha: 0.3),
+              ),
+            ),
+            tabs: const [
+              Tab(text: '📊 Dashboard'),
+              Tab(text: '📱 Sensores'),
+              Tab(text: '🤖 IA'),
+              Tab(text: '📈 Timeline'),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
 }
