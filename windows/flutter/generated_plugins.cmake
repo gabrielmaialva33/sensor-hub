@@ -6,6 +6,7 @@ list(APPEND FLUTTER_PLUGIN_LIST
   app_links
   battery_plus
   geolocator_windows
+  local_auth_windows
   permission_handler_windows
   url_launcher_windows
 )
