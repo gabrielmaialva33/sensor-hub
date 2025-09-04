@@ -69,7 +69,8 @@ class _AIInsightsPanelState extends ConsumerState<AIInsightsPanel> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Column(
+        Expanded(
+          child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
@@ -86,6 +87,7 @@ class _AIInsightsPanelState extends ConsumerState<AIInsightsPanel> {
               ).textTheme.bodyMedium?.copyWith(color: AppTheme.mutedText),
             ),
           ],
+          ),
         ),
         ElevatedButton.icon(
           onPressed: _isAnalyzing ? null : () => _performAnalysis(),
