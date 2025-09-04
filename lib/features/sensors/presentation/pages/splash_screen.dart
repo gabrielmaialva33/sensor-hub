@@ -153,22 +153,20 @@ class _SplashScreenState extends State<SplashScreen> {
               // Loading Indicator
               if (!_hasError)
                 const SizedBox(
-                    width: 32,
-                    height: 32,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 3,
-                      color: AppTheme.primaryColor,
-                    )
-                        .animate()
-                        .fadeIn(delay: 800.ms)
-                        .scale(delay: 800.ms, duration: 400.ms),
-                    // Error Icon
-                    if (_hasError)
-              const Icon(
-                Icons.warning_amber_rounded,
-                size: 32,
-                color: AppTheme.errorColor,
-              ).animate().fadeIn(duration: 400.ms).shake(),
+                  width: 32,
+                  height: 32,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 3,
+                    color: AppTheme.primaryColor,
+                  ),
+                ).animate().fadeIn(delay: 800.ms).scale(delay: 800.ms, duration: 400.ms),
+              // Error Icon
+              if (_hasError)
+                const Icon(
+                  Icons.warning_amber_rounded,
+                  size: 32,
+                  color: AppTheme.errorColor,
+                ).animate().fadeIn(duration: 400.ms).shake(),
               const Spacer(),
               // Version Info
               Row(
