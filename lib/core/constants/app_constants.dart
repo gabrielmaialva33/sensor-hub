@@ -181,25 +181,25 @@ class AppConstants {
   // Tutorial Steps
   static const List<Map<String, String>> tutorialSteps = [
     {
-      'title': 'Welcome to SensorHub',
-      'description': 'Your personal AI-powered sensor monitoring dashboard',
+      'title': 'Bem-vindo ao SensorHub',
+      'description': 'Seu painel pessoal de monitoramento de sensores com IA',
     },
     {
-      'title': 'Grant Permissions',
-      'description': 'Allow access to sensors for comprehensive monitoring',
+      'title': 'Conceder Permissões',
+      'description': 'Permitir acesso aos sensores para monitoramento abrangente',
     },
     {
-      'title': 'Start Monitoring',
-      'description': 'Tap the play button to begin collecting sensor data',
+      'title': 'Iniciar Monitoramento',
+      'description': 'Toque no botão de reprodução para começar a coletar dados dos sensores',
     },
     {
-      'title': 'View Insights',
+      'title': 'Ver Insights',
       'description':
-          'Get AI-powered insights about your activities and patterns',
+          'Obtenha insights de IA sobre suas atividades e padrões',
     },
     {
-      'title': 'Explore Features',
-      'description': 'Discover charts, export options, and more!',
+      'title': 'Explorar Recursos',
+      'description': 'Descubra gráficos, opções de exportação e muito mais!',
     },
   ];
 }
