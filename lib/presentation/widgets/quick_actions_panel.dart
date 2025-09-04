@@ -327,7 +327,7 @@ class QuickActionsPanel extends ConsumerWidget {
                 ),
               );
             },
-            activeColor: AppTheme.primaryColor,
+            activeTrackColor: AppTheme.primaryColor,
           ),
         ],
       ),
@@ -393,7 +393,6 @@ class QuickActionsPanel extends ConsumerWidget {
   }
 
   void _exportData(BuildContext context, WidgetRef ref) {
-    final exportSettings = ref.read(exportSettingsProvider);
     
     showDialog(
       context: context,

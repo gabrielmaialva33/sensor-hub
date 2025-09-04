@@ -623,7 +623,6 @@ class _SensorTimelineState extends ConsumerState<SensorTimeline> {
 
   List<Map<String, dynamic>> _generateTimelineEvents(Map<String, List<SensorData>> sensorHistory) {
     final events = <Map<String, dynamic>>[];
-    final now = DateTime.now();
     
     // Check for significant events in sensor data
     sensorHistory.forEach((sensorType, dataList) {

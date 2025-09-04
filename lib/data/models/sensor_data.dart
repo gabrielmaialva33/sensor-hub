@@ -24,13 +24,13 @@ class AccelerometerData extends SensorData {
   final double magnitude;
 
   AccelerometerData({
-    String? id,
-    DateTime? timestamp,
+    super.id,
+    super.timestamp,
     required this.x,
     required this.y,
     required this.z,
   }) : magnitude = _calculateMagnitude(x, y, z),
-       super(id: id, timestamp: timestamp, sensorType: 'accelerometer');
+       super(sensorType: 'accelerometer');
 
   static double _calculateMagnitude(double x, double y, double z) {
     return (x * x + y * y + z * z).abs();
@@ -64,12 +64,12 @@ class GyroscopeData extends SensorData {
   final double z;
 
   GyroscopeData({
-    String? id,
-    DateTime? timestamp,
+    super.id,
+    super.timestamp,
     required this.x,
     required this.y,
     required this.z,
-  }) : super(id: id, timestamp: timestamp, sensorType: 'gyroscope');
+  }) : super(sensorType: 'gyroscope');
 
   @override
   Map<String, dynamic> toJson() => {
@@ -98,13 +98,13 @@ class MagnetometerData extends SensorData {
   final double fieldStrength;
 
   MagnetometerData({
-    String? id,
-    DateTime? timestamp,
+    super.id,
+    super.timestamp,
     required this.x,
     required this.y,
     required this.z,
   }) : fieldStrength = _calculateFieldStrength(x, y, z),
-       super(id: id, timestamp: timestamp, sensorType: 'magnetometer');
+       super(sensorType: 'magnetometer');
 
   static double _calculateFieldStrength(double x, double y, double z) {
     return (x * x + y * y + z * z).abs();
@@ -140,14 +140,14 @@ class LocationData extends SensorData {
   final double? speed;
 
   LocationData({
-    String? id,
-    DateTime? timestamp,
+    super.id,
+    super.timestamp,
     required this.latitude,
     required this.longitude,
     required this.altitude,
     required this.accuracy,
     this.speed,
-  }) : super(id: id, timestamp: timestamp, sensorType: 'location');
+  }) : super(sensorType: 'location');
 
   @override
   Map<String, dynamic> toJson() => {
@@ -179,12 +179,12 @@ class BatteryData extends SensorData {
   final bool isCharging;
 
   BatteryData({
-    String? id,
-    DateTime? timestamp,
+    super.id,
+    super.timestamp,
     required this.batteryLevel,
     required this.batteryState,
     required this.isCharging,
-  }) : super(id: id, timestamp: timestamp, sensorType: 'battery');
+  }) : super(sensorType: 'battery');
 
   @override
   Map<String, dynamic> toJson() => {
@@ -210,9 +210,9 @@ class LightData extends SensorData {
   final double luxValue;
   final String lightCondition;
 
-  LightData({String? id, DateTime? timestamp, required this.luxValue})
+  LightData({super.id, super.timestamp, required this.luxValue})
     : lightCondition = _getLightCondition(luxValue),
-      super(id: id, timestamp: timestamp, sensorType: 'light');
+      super(sensorType: 'light');
 
   static String _getLightCondition(double lux) {
     if (lux < 10) return 'Dark';
@@ -244,11 +244,11 @@ class ProximityData extends SensorData {
   final double? distance;
 
   ProximityData({
-    String? id,
-    DateTime? timestamp,
+    super.id,
+    super.timestamp,
     required this.isNear,
     this.distance,
-  }) : super(id: id, timestamp: timestamp, sensorType: 'proximity');
+  }) : super(sensorType: 'proximity');
 
   @override
   Map<String, dynamic> toJson() => {
