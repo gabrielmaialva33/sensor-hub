@@ -222,9 +222,9 @@ class ScrollPredictionModel extends PredictionModel {
       return const Prediction(type: 'scroll', data: {}, confidence: 0.0);
     }
 
-    final avgVelocity =
-        velocities.reduce((a, b) => a! + b!) / velocities.length;
-    final direction = avgVelocity! > 0 ? 'down' : 'up';
+    final sum = velocities.reduce((a, b) => (a ?? 0) + (b ?? 0));
+    final avgVelocity = velocities.isNotEmpty ? sum / velocities.length : 0.0;
+    final direction = avgVelocity > 0 ? 'down' : 'up';
     final speed = avgVelocity.abs();
 
     return Prediction(
