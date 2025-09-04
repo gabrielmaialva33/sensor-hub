@@ -209,24 +209,20 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: AppTheme.paddingMD),
             child: Text(
-                                                                          'Categorias de Sensores',
-                                                                          style: Theme
-                                                                              .of(
-                                                                              context)
-                                                                              .textTheme
-                                                                              .labelMedium
-                                                                              ?.copyWith(
-                                                                              color: AppTheme
-                                                                                  .mutedText,
-                                                                              fontWeight: FontWeight
-                                                                                  .w600,
-                                                                              const SizedBox(
-                                                                                  height: AppTheme
-                                                                                      .paddingSM),
-                                                                              // Category List
-                                                                              Expanded(
-                                                                                  child: ListView
-                                                                                      .builder(
+              'Categorias de Sensores',
+              style: Theme.of(context)
+                  .textTheme
+                  .labelMedium
+                  ?.copyWith(
+                color: AppTheme.mutedText,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+          const SizedBox(height: AppTheme.paddingSM),
+          // Category List
+          Expanded(
+            child: ListView.builder(
                                                                                       padding: const EdgeInsets
                                                                                           .symmetric(
                                                                                           horizontal: AppTheme
