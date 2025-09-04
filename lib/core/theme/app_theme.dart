@@ -24,6 +24,10 @@ class AppTheme {
   static const Color darkText = Color(0xFFFFFFFF);
   static const Color lightText = Color(0xFF111827);
   static const Color mutedText = Color(0xFF6B7280);
+  
+  // Additional colors for compatibility
+  static const Color successColor = Color(0xFF10B981); // Green
+  static const Color warningColor = Color(0xFFF59E0B); // Amber/Orange
 
   static ThemeData get lightTheme {
     return ThemeData(
@@ -35,12 +39,10 @@ class AppTheme {
         primary: primaryColor,
         secondary: secondaryColor,
         surface: lightSurface,
-        background: lightBackground,
         error: errorColor,
         onPrimary: Colors.white,
         onSecondary: Colors.white,
         onSurface: lightText,
-        onBackground: lightText,
         onError: Colors.white,
       ),
 
@@ -58,7 +60,7 @@ class AppTheme {
         iconTheme: const IconThemeData(color: lightText),
       ),
 
-      cardTheme: const CardTheme(
+      cardTheme: const CardThemeData(
         color: lightCard,
         elevation: 0,
         margin: EdgeInsets.zero,
@@ -134,12 +136,10 @@ class AppTheme {
         primary: primaryColor,
         secondary: secondaryColor,
         surface: darkSurface,
-        background: darkBackground,
         error: errorColor,
         onPrimary: Colors.white,
         onSecondary: Colors.white,
         onSurface: darkText,
-        onBackground: darkText,
         onError: Colors.white,
       ),
 
@@ -157,7 +157,7 @@ class AppTheme {
         iconTheme: const IconThemeData(color: darkText),
       ),
 
-      cardTheme: const CardTheme(
+      cardTheme: const CardThemeData(
         color: darkCard,
         elevation: 0,
         margin: EdgeInsets.zero,
@@ -260,7 +260,7 @@ class AppTheme {
   // Shadows
   static List<BoxShadow> get lightShadow => [
     BoxShadow(
-      color: Colors.black.withOpacity(0.05),
+      color: Colors.black.withValues(alpha: 0.05),
       blurRadius: 10,
       offset: const Offset(0, 2),
     ),
@@ -268,7 +268,7 @@ class AppTheme {
 
   static List<BoxShadow> get mediumShadow => [
     BoxShadow(
-      color: Colors.black.withOpacity(0.1),
+      color: Colors.black.withValues(alpha: 0.1),
       blurRadius: 20,
       offset: const Offset(0, 4),
     ),
