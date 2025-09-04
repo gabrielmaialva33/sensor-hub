@@ -75,46 +75,84 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isMobile = screenWidth < mobileBreakpoint;
+    final isTablet = screenWidth >= mobileBreakpoint && screenWidth < tabletBreakpoint;
+    
     return Scaffold(
       backgroundColor: isDark
           ? AppTheme.darkBackground
           : AppTheme.lightBackground,
+      // Add drawer for mobile navigation
+      drawer: isMobile ? _buildMobileDrawer(isDark) : null,
       body: SafeArea(
-        child: Row(
-          children: [
-            // Sidebar - Pieces style
-            _buildSidebar(isDark),
-            // Main Content Area
-            Expanded(
-              child: Column(
-                children: [
-                  // Top Bar
-                  _buildTopBar(isDark),
-                  // Tab Content
-                  Expanded(
-                    child: TabBarView(
-                      controller: _tabController,
-                      children: [
-                        _buildDashboardTab(),
-                        _buildSensorsTab(),
-                        _buildInsightsTab(),
-                        _buildTimelineTab(),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
+        child: _buildResponsiveLayout(isDark, isMobile, isTablet),
       ),
+      // Add platform indicator for web
+      floatingActionButton: kIsWeb && !isMobile
+          ? _buildWebIndicator(isDark)
+          : null,
+      floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
     );
   }
 
+  /// Build responsive layout based on screen size
+  Widget _buildResponsiveLayout(bool isDark, bool isMobile, bool isTablet) {
+    if (isMobile) {
+      // Mobile: Stack layout with drawer
+      return Column(
+        children: [
+          _buildMobileTopBar(isDark),
+          Expanded(
+            child: TabBarView(
+              controller: _tabController,
+              children: [
+                _buildDashboardTab(),
+                _buildSensorsTab(),
+                _buildInsightsTab(),
+                _buildTimelineTab(),
+              ],
+            ),
+          ),
+        ],
+      );
+    } else {
+      // Desktop/Tablet: Side-by-side layout (Pieces style)
+      return Row(
+        children: [
+          // Sidebar
+          _buildSidebar(isDark, isTablet),
+          // Main Content Area
+          Expanded(
+            child: Column(
+              children: [
+                // Top Bar
+                _buildTopBar(isDark, isTablet),
+                // Tab Content
+                Expanded(
+                  child: TabBarView(
+                    controller: _tabController,
+                    children: [
+                      _buildDashboardTab(),
+                      _buildSensorsTab(),
+                      _buildInsightsTab(),
+                      _buildTimelineTab(),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      );
+    }
+  }
+
   // Sidebar inspired by Pieces
-  Widget _buildSidebar(bool isDark) {
+  Widget _buildSidebar(bool isDark, bool isTablet) {
+    final sidebarWidth = isTablet ? 240.0 : 280.0;
     return Container(
-      width: 280,
+      width: sidebarWidth,
       decoration: BoxDecoration(
         color: isDark ? AppTheme.darkSurface : AppTheme.lightSurface,
         border: Border(
