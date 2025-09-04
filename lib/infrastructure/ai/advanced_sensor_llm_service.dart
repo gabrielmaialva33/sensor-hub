@@ -4,7 +4,7 @@ import 'dart:math';
 import 'package:dio/dio.dart';
 
 import 'package:sensor_hub/core/core.dart';
-import '../models/sensor_data.dart';
+import '../../features/sensors/data/models/sensor_data.dart';
 
 /// Advanced Sensor-LLM Integration Service
 /// Based on latest research (2024-2025) for optimal sensor data processing with LLMs

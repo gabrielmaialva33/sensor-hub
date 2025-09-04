@@ -1,7 +1,7 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'package:sensor_hub/core/core.dart';
-import '../models/sensor_data.dart';
+import '../../features/sensors/data/models/sensor_data.dart';
 
 /// Service for Supabase integration and cloud storage
 class SupabaseService {

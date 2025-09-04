@@ -8,7 +8,7 @@ import 'package:proximity_sensor/proximity_sensor.dart';
 import 'package:sensors_plus/sensors_plus.dart';
 
 import 'package:sensor_hub/core/core.dart';
-import '../models/sensor_data.dart';
+import '../../features/sensors/data/models/sensor_data.dart';
 
 /// Service for collecting data from all device sensors
 class SensorService {
