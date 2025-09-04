@@ -492,10 +492,10 @@ class DebugHelper {
 /// Extension to add debugging capabilities to any widget
 mixin DebugCapable {
   void debugLog(String message) {
-    DebugHelper()._logDebugInfo('${runtimeType}: $message');
+    DebugHelper()._logDebugInfo('$runtimeType: $message');
   }
 
   void debugError(String error) {
-    DebugHelper()._logError('${runtimeType}: $error');
+    DebugHelper()._logError('$runtimeType: $error');
   }
 }

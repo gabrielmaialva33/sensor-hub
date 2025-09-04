@@ -21,7 +21,7 @@ class SensorCard extends ConsumerStatefulWidget {
 }
 
 class _SensorCardState extends ConsumerState<SensorCard> {
-  List<FlSpot> _chartData = [];
+  final List<FlSpot> _chartData = [];
   int _dataCounter = 0;
 
   @override
