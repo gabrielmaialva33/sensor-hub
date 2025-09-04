@@ -5,7 +5,7 @@ import '../../../../infrastructure/ai/life_narrative_service.dart';
 import '../../../../infrastructure/ai/predictive_insights_engine.dart';
 
 class LifeStoryWidget extends StatefulWidget {
-  const LifeStoryWidget({Key? key}) : super(key: key);
+  const LifeStoryWidget({super.key});
 
   @override
   State<LifeStoryWidget> createState() => _LifeStoryWidgetState();
@@ -28,7 +28,7 @@ class _LifeStoryWidgetState extends State<LifeStoryWidget>
   List<String> _dailyNarratives = [];
   List<String> _weeklyInsights = [];
   List<String> _proactiveSuggestions = [];
-  List<Prediction> _predictions = [];
+  final List<Prediction> _predictions = [];
   List<LifeEvent> _lifeMemories = [];
   
   bool _isLoading = true;
@@ -88,7 +88,7 @@ class _LifeStoryWidgetState extends State<LifeStoryWidget>
       setState(() {
         _predictions.add(prediction);
         // Add to proactive suggestions if it's actionable
-        if (prediction.actionable_suggestions.isNotEmpty && 
+        if (prediction.actionableSuggestions.isNotEmpty && 
             !_proactiveSuggestions.contains(prediction.description)) {
           _proactiveSuggestions.add(prediction.description);
         }
@@ -473,9 +473,11 @@ class _LifeStoryWidgetState extends State<LifeStoryWidget>
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
-        border: Border.left(
-          width: 4,
-          color: color,
+        border: BorderDirectional(
+          start: BorderSide(
+            width: 4,
+            color: color,
+          ),
         ),
         boxShadow: [
           BoxShadow(
