@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import '../../core/theme/app_theme.dart';
-import '../../core/constants/app_constants.dart';
 
 class SensorTimeline extends ConsumerStatefulWidget {
   const SensorTimeline({super.key});
@@ -83,20 +83,20 @@ class _SensorTimelineState extends ConsumerState<SensorTimeline> {
 
           // Timeline
           Expanded(
-            child: _mockEvents.isEmpty 
-              ? _buildEmptyTimeline(context, isDark)
-              : ListView.builder(
-                  itemCount: _mockEvents.length,
-                  itemBuilder: (context, index) {
-                    return _buildTimelineItem(
-                      context,
-                      _mockEvents[index],
-                      isDark,
-                      index,
-                      index == _mockEvents.length - 1,
-                    );
-                  },
-                ),
+            child: _mockEvents.isEmpty
+                ? _buildEmptyTimeline(context, isDark)
+                : ListView.builder(
+                    itemCount: _mockEvents.length,
+                    itemBuilder: (context, index) {
+                      return _buildTimelineItem(
+                        context,
+                        _mockEvents[index],
+                        isDark,
+                        index,
+                        index == _mockEvents.length - 1,
+                      );
+                    },
+                  ),
           ),
         ],
       ),
@@ -111,158 +111,156 @@ class _SensorTimelineState extends ConsumerState<SensorTimeline> {
     bool isLast,
   ) {
     final eventColor = _getEventColor(event.type);
-    
+
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        // Timeline indicator
-        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              width: 32,
-              height: 32,
-              decoration: BoxDecoration(
-                color: eventColor.withOpacity(0.1),
-                border: Border.all(color: eventColor, width: 2),
-                shape: BoxShape.circle,
-              ),
-              child: Icon(
-                event.icon,
-                size: 16,
-                color: eventColor,
-              ),
-            ),
-            if (!isLast)
-              Container(
-                width: 2,
-                height: 40,
-                color: isDark 
-                  ? AppTheme.darkBorder 
-                  : AppTheme.lightBorder,
-              ),
-          ],
-        ),
-
-        const SizedBox(width: AppTheme.paddingMD),
-
-        // Event content
-        Expanded(
-          child: Container(
-            margin: const EdgeInsets.only(bottom: AppTheme.paddingMD),
-            padding: const EdgeInsets.all(AppTheme.paddingMD),
-            decoration: BoxDecoration(
-              color: isDark ? AppTheme.darkCard : AppTheme.lightCard,
-              borderRadius: BorderRadius.circular(AppTheme.radiusMD),
-              border: Border.all(
-                color: isDark ? AppTheme.darkBorder : AppTheme.lightBorder,
-              ),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            // Timeline indicator
+            Column(
               children: [
-                Row(
+                Container(
+                  width: 32,
+                  height: 32,
+                  decoration: BoxDecoration(
+                    color: eventColor.withOpacity(0.1),
+                    border: Border.all(color: eventColor, width: 2),
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(event.icon, size: 16, color: eventColor),
+                ),
+                if (!isLast)
+                  Container(
+                    width: 2,
+                    height: 40,
+                    color: isDark ? AppTheme.darkBorder : AppTheme.lightBorder,
+                  ),
+              ],
+            ),
+
+            const SizedBox(width: AppTheme.paddingMD),
+
+            // Event content
+            Expanded(
+              child: Container(
+                margin: const EdgeInsets.only(bottom: AppTheme.paddingMD),
+                padding: const EdgeInsets.all(AppTheme.paddingMD),
+                decoration: BoxDecoration(
+                  color: isDark ? AppTheme.darkCard : AppTheme.lightCard,
+                  borderRadius: BorderRadius.circular(AppTheme.radiusMD),
+                  border: Border.all(
+                    color: isDark ? AppTheme.darkBorder : AppTheme.lightBorder,
+                  ),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    Row(
+                      children: [
+                        Text(
+                          event.title,
+                          style: Theme.of(context).textTheme.titleSmall
+                              ?.copyWith(fontWeight: FontWeight.w600),
+                        ),
+                        const Spacer(),
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: AppTheme.paddingXS,
+                            vertical: 2,
+                          ),
+                          decoration: BoxDecoration(
+                            color: eventColor.withOpacity(0.1),
+                            borderRadius: BorderRadius.circular(
+                              AppTheme.radiusSM,
+                            ),
+                            border: Border.all(
+                              color: eventColor.withOpacity(0.3),
+                            ),
+                          ),
+                          child: Text(
+                            event.type,
+                            style: Theme.of(context).textTheme.labelSmall
+                                ?.copyWith(
+                                  color: eventColor,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: AppTheme.paddingXS),
                     Text(
-                      event.title,
-                      style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                        fontWeight: FontWeight.w600,
+                      event.description,
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        color: AppTheme.mutedText,
                       ),
                     ),
-                    const Spacer(),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: AppTheme.paddingXS,
-                        vertical: 2,
-                      ),
-                      decoration: BoxDecoration(
-                        color: eventColor.withOpacity(0.1),
-                        borderRadius: BorderRadius.circular(AppTheme.radiusSM),
-                        border: Border.all(
-                          color: eventColor.withOpacity(0.3),
-                        ),
-                      ),
-                      child: Text(
-                        event.type,
-                        style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                          color: eventColor,
-                          fontWeight: FontWeight.w600,
-                        ),
+                    const SizedBox(height: AppTheme.paddingXS),
+                    Text(
+                      _formatTime(event.time),
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        color: AppTheme.mutedText,
+                        fontSize: 11,
                       ),
                     ),
                   ],
                 ),
-                const SizedBox(height: AppTheme.paddingXS),
-                Text(
-                  event.description,
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: AppTheme.mutedText,
-                  ),
-                ),
-                const SizedBox(height: AppTheme.paddingXS),
-                Text(
-                  _formatTime(event.time),
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: AppTheme.mutedText,
-                    fontSize: 11,
-                  ),
-                ),
-              ],
+              ),
             ),
-          ),
-        ),
-      ],
-    ).animate()
-      .fadeIn(delay: Duration(milliseconds: 100 * index))
-      .slideX(begin: 0.3, end: 0);
+          ],
+        )
+        .animate()
+        .fadeIn(delay: Duration(milliseconds: 100 * index))
+        .slideX(begin: 0.3, end: 0);
   }
 
   Widget _buildEmptyTimeline(BuildContext context, bool isDark) {
     return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            width: 80,
-            height: 80,
-            decoration: BoxDecoration(
-              color: AppTheme.mutedText.withOpacity(0.1),
-              shape: BoxShape.circle,
-              border: Border.all(
-                color: AppTheme.mutedText.withOpacity(0.3),
-                width: 2,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                width: 80,
+                height: 80,
+                decoration: BoxDecoration(
+                  color: AppTheme.mutedText.withOpacity(0.1),
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: AppTheme.mutedText.withOpacity(0.3),
+                    width: 2,
+                  ),
+                ),
+                child: Icon(
+                  Icons.timeline,
+                  size: 40,
+                  color: AppTheme.mutedText,
+                ),
               ),
-            ),
-            child: Icon(
-              Icons.timeline,
-              size: 40,
-              color: AppTheme.mutedText,
-            ),
+
+              const SizedBox(height: AppTheme.paddingLG),
+
+              Text(
+                'No Activity Yet',
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.w600,
+                  color: AppTheme.mutedText,
+                ),
+              ),
+
+              const SizedBox(height: AppTheme.paddingSM),
+
+              Text(
+                'Start monitoring sensors to see your\nactivity timeline appear here',
+                textAlign: TextAlign.center,
+                style: Theme.of(
+                  context,
+                ).textTheme.bodyMedium?.copyWith(color: AppTheme.mutedText),
+              ),
+            ],
           ),
-          
-          const SizedBox(height: AppTheme.paddingLG),
-          
-          Text(
-            'No Activity Yet',
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-              fontWeight: FontWeight.w600,
-              color: AppTheme.mutedText,
-            ),
-          ),
-          
-          const SizedBox(height: AppTheme.paddingSM),
-          
-          Text(
-            'Start monitoring sensors to see your\nactivity timeline appear here',
-            textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: AppTheme.mutedText,
-            ),
-          ),
-        ],
-      ),
-    ).animate()
-      .fadeIn(delay: 300.ms)
-      .scale(begin: 0.8, end: 1.0);
+        )
+        .animate()
+        .fadeIn(delay: 300.ms)
+        .scale(begin: const Offset(0.8, 0.8), end: const Offset(1.0, 1.0));
   }
 
   Color _getEventColor(String type) {
@@ -299,7 +297,7 @@ class _SensorTimelineState extends ConsumerState<SensorTimeline> {
     setState(() {
       _mockEvents.clear();
     });
-    
+
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text('Timeline cleared'),

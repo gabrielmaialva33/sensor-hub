@@ -1,11 +1,14 @@
 import 'dart:io';
-import 'package:permission_handler/permission_handler.dart';
+
 import 'package:device_info_plus/device_info_plus.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 /// Service for managing all app permissions across platforms
 class PermissionService {
   static final PermissionService _instance = PermissionService._internal();
+
   factory PermissionService() => _instance;
+
   PermissionService._internal();
 
   final DeviceInfoPlugin _deviceInfo = DeviceInfoPlugin();
@@ -13,7 +16,7 @@ class PermissionService {
   /// Check and request all necessary permissions for sensor monitoring
   Future<Map<String, PermissionStatus>> requestSensorPermissions() async {
     final Map<String, PermissionStatus> results = {};
-    
+
     // Core sensor permissions (available on all platforms)
     final corePermissions = <Permission>[
       Permission.camera,
@@ -41,8 +44,8 @@ class PermissionService {
     }
 
     // Request permissions in batches to avoid overwhelming the user
-    final Map<Permission, PermissionStatus> statuses = 
-        await corePermissions.request();
+    final Map<Permission, PermissionStatus> statuses = await corePermissions
+        .request();
 
     // Convert to string keys for easier access
     for (final entry in statuses.entries) {
@@ -73,7 +76,9 @@ class PermissionService {
   }
 
   /// Check if any permission is permanently denied
-  Future<bool> hasPermissionsPermanentlyDenied(List<Permission> permissions) async {
+  Future<bool> hasPermissionsPermanentlyDenied(
+    List<Permission> permissions,
+  ) async {
     for (final permission in permissions) {
       final status = await permission.status;
       if (status.isPermanentlyDenied) {
@@ -86,7 +91,7 @@ class PermissionService {
   /// Get permission status for all sensor-related permissions
   Future<Map<String, PermissionStatus>> getAllPermissionStatuses() async {
     final Map<String, PermissionStatus> statuses = {};
-    
+
     final permissions = <Permission>[
       Permission.camera,
       Permission.microphone,
@@ -122,11 +127,11 @@ class PermissionService {
     bool backgroundLocation = false,
   }) async {
     PermissionStatus status;
-    
+
     if (Platform.isAndroid) {
       // On Android, first request regular location permission
       status = await Permission.location.request();
-      
+
       // If background location is needed and regular location is granted
       if (backgroundLocation && status.isGranted) {
         final androidInfo = await _deviceInfo.androidInfo;
@@ -153,7 +158,7 @@ class PermissionService {
   /// Request camera permission with detailed error handling
   Future<CameraPermissionResult> requestCameraPermission() async {
     final status = await Permission.camera.request();
-    
+
     switch (status) {
       case PermissionStatus.granted:
         return CameraPermissionResult(
@@ -164,14 +169,17 @@ class PermissionService {
       case PermissionStatus.denied:
         return CameraPermissionResult(
           isGranted: false,
-          shouldShowRationale: await Permission.camera.shouldShowRequestRationale,
-          message: 'Camera access denied. Please allow camera access to capture sensor data.',
+          shouldShowRationale:
+              await Permission.camera.shouldShowRequestRationale,
+          message:
+              'Camera access denied. Please allow camera access to capture sensor data.',
         );
       case PermissionStatus.permanentlyDenied:
         return CameraPermissionResult(
           isGranted: false,
           shouldShowRationale: false,
-          message: 'Camera access permanently denied. Please enable it in app settings.',
+          message:
+              'Camera access permanently denied. Please enable it in app settings.',
           shouldOpenSettings: true,
         );
       case PermissionStatus.restricted:
@@ -197,11 +205,14 @@ class PermissionService {
   /// Request storage permission for data export
   Future<PermissionStatus> requestStoragePermission() async {
     if (Platform.isAndroid) {
-      return await _getAndroidStoragePermission().then((permission) => permission.request());
+      return await _getAndroidStoragePermission().then(
+        (permission) => permission.request(),
+      );
     } else if (Platform.isIOS) {
       return await Permission.photos.request();
     }
-    return PermissionStatus.granted; // Desktop platforms don't need storage permission
+    return PermissionStatus
+        .granted; // Desktop platforms don't need storage permission
   }
 
   /// Open app settings when permission is permanently denied
@@ -243,7 +254,10 @@ class PermissionService {
       case Permission.bluetooth:
         return 'Bluetooth';
       default:
-        return permission.toString().replaceAll('Permission.', '').toUpperCase();
+        return permission
+            .toString()
+            .replaceAll('Permission.', '')
+            .toUpperCase();
     }
   }
 
@@ -286,22 +300,15 @@ class PermissionService {
 
   List<String> _getRequiredPermissions() {
     final permissions = <String>['camera', 'microphone'];
-    
+
     if (Platform.isAndroid || Platform.isIOS) {
-      permissions.addAll([
-        'location',
-        'storage',
-      ]);
+      permissions.addAll(['location', 'storage']);
     }
-    
+
     if (Platform.isAndroid) {
-      permissions.addAll([
-        'sensors',
-        'wake_lock',
-        'foreground_service',
-      ]);
+      permissions.addAll(['sensors', 'wake_lock', 'foreground_service']);
     }
-    
+
     if (Platform.isIOS) {
       permissions.addAll([
         'background_location',
@@ -332,8 +339,9 @@ class CameraPermissionResult {
 
 /// Extension to add custom status checks
 extension PermissionStatusExtension on PermissionStatus {
-  bool get isGrantedOrRestricted => this == PermissionStatus.granted || this == PermissionStatus.restricted;
-  
+  bool get isGrantedOrRestricted =>
+      this == PermissionStatus.granted || this == PermissionStatus.restricted;
+
   String get displayText {
     switch (this) {
       case PermissionStatus.granted:

@@ -1,9 +1,10 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:fl_chart/fl_chart.dart';
-import '../../core/theme/app_theme.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import '../../core/constants/app_constants.dart';
+import '../../core/theme/app_theme.dart';
 import '../providers/sensor_providers.dart';
 
 class SensorCard extends ConsumerStatefulWidget {
@@ -101,7 +102,8 @@ class _SensorCardState extends ConsumerState<SensorCard> {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final sensorColor = AppTheme.getSensorColor(widget.sensorType);
     final sensorIcon = AppConstants.sensorIcons[widget.sensorType] ?? '📱';
-    final sensorName = AppConstants.sensorDisplayNames[widget.sensorType] ?? widget.sensorType;
+    final sensorName =
+        AppConstants.sensorDisplayNames[widget.sensorType] ?? widget.sensorType;
 
     return Card(
       elevation: 0,
@@ -111,21 +113,21 @@ class _SensorCardState extends ConsumerState<SensorCard> {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(AppTheme.radiusLG),
           border: Border.all(
-            color: widget.isMonitoring 
-              ? sensorColor.withOpacity(0.3) 
-              : (isDark ? AppTheme.darkBorder : AppTheme.lightBorder),
+            color: widget.isMonitoring
+                ? sensorColor.withOpacity(0.3)
+                : (isDark ? AppTheme.darkBorder : AppTheme.lightBorder),
             width: widget.isMonitoring ? 2 : 1,
           ),
           gradient: widget.isMonitoring
-            ? LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [
-                  sensorColor.withOpacity(0.05),
-                  sensorColor.withOpacity(0.02),
-                ],
-              )
-            : null,
+              ? LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    sensorColor.withOpacity(0.05),
+                    sensorColor.withOpacity(0.02),
+                  ],
+                )
+              : null,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -159,16 +161,15 @@ class _SensorCardState extends ConsumerState<SensorCard> {
                     children: [
                       Text(
                         sensorName,
-                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                          fontWeight: FontWeight.w600,
-                        ),
+                        style: Theme.of(context).textTheme.titleMedium
+                            ?.copyWith(fontWeight: FontWeight.w600),
                       ),
                       Text(
                         widget.isMonitoring ? 'Active' : 'Inactive',
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: widget.isMonitoring 
-                            ? sensorColor 
-                            : AppTheme.mutedText,
+                          color: widget.isMonitoring
+                              ? sensorColor
+                              : AppTheme.mutedText,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -177,19 +178,24 @@ class _SensorCardState extends ConsumerState<SensorCard> {
                 ),
                 // Status indicator
                 Container(
-                  width: 8,
-                  height: 8,
-                  decoration: BoxDecoration(
-                    color: widget.isMonitoring ? sensorColor : AppTheme.mutedText,
-                    shape: BoxShape.circle,
-                  ),
-                ).animate(
-                  onPlay: (controller) {
-                    if (widget.isMonitoring) {
-                      controller.repeat();
-                    }
-                  },
-                ).fadeIn(duration: 600.ms).fadeOut(delay: 600.ms, duration: 600.ms),
+                      width: 8,
+                      height: 8,
+                      decoration: BoxDecoration(
+                        color: widget.isMonitoring
+                            ? sensorColor
+                            : AppTheme.mutedText,
+                        shape: BoxShape.circle,
+                      ),
+                    )
+                    .animate(
+                      onPlay: (controller) {
+                        if (widget.isMonitoring) {
+                          controller.repeat();
+                        }
+                      },
+                    )
+                    .fadeIn(duration: 600.ms)
+                    .fadeOut(delay: 600.ms, duration: 600.ms),
               ],
             ),
 
@@ -265,10 +271,12 @@ class _SensorCardState extends ConsumerState<SensorCard> {
                 ),
                 child: Center(
                   child: Text(
-                    widget.isMonitoring ? 'Waiting for data...' : 'Start monitoring to see chart',
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: AppTheme.mutedText,
-                    ),
+                    widget.isMonitoring
+                        ? 'Waiting for data...'
+                        : 'Start monitoring to see chart',
+                    style: Theme.of(
+                      context,
+                    ).textTheme.bodySmall?.copyWith(color: AppTheme.mutedText),
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -284,9 +292,9 @@ class _SensorCardState extends ConsumerState<SensorCard> {
     if (_lastValue == null) {
       return Text(
         'No data',
-        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-          color: AppTheme.mutedText,
-        ),
+        style: Theme.of(
+          context,
+        ).textTheme.bodyLarge?.copyWith(color: AppTheme.mutedText),
       );
     }
 
@@ -297,15 +305,15 @@ class _SensorCardState extends ConsumerState<SensorCard> {
           children: [
             Text(
               '${_lastValue.magnitude.toStringAsFixed(2)} m/s²',
-              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                fontWeight: FontWeight.w600,
-              ),
+              style: Theme.of(
+                context,
+              ).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w600),
             ),
             Text(
               'X: ${_lastValue.x.toStringAsFixed(2)} Y: ${_lastValue.y.toStringAsFixed(2)} Z: ${_lastValue.z.toStringAsFixed(2)}',
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                color: AppTheme.mutedText,
-              ),
+              style: Theme.of(
+                context,
+              ).textTheme.bodySmall?.copyWith(color: AppTheme.mutedText),
             ),
           ],
         );
@@ -315,22 +323,24 @@ class _SensorCardState extends ConsumerState<SensorCard> {
           children: [
             Text(
               '${_lastValue.batteryLevel}%',
-              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                fontWeight: FontWeight.w600,
-              ),
+              style: Theme.of(
+                context,
+              ).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w600),
             ),
             const SizedBox(width: AppTheme.paddingXS),
             Icon(
-              _lastValue.isCharging ? Icons.battery_charging_full : Icons.battery_std,
+              _lastValue.isCharging
+                  ? Icons.battery_charging_full
+                  : Icons.battery_std,
               size: 16,
               color: _getBatteryColor(_lastValue.batteryLevel),
             ),
             const SizedBox(width: AppTheme.paddingXS),
             Text(
               _lastValue.isCharging ? 'Charging' : 'Not charging',
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                color: AppTheme.mutedText,
-              ),
+              style: Theme.of(
+                context,
+              ).textTheme.bodySmall?.copyWith(color: AppTheme.mutedText),
             ),
           ],
         );
@@ -341,15 +351,15 @@ class _SensorCardState extends ConsumerState<SensorCard> {
           children: [
             Text(
               '${_lastValue.luxValue.toStringAsFixed(1)} lux',
-              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                fontWeight: FontWeight.w600,
-              ),
+              style: Theme.of(
+                context,
+              ).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w600),
             ),
             Text(
               _lastValue.lightCondition,
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                color: AppTheme.mutedText,
-              ),
+              style: Theme.of(
+                context,
+              ).textTheme.bodySmall?.copyWith(color: AppTheme.mutedText),
             ),
           ],
         );
@@ -359,7 +369,9 @@ class _SensorCardState extends ConsumerState<SensorCard> {
           _lastValue.isNear ? 'Near' : 'Far',
           style: Theme.of(context).textTheme.bodyLarge?.copyWith(
             fontWeight: FontWeight.w600,
-            color: _lastValue.isNear ? AppTheme.errorColor : AppTheme.secondaryColor,
+            color: _lastValue.isNear
+                ? AppTheme.errorColor
+                : AppTheme.secondaryColor,
           ),
         );
 
@@ -369,15 +381,15 @@ class _SensorCardState extends ConsumerState<SensorCard> {
           children: [
             Text(
               '${_lastValue.latitude.toStringAsFixed(4)}, ${_lastValue.longitude.toStringAsFixed(4)}',
-              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                fontWeight: FontWeight.w600,
-              ),
+              style: Theme.of(
+                context,
+              ).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w600),
             ),
             Text(
               'Accuracy: ${_lastValue.accuracy.toStringAsFixed(1)}m',
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                color: AppTheme.mutedText,
-              ),
+              style: Theme.of(
+                context,
+              ).textTheme.bodySmall?.copyWith(color: AppTheme.mutedText),
             ),
           ],
         );
@@ -385,9 +397,9 @@ class _SensorCardState extends ConsumerState<SensorCard> {
       default:
         return Text(
           'Data available',
-          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-            fontWeight: FontWeight.w600,
-          ),
+          style: Theme.of(
+            context,
+          ).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w600),
         );
     }
   }

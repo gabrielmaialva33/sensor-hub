@@ -1,23 +1,27 @@
 import 'dart:async';
-import 'dart:math';
-import 'package:sensors_plus/sensors_plus.dart';
-import 'package:geolocator/geolocator.dart';
+
 import 'package:battery_plus/battery_plus.dart';
-import 'package:light_sensor/light_sensor.dart';
-import 'package:proximity_sensor/proximity_sensor.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:proximity_sensor/proximity_sensor.dart';
+import 'package:sensors_plus/sensors_plus.dart';
+
 import '../models/sensor_data.dart';
 
 /// Service for collecting data from all device sensors
 class SensorService {
   static final SensorService _instance = SensorService._internal();
+
   factory SensorService() => _instance;
+
   SensorService._internal();
 
   // Stream controllers for different sensor types
-  final _accelerometerController = StreamController<AccelerometerData>.broadcast();
+  final _accelerometerController =
+      StreamController<AccelerometerData>.broadcast();
   final _gyroscopeController = StreamController<GyroscopeData>.broadcast();
-  final _magnetometerController = StreamController<MagnetometerData>.broadcast();
+  final _magnetometerController =
+      StreamController<MagnetometerData>.broadcast();
   final _locationController = StreamController<LocationData>.broadcast();
   final _batteryController = StreamController<BatteryData>.broadcast();
   final _lightController = StreamController<LightData>.broadcast();
@@ -37,12 +41,20 @@ class SensorService {
   bool _isMonitoring = false;
 
   // Stream getters
-  Stream<AccelerometerData> get accelerometerStream => _accelerometerController.stream;
+  Stream<AccelerometerData> get accelerometerStream =>
+      _accelerometerController.stream;
+
   Stream<GyroscopeData> get gyroscopeStream => _gyroscopeController.stream;
-  Stream<MagnetometerData> get magnetometerStream => _magnetometerController.stream;
+
+  Stream<MagnetometerData> get magnetometerStream =>
+      _magnetometerController.stream;
+
   Stream<LocationData> get locationStream => _locationController.stream;
+
   Stream<BatteryData> get batteryStream => _batteryController.stream;
+
   Stream<LightData> get lightStream => _lightController.stream;
+
   Stream<ProximityData> get proximityStream => _proximityController.stream;
 
   bool get isMonitoring => _isMonitoring;
@@ -52,14 +64,14 @@ class SensorService {
     if (_isMonitoring) return;
 
     await _requestPermissions();
-    
+
     _isMonitoring = true;
-    
+
     // Start motion sensors
     await _startAccelerometer();
     await _startGyroscope();
     await _startMagnetometer();
-    
+
     // Start environment sensors
     await _startLocationTracking();
     await _startBatteryMonitoring();
@@ -99,11 +111,7 @@ class SensorService {
     try {
       _accelerometerSubscription = userAccelerometerEventStream().listen(
         (event) {
-          final data = AccelerometerData(
-            x: event.x,
-            y: event.y,
-            z: event.z,
-          );
+          final data = AccelerometerData(x: event.x, y: event.y, z: event.z);
           _accelerometerController.add(data);
         },
         onError: (error) {
@@ -120,11 +128,7 @@ class SensorService {
     try {
       _gyroscopeSubscription = gyroscopeEventStream().listen(
         (event) {
-          final data = GyroscopeData(
-            x: event.x,
-            y: event.y,
-            z: event.z,
-          );
+          final data = GyroscopeData(x: event.x, y: event.y, z: event.z);
           _gyroscopeController.add(data);
         },
         onError: (error) {
@@ -141,11 +145,7 @@ class SensorService {
     try {
       _magnetometerSubscription = magnetometerEventStream().listen(
         (event) {
-          final data = MagnetometerData(
-            x: event.x,
-            y: event.y,
-            z: event.z,
-          );
+          final data = MagnetometerData(x: event.x, y: event.y, z: event.z);
           _magnetometerController.add(data);
         },
         onError: (error) {
@@ -180,23 +180,24 @@ class SensorService {
         distanceFilter: 10,
       );
 
-      _locationSubscription = Geolocator.getPositionStream(
-        locationSettings: locationSettings,
-      ).listen(
-        (position) {
-          final data = LocationData(
-            latitude: position.latitude,
-            longitude: position.longitude,
-            altitude: position.altitude,
-            accuracy: position.accuracy,
-            speed: position.speed,
+      _locationSubscription =
+          Geolocator.getPositionStream(
+            locationSettings: locationSettings,
+          ).listen(
+            (position) {
+              final data = LocationData(
+                latitude: position.latitude,
+                longitude: position.longitude,
+                altitude: position.altitude,
+                accuracy: position.accuracy,
+                speed: position.speed,
+              );
+              _locationController.add(data);
+            },
+            onError: (error) {
+              print('❌ Location error: $error');
+            },
           );
-          _locationController.add(data);
-        },
-        onError: (error) {
-          print('❌ Location error: $error');
-        },
-      );
     } catch (e) {
       print('❌ Failed to start location tracking: $e');
     }
@@ -208,7 +209,7 @@ class SensorService {
       // Initial battery level
       final batteryLevel = await _battery.batteryLevel;
       final batteryState = await _battery.batteryState;
-      
+
       final initialData = BatteryData(
         batteryLevel: batteryLevel,
         batteryState: batteryState.toString(),
@@ -246,7 +247,7 @@ class SensorService {
           timer.cancel();
           return;
         }
-        
+
         // Mock light sensor data
         final luxValue = 50.0 + (DateTime.now().millisecond % 1000);
         final data = LightData(luxValue: luxValue);

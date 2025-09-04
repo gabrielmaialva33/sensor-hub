@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import '../../core/theme/app_theme.dart';
 import '../providers/sensor_providers.dart';
 
@@ -37,9 +38,7 @@ class AIInsightsPanel extends ConsumerWidget {
                     strokeWidth: 2,
                     color: AppTheme.primaryColor,
                   ),
-                ).animate()
-                  .fadeIn()
-                  .scale(),
+                ).animate().fadeIn().scale(),
             ],
           ),
 
@@ -47,7 +46,11 @@ class AIInsightsPanel extends ConsumerWidget {
 
           // Current Insight
           if (aiInsightsState.currentInsight != null) ...[
-            _buildCurrentInsight(context, aiInsightsState.currentInsight!, isDark),
+            _buildCurrentInsight(
+              context,
+              aiInsightsState.currentInsight!,
+              isDark,
+            ),
             const SizedBox(height: AppTheme.paddingLG),
           ],
 
@@ -55,9 +58,9 @@ class AIInsightsPanel extends ConsumerWidget {
           if (aiInsightsState.recentInsights.isNotEmpty) ...[
             Text(
               'Recent Analysis',
-              style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                fontWeight: FontWeight.w600,
-              ),
+              style: Theme.of(
+                context,
+              ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
             ),
             const SizedBox(height: AppTheme.paddingMD),
             Expanded(
@@ -70,9 +73,7 @@ class AIInsightsPanel extends ConsumerWidget {
               ),
             ),
           ] else ...[
-            Expanded(
-              child: _buildEmptyState(context, isDark),
-            ),
+            Expanded(child: _buildEmptyState(context, isDark)),
           ],
 
           // Error Display
@@ -105,7 +106,11 @@ class AIInsightsPanel extends ConsumerWidget {
     );
   }
 
-  Widget _buildCurrentInsight(BuildContext context, AIInsight insight, bool isDark) {
+  Widget _buildCurrentInsight(
+    BuildContext context,
+    AIInsight insight,
+    bool isDark,
+  ) {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(AppTheme.paddingMD),
@@ -153,11 +158,23 @@ class AIInsightsPanel extends ConsumerWidget {
             ],
           ),
           const SizedBox(height: AppTheme.paddingMD),
-          _buildInsightSection('Activity', insight.activity, Icons.directions_run),
+          _buildInsightSection(
+            'Activity',
+            insight.activity,
+            Icons.directions_run,
+          ),
           const SizedBox(height: AppTheme.paddingSM),
-          _buildInsightSection('Environment', insight.environment, Icons.wb_sunny),
+          _buildInsightSection(
+            'Environment',
+            insight.environment,
+            Icons.wb_sunny,
+          ),
           const SizedBox(height: AppTheme.paddingSM),
-          _buildInsightSection('Device Health', insight.deviceHealth, Icons.health_and_safety),
+          _buildInsightSection(
+            'Device Health',
+            insight.deviceHealth,
+            Icons.health_and_safety,
+          ),
           if (insight.recommendations.isNotEmpty) ...[
             const SizedBox(height: AppTheme.paddingMD),
             const Text(
@@ -168,31 +185,37 @@ class AIInsightsPanel extends ConsumerWidget {
               ),
             ),
             const SizedBox(height: AppTheme.paddingXS),
-            ...insight.recommendations.take(3).map((rec) => Padding(
-              padding: const EdgeInsets.only(bottom: AppTheme.paddingXS),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Icon(Icons.circle, size: 6, color: Colors.white70),
-                  const SizedBox(width: AppTheme.paddingSM),
-                  Expanded(
-                    child: Text(
-                      rec,
-                      style: const TextStyle(
-                        color: Colors.white70,
-                        fontSize: 12,
-                      ),
+            ...insight.recommendations
+                .take(3)
+                .map(
+                  (rec) => Padding(
+                    padding: const EdgeInsets.only(bottom: AppTheme.paddingXS),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Icon(
+                          Icons.circle,
+                          size: 6,
+                          color: Colors.white70,
+                        ),
+                        const SizedBox(width: AppTheme.paddingSM),
+                        Expanded(
+                          child: Text(
+                            rec,
+                            style: const TextStyle(
+                              color: Colors.white70,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                ],
-              ),
-            )),
+                ),
           ],
         ],
       ),
-    ).animate()
-      .fadeIn(duration: 600.ms)
-      .slideY(begin: 0.2, end: 0);
+    ).animate().fadeIn(duration: 600.ms).slideY(begin: 0.2, end: 0);
   }
 
   Widget _buildInsightSection(String title, String value, IconData icon) {
@@ -222,51 +245,57 @@ class AIInsightsPanel extends ConsumerWidget {
     );
   }
 
-  Widget _buildInsightCard(BuildContext context, AIInsight insight, bool isDark, int index) {
+  Widget _buildInsightCard(
+    BuildContext context,
+    AIInsight insight,
+    bool isDark,
+    int index,
+  ) {
     return Container(
-      margin: const EdgeInsets.only(bottom: AppTheme.paddingSM),
-      padding: const EdgeInsets.all(AppTheme.paddingMD),
-      decoration: BoxDecoration(
-        color: isDark ? AppTheme.darkCard : AppTheme.lightCard,
-        borderRadius: BorderRadius.circular(AppTheme.radiusMD),
-        border: Border.all(
-          color: isDark ? AppTheme.darkBorder : AppTheme.lightBorder,
-        ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
+          margin: const EdgeInsets.only(bottom: AppTheme.paddingSM),
+          padding: const EdgeInsets.all(AppTheme.paddingMD),
+          decoration: BoxDecoration(
+            color: isDark ? AppTheme.darkCard : AppTheme.lightCard,
+            borderRadius: BorderRadius.circular(AppTheme.radiusMD),
+            border: Border.all(
+              color: isDark ? AppTheme.darkBorder : AppTheme.lightBorder,
+            ),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                insight.activity,
-                style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                  fontWeight: FontWeight.w600,
-                ),
+              Row(
+                children: [
+                  Text(
+                    insight.activity,
+                    style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  const Spacer(),
+                  Text(
+                    '${(insight.confidence * 100).toInt()}%',
+                    style: Theme.of(
+                      context,
+                    ).textTheme.bodySmall?.copyWith(color: AppTheme.mutedText),
+                  ),
+                ],
               ),
-              const Spacer(),
+              const SizedBox(height: AppTheme.paddingXS),
               Text(
-                '${(insight.confidence * 100).toInt()}%',
-                style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: AppTheme.mutedText,
-                ),
+                insight.patterns,
+                style: Theme.of(
+                  context,
+                ).textTheme.bodySmall?.copyWith(color: AppTheme.mutedText),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
               ),
             ],
           ),
-          const SizedBox(height: AppTheme.paddingXS),
-          Text(
-            insight.patterns,
-            style: Theme.of(context).textTheme.bodySmall?.copyWith(
-              color: AppTheme.mutedText,
-            ),
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-          ),
-        ],
-      ),
-    ).animate()
-      .fadeIn(delay: Duration(milliseconds: 100 * index))
-      .slideX(begin: 0.2, end: 0);
+        )
+        .animate()
+        .fadeIn(delay: Duration(milliseconds: 100 * index))
+        .slideX(begin: 0.2, end: 0);
   }
 
   Widget _buildEmptyState(BuildContext context, bool isDark) {
@@ -275,46 +304,46 @@ class AIInsightsPanel extends ConsumerWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            width: 80,
-            height: 80,
-            decoration: BoxDecoration(
-              color: AppTheme.primaryColor.withOpacity(0.1),
-              shape: BoxShape.circle,
-              border: Border.all(
-                color: AppTheme.primaryColor.withOpacity(0.3),
-                width: 2,
-              ),
-            ),
-            child: const Icon(
-              Icons.psychology,
-              size: 40,
-              color: AppTheme.primaryColor,
-            ),
-          ).animate(
-            onPlay: (controller) => controller.repeat(),
-          ).scale(duration: 2000.ms, begin: 0.9, end: 1.1),
-          
+                width: 80,
+                height: 80,
+                decoration: BoxDecoration(
+                  color: AppTheme.primaryColor.withOpacity(0.1),
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: AppTheme.primaryColor.withOpacity(0.3),
+                    width: 2,
+                  ),
+                ),
+                child: const Icon(
+                  Icons.psychology,
+                  size: 40,
+                  color: AppTheme.primaryColor,
+                ),
+              )
+              .animate(onPlay: (controller) => controller.repeat())
+              .scale(duration: 2000.ms, begin: 0.9, end: 1.1),
+
           const SizedBox(height: AppTheme.paddingLG),
-          
+
           Text(
             'AI Analysis Coming Soon',
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-              fontWeight: FontWeight.w600,
-            ),
+            style: Theme.of(
+              context,
+            ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
           ),
-          
+
           const SizedBox(height: AppTheme.paddingSM),
-          
+
           Text(
             'Start monitoring sensors to generate\nintelligent insights about your activity',
             textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: AppTheme.mutedText,
-            ),
+            style: Theme.of(
+              context,
+            ).textTheme.bodyMedium?.copyWith(color: AppTheme.mutedText),
           ),
-          
+
           const SizedBox(height: AppTheme.paddingLG),
-          
+
           ElevatedButton.icon(
             onPressed: () {
               // Trigger manual analysis
@@ -327,8 +356,6 @@ class AIInsightsPanel extends ConsumerWidget {
           ),
         ],
       ),
-    ).animate()
-      .fadeIn(delay: 300.ms)
-      .slideY(begin: 0.3, end: 0);
+    ).animate().fadeIn(delay: 300.ms).slideY(begin: 0.3, end: 0);
   }
 }

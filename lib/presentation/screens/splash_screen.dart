@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import '../../core/theme/app_theme.dart';
+
 import '../../core/constants/app_constants.dart';
-import '../../data/services/supabase_service.dart';
+import '../../core/theme/app_theme.dart';
 import '../../data/services/nvidia_ai_service.dart';
+import '../../data/services/supabase_service.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -27,7 +28,7 @@ class _SplashScreenState extends State<SplashScreen> {
       // Step 1: Initialize Supabase
       setState(() => _status = 'Connecting to cloud services...');
       await Future.delayed(const Duration(milliseconds: 800));
-      
+
       final supabaseService = SupabaseService();
       if (!supabaseService.isInitialized) {
         await supabaseService.initialize();
@@ -36,14 +37,16 @@ class _SplashScreenState extends State<SplashScreen> {
       // Step 2: Test connections
       setState(() => _status = 'Testing AI services...');
       await Future.delayed(const Duration(milliseconds: 600));
-      
+
       final aiService = NvidiaAiService();
       aiService.initialize();
-      
+
       // Optional: Test API connection (non-blocking)
       aiService.testConnection().then((isConnected) {
         if (!isConnected) {
-          print('⚠️ AI services temporarily unavailable, app will work in offline mode');
+          print(
+            '⚠️ AI services temporarily unavailable, app will work in offline mode',
+          );
         }
       });
 
@@ -60,7 +63,7 @@ class _SplashScreenState extends State<SplashScreen> {
         _status = 'Failed to initialize: ${e.toString()}';
         _hasError = true;
       });
-      
+
       // After showing error, still navigate to home (offline mode)
       await Future.delayed(const Duration(seconds: 3));
       if (mounted) {
@@ -72,9 +75,11 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    
+
     return Scaffold(
-      backgroundColor: isDark ? AppTheme.darkBackground : AppTheme.lightBackground,
+      backgroundColor: isDark
+          ? AppTheme.darkBackground
+          : AppTheme.lightBackground,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(AppTheme.paddingLG),
@@ -85,38 +90,43 @@ class _SplashScreenState extends State<SplashScreen> {
 
               // App Logo/Icon
               Container(
-                width: 120,
-                height: 120,
-                decoration: BoxDecoration(
-                  gradient: const LinearGradient(
-                    colors: [AppTheme.primaryColor, AppTheme.secondaryColor],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
-                  borderRadius: BorderRadius.circular(AppTheme.radiusXL),
-                  boxShadow: AppTheme.mediumShadow,
-                ),
-                child: const Icon(
-                  Icons.sensors,
-                  size: 60,
-                  color: Colors.white,
-                ),
-              ).animate()
-                .scale(duration: 800.ms, curve: Curves.elasticOut)
-                .shimmer(delay: 400.ms, duration: 1200.ms),
+                    width: 120,
+                    height: 120,
+                    decoration: BoxDecoration(
+                      gradient: const LinearGradient(
+                        colors: [
+                          AppTheme.primaryColor,
+                          AppTheme.secondaryColor,
+                        ],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ),
+                      borderRadius: BorderRadius.circular(AppTheme.radiusXL),
+                      boxShadow: AppTheme.mediumShadow,
+                    ),
+                    child: const Icon(
+                      Icons.sensors,
+                      size: 60,
+                      color: Colors.white,
+                    ),
+                  )
+                  .animate()
+                  .scale(duration: 800.ms, curve: Curves.elasticOut)
+                  .shimmer(delay: 400.ms, duration: 1200.ms),
 
               const SizedBox(height: AppTheme.paddingXL),
 
               // App Name
               Text(
-                AppConstants.appName,
-                style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: isDark ? AppTheme.darkText : AppTheme.lightText,
-                ),
-              ).animate()
-                .fadeIn(delay: 200.ms, duration: 600.ms)
-                .slideY(begin: 0.3, end: 0),
+                    AppConstants.appName,
+                    style: Theme.of(context).textTheme.headlineLarge?.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: isDark ? AppTheme.darkText : AppTheme.lightText,
+                    ),
+                  )
+                  .animate()
+                  .fadeIn(delay: 200.ms, duration: 600.ms)
+                  .slideY(begin: 0.3, end: 0),
 
               const SizedBox(height: AppTheme.paddingSM),
 
@@ -124,11 +134,10 @@ class _SplashScreenState extends State<SplashScreen> {
               Text(
                 AppConstants.appDescription,
                 textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: AppTheme.mutedText,
-                ),
-              ).animate()
-                .fadeIn(delay: 400.ms, duration: 600.ms),
+                style: Theme.of(
+                  context,
+                ).textTheme.bodyMedium?.copyWith(color: AppTheme.mutedText),
+              ).animate().fadeIn(delay: 400.ms, duration: 600.ms),
 
               const SizedBox(height: AppTheme.paddingXL * 2),
 
@@ -137,26 +146,28 @@ class _SplashScreenState extends State<SplashScreen> {
                 _status,
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: _hasError ? AppTheme.errorColor : AppTheme.primaryColor,
+                  color: _hasError
+                      ? AppTheme.errorColor
+                      : AppTheme.primaryColor,
                   fontWeight: FontWeight.w500,
                 ),
-              ).animate()
-                .fadeIn(delay: 600.ms, duration: 400.ms),
+              ).animate().fadeIn(delay: 600.ms, duration: 400.ms),
 
               const SizedBox(height: AppTheme.paddingLG),
 
               // Loading Indicator
               if (!_hasError)
                 const SizedBox(
-                  width: 32,
-                  height: 32,
-                  child: CircularProgressIndicator(
-                    strokeWidth: 3,
-                    color: AppTheme.primaryColor,
-                  ),
-                ).animate()
-                  .fadeIn(delay: 800.ms)
-                  .scale(delay: 800.ms, duration: 400.ms),
+                      width: 32,
+                      height: 32,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 3,
+                        color: AppTheme.primaryColor,
+                      ),
+                    )
+                    .animate()
+                    .fadeIn(delay: 800.ms)
+                    .scale(delay: 800.ms, duration: 400.ms),
 
               // Error Icon
               if (_hasError)
@@ -164,9 +175,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   Icons.warning_amber_rounded,
                   size: 32,
                   color: AppTheme.errorColor,
-                ).animate()
-                  .fadeIn(duration: 400.ms)
-                  .shake(),
+                ).animate().fadeIn(duration: 400.ms).shake(),
 
               const Spacer(),
 
@@ -176,24 +185,26 @@ class _SplashScreenState extends State<SplashScreen> {
                 children: [
                   Text(
                     'Version ${AppConstants.appVersion}',
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: AppTheme.mutedText,
-                    ),
+                    style: Theme.of(
+                      context,
+                    ).textTheme.bodySmall?.copyWith(color: AppTheme.mutedText),
                   ),
                   const SizedBox(width: AppTheme.paddingSM),
                   Container(
-                    width: 8,
-                    height: 8,
-                    decoration: BoxDecoration(
-                      color: _hasError ? AppTheme.errorColor : AppTheme.secondaryColor,
-                      shape: BoxShape.circle,
-                    ),
-                  ).animate(
-                    onPlay: (controller) => controller.repeat(),
-                  ).fadeIn(duration: 800.ms).fadeOut(delay: 800.ms, duration: 800.ms),
+                        width: 8,
+                        height: 8,
+                        decoration: BoxDecoration(
+                          color: _hasError
+                              ? AppTheme.errorColor
+                              : AppTheme.secondaryColor,
+                          shape: BoxShape.circle,
+                        ),
+                      )
+                      .animate(onPlay: (controller) => controller.repeat())
+                      .fadeIn(duration: 800.ms)
+                      .fadeOut(delay: 800.ms, duration: 800.ms),
                 ],
-              ).animate()
-                .fadeIn(delay: 1000.ms, duration: 600.ms),
+              ).animate().fadeIn(delay: 1000.ms, duration: 600.ms),
 
               const SizedBox(height: AppTheme.paddingLG),
             ],

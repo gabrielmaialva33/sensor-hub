@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import '../../core/theme/app_theme.dart';
 
 class QuickActionsPanel extends ConsumerWidget {
@@ -25,12 +26,12 @@ class QuickActionsPanel extends ConsumerWidget {
         children: [
           Text(
             'Quick Actions',
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-              fontWeight: FontWeight.w600,
-            ),
+            style: Theme.of(
+              context,
+            ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
           ),
           const SizedBox(height: AppTheme.paddingMD),
-          
+
           // Action buttons grid
           GridView.count(
             shrinkWrap: true,
@@ -113,9 +114,7 @@ class QuickActionsPanel extends ConsumerWidget {
           ),
         ),
       ),
-    ).animate()
-      .fadeIn(duration: 400.ms)
-      .scale(begin: 0.9, end: 1.0);
+    ).animate().fadeIn(duration: 400.ms).scale(begin: 0.9, end: 1.0);
   }
 
   void _exportData(BuildContext context) {
@@ -128,9 +127,9 @@ class QuickActionsPanel extends ConsumerWidget {
           children: [
             Text(
               'Export Data',
-              style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
+              style: Theme.of(
+                context,
+              ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: AppTheme.paddingLG),
             ListTile(

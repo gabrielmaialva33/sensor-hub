@@ -6,15 +6,14 @@ abstract class SensorData {
   final DateTime timestamp;
   final String sensorType;
 
-  SensorData({
-    String? id,
-    DateTime? timestamp,
-    required this.sensorType,
-  })  : id = id ?? const Uuid().v4(),
-        timestamp = timestamp ?? DateTime.now();
+  SensorData({String? id, DateTime? timestamp, required this.sensorType})
+    : id = id ?? const Uuid().v4(),
+      timestamp = timestamp ?? DateTime.now();
 
   Map<String, dynamic> toJson();
-  factory SensorData.fromJson(Map<String, dynamic> json) => throw UnimplementedError();
+
+  factory SensorData.fromJson(Map<String, dynamic> json) =>
+      throw UnimplementedError();
 }
 
 /// Accelerometer sensor data
@@ -30,8 +29,8 @@ class AccelerometerData extends SensorData {
     required this.x,
     required this.y,
     required this.z,
-  })  : magnitude = _calculateMagnitude(x, y, z),
-        super(id: id, timestamp: timestamp, sensorType: 'accelerometer');
+  }) : magnitude = _calculateMagnitude(x, y, z),
+       super(id: id, timestamp: timestamp, sensorType: 'accelerometer');
 
   static double _calculateMagnitude(double x, double y, double z) {
     return (x * x + y * y + z * z).abs();
@@ -48,13 +47,14 @@ class AccelerometerData extends SensorData {
     'magnitude': magnitude,
   };
 
-  factory AccelerometerData.fromJson(Map<String, dynamic> json) => AccelerometerData(
-    id: json['id'],
-    timestamp: DateTime.parse(json['timestamp']),
-    x: json['x'],
-    y: json['y'],
-    z: json['z'],
-  );
+  factory AccelerometerData.fromJson(Map<String, dynamic> json) =>
+      AccelerometerData(
+        id: json['id'],
+        timestamp: DateTime.parse(json['timestamp']),
+        x: json['x'],
+        y: json['y'],
+        z: json['z'],
+      );
 }
 
 /// Gyroscope sensor data
@@ -103,8 +103,8 @@ class MagnetometerData extends SensorData {
     required this.x,
     required this.y,
     required this.z,
-  })  : fieldStrength = _calculateFieldStrength(x, y, z),
-        super(id: id, timestamp: timestamp, sensorType: 'magnetometer');
+  }) : fieldStrength = _calculateFieldStrength(x, y, z),
+       super(id: id, timestamp: timestamp, sensorType: 'magnetometer');
 
   static double _calculateFieldStrength(double x, double y, double z) {
     return (x * x + y * y + z * z).abs();
@@ -121,13 +121,14 @@ class MagnetometerData extends SensorData {
     'fieldStrength': fieldStrength,
   };
 
-  factory MagnetometerData.fromJson(Map<String, dynamic> json) => MagnetometerData(
-    id: json['id'],
-    timestamp: DateTime.parse(json['timestamp']),
-    x: json['x'],
-    y: json['y'],
-    z: json['z'],
-  );
+  factory MagnetometerData.fromJson(Map<String, dynamic> json) =>
+      MagnetometerData(
+        id: json['id'],
+        timestamp: DateTime.parse(json['timestamp']),
+        x: json['x'],
+        y: json['y'],
+        z: json['z'],
+      );
 }
 
 /// Location sensor data
@@ -209,12 +210,9 @@ class LightData extends SensorData {
   final double luxValue;
   final String lightCondition;
 
-  LightData({
-    String? id,
-    DateTime? timestamp,
-    required this.luxValue,
-  })  : lightCondition = _getLightCondition(luxValue),
-        super(id: id, timestamp: timestamp, sensorType: 'light');
+  LightData({String? id, DateTime? timestamp, required this.luxValue})
+    : lightCondition = _getLightCondition(luxValue),
+      super(id: id, timestamp: timestamp, sensorType: 'light');
 
   static String _getLightCondition(double lux) {
     if (lux < 10) return 'Dark';
