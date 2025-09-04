@@ -298,10 +298,15 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                         .slideX(begin: -0.2, end: 0),
                   ),
                 );
-                                                                                                                    },
-                                                                                          // Bottom Actions
-                                                                                          child: Column(
-                                                                                              SizedBox(
+              },
+            ),
+          ),
+          // Bottom Actions
+          Padding(
+            padding: const EdgeInsets.all(AppTheme.paddingMD),
+            child: Column(
+              children: [
+                SizedBox(
                                                                                                   width: double
                                                                                                       .infinity,
                                                                                                   child: ElevatedButton
