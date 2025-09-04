@@ -185,7 +185,7 @@ class SensorService {
     _magnetometerController.add(MagnetometerData(x: magX, y: magY, z: magZ));
     
     // Generate data less frequently for other sensors
-    if (timer.tick % 50 == 0) { // Every 5 seconds
+    if (time.toInt() % 5 == 0 && (time * 10).toInt() % 10 == 0) { // Every 5 seconds
       // Mock location (simulate slight GPS drift)
       _mockLocationLat += (_random.nextDouble() - 0.5) * 0.00001;
       _mockLocationLng += (_random.nextDouble() - 0.5) * 0.00001;
