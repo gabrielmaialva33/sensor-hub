@@ -81,38 +81,53 @@ class SensorService {
   Future<void> startMonitoring() async {
     if (_isMonitoring) return;
 
-    await _requestPermissions();
-
     _isMonitoring = true;
 
-    // Start motion sensors
-    await _startAccelerometer();
-    await _startGyroscope();
-    await _startMagnetometer();
+    if (kIsWeb) {
+      // Web platform: Start mock data generation
+      await _startMockDataGeneration();
+      Logger.success('SensorHub: Mock sensors started for web platform');
+    } else {
+      // Mobile platform: Request permissions and start real sensors
+      await _requestPermissions();
 
-    // Start environment sensors
-    await _startLocationTracking();
-    await _startBatteryMonitoring();
-    await _startLightSensor();
-    await _startProximitySensor();
+      // Start motion sensors
+      await _startAccelerometer();
+      await _startGyroscope();
+      await _startMagnetometer();
 
-    Logger.success('SensorHub: All sensors started monitoring');
+      // Start environment sensors
+      await _startLocationTracking();
+      await _startBatteryMonitoring();
+      await _startLightSensor();
+      await _startProximitySensor();
+
+      Logger.success('SensorHub: All real sensors started monitoring');
+    }
   }
 
   /// Stop monitoring all sensors
   Future<void> stopMonitoring() async {
     if (!_isMonitoring) return;
 
-    _accelerometerSubscription?.cancel();
-    _gyroscopeSubscription?.cancel();
-    _magnetometerSubscription?.cancel();
-    _locationSubscription?.cancel();
-    _batterySubscription?.cancel();
-    _lightSubscription?.cancel();
-    _proximitySubscription?.cancel();
+    if (kIsWeb) {
+      // Web platform: Stop mock data generation
+      _mockDataTimer?.cancel();
+      _mockDataTimer = null;
+      Logger.info('SensorHub: Mock sensors stopped');
+    } else {
+      // Mobile platform: Cancel real sensor subscriptions
+      _accelerometerSubscription?.cancel();
+      _gyroscopeSubscription?.cancel();
+      _magnetometerSubscription?.cancel();
+      _locationSubscription?.cancel();
+      _batterySubscription?.cancel();
+      _lightSubscription?.cancel();
+      _proximitySubscription?.cancel();
+      Logger.info('SensorHub: All real sensors stopped monitoring');
+    }
 
     _isMonitoring = false;
-    Logger.info('SensorHub: All sensors stopped monitoring');
   }
 
   /// Request necessary permissions
