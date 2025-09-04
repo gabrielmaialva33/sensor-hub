@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import '../presentation/screens/splash_screen.dart';
-import '../presentation/screens/home_screen.dart';
+import '../features/sensors/presentation/pages/splash_screen.dart';
+import '../features/sensors/presentation/pages/home_screen.dart';
 
 /// Router moderno com go_router 14.0+ - 2025 Pattern
 /// Suporta deep linking, navegação declarativa e guarded routes
