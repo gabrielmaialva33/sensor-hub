@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/constants/app_constants.dart';
+import '../../core/utils/logger.dart';
 import '../../data/services/supabase_service.dart';
 import '../../data/services/nvidia_ai_service.dart';
 
@@ -43,7 +44,7 @@ class _SplashScreenState extends State<SplashScreen> {
       // Optional: Test API connection (non-blocking)
       aiService.testConnection().then((isConnected) {
         if (!isConnected) {
-          print('⚠️ AI services temporarily unavailable, app will work in offline mode');
+          Logger.warning('AI services temporarily unavailable, app will work in offline mode');
         }
       });
 
