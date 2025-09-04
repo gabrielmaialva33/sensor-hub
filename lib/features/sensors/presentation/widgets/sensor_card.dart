@@ -2,8 +2,8 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:sensor_hub/core/core.dart';
+
 import '../providers/sensor_providers.dart';
 
 class SensorCard extends ConsumerStatefulWidget {
@@ -27,7 +27,8 @@ class _SensorCardState extends ConsumerState<SensorCard> {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final sensorName = AppConstants.sensorDisplayNames[widget.sensorType] ?? widget.sensorType;
+    final sensorName =
+        AppConstants.sensorDisplayNames[widget.sensorType] ?? widget.sensorType;
     final sensorIcon = AppConstants.sensorIcons[widget.sensorType] ?? '📊';
 
     return Container(
@@ -90,45 +91,45 @@ class _SensorCardState extends ConsumerState<SensorCard> {
                     children: [
                       Text(
                         sensorName,
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleMedium
+                        style: Theme.of(context).textTheme.titleMedium
                             ?.copyWith(fontWeight: FontWeight.bold),
                       ),
                       Text(
                         widget.isMonitoring ? 'Ativo' : 'Inativo',
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodySmall
-                            ?.copyWith(
-                              color: widget.isMonitoring
-                                  ? AppTheme.successColor
-                                  : AppTheme.mutedText,
-                            ),
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: widget.isMonitoring
+                              ? AppTheme.successColor
+                              : AppTheme.mutedText,
+                        ),
                       ),
                     ],
                   ),
                 ),
                 // Status Indicator
                 Container(
-                  width: 8,
-                  height: 8,
-                  decoration: BoxDecoration(
-                    color: widget.isMonitoring
-                        ? AppTheme.successColor
-                        : AppTheme.mutedText,
-                    shape: BoxShape.circle,
-                  ),
-                ).animate(
-                  onPlay: (controller) => widget.isMonitoring ? controller.repeat() : null,
-                ).scale(
-                  duration: 1.seconds,
-                  begin: const Offset(1, 1),
-                  end: const Offset(1.2, 1.2),
-                ).then().scale(
-                  begin: const Offset(1.2, 1.2),
-                  end: const Offset(1, 1),
-                ),
+                      width: 8,
+                      height: 8,
+                      decoration: BoxDecoration(
+                        color: widget.isMonitoring
+                            ? AppTheme.successColor
+                            : AppTheme.mutedText,
+                        shape: BoxShape.circle,
+                      ),
+                    )
+                    .animate(
+                      onPlay: (controller) =>
+                          widget.isMonitoring ? controller.repeat() : null,
+                    )
+                    .scale(
+                      duration: 1.seconds,
+                      begin: const Offset(1, 1),
+                      end: const Offset(1.2, 1.2),
+                    )
+                    .then()
+                    .scale(
+                      begin: const Offset(1.2, 1.2),
+                      end: const Offset(1, 1),
+                    ),
               ],
             ),
           ),
@@ -166,10 +167,9 @@ class _SensorCardState extends ConsumerState<SensorCard> {
             const SizedBox(height: AppTheme.paddingSM),
             Text(
               'Sensor não ativo',
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyMedium
-                  ?.copyWith(color: AppTheme.mutedText),
+              style: Theme.of(
+                context,
+              ).textTheme.bodyMedium?.copyWith(color: AppTheme.mutedText),
             ),
           ],
         ),
@@ -297,8 +297,8 @@ class _SensorCardState extends ConsumerState<SensorCard> {
         final color = data.batteryLevel < 20
             ? AppTheme.errorColor
             : data.batteryLevel < 50
-                ? AppTheme.warningColor
-                : AppTheme.successColor;
+            ? AppTheme.warningColor
+            : AppTheme.successColor;
 
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -310,12 +310,14 @@ class _SensorCardState extends ConsumerState<SensorCard> {
                 Text(
                   '${data.batteryLevel}%',
                   style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                        color: color,
-                        fontWeight: FontWeight.bold,
-                      ),
+                    color: color,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 Icon(
-                  data.isCharging ? Icons.battery_charging_full : Icons.battery_full,
+                  data.isCharging
+                      ? Icons.battery_charging_full
+                      : Icons.battery_full,
                   color: color,
                   size: 32,
                 ),
@@ -375,7 +377,8 @@ class _SensorCardState extends ConsumerState<SensorCard> {
               child: Stack(
                 children: [
                   Positioned(
-                    left: (data.luxValue.clamp(0, 10000) / 10000) *
+                    left:
+                        (data.luxValue.clamp(0, 10000) / 10000) *
                         (MediaQuery.of(context).size.width * 0.3),
                     child: Container(
                       width: 4,
@@ -404,7 +407,9 @@ class _SensorCardState extends ConsumerState<SensorCard> {
               child: Icon(
                 data.isNear ? Icons.pan_tool : Icons.do_not_touch,
                 size: 64,
-                color: data.isNear ? AppTheme.warningColor : AppTheme.successColor,
+                color: data.isNear
+                    ? AppTheme.warningColor
+                    : AppTheme.successColor,
               ),
             ),
             const SizedBox(height: AppTheme.paddingMD),
@@ -442,16 +447,16 @@ class _SensorCardState extends ConsumerState<SensorCard> {
           Text(
             label,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: isHighlighted ? null : AppTheme.mutedText,
-                  fontWeight: isHighlighted ? FontWeight.w600 : FontWeight.normal,
-                ),
+              color: isHighlighted ? null : AppTheme.mutedText,
+              fontWeight: isHighlighted ? FontWeight.w600 : FontWeight.normal,
+            ),
           ),
           Text(
             '$value $unit',
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  fontWeight: isHighlighted ? FontWeight.bold : FontWeight.w600,
-                  color: isHighlighted ? AppTheme.primaryColor : null,
-                ),
+              fontWeight: isHighlighted ? FontWeight.bold : FontWeight.w600,
+              color: isHighlighted ? AppTheme.primaryColor : null,
+            ),
           ),
         ],
       ),

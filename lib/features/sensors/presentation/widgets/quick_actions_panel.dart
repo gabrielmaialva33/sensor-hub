@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:sensor_hub/core/core.dart';
+
 import '../providers/sensor_providers.dart';
 
 class QuickActionsPanel extends ConsumerWidget {
@@ -36,10 +36,9 @@ class QuickActionsPanel extends ConsumerWidget {
               const SizedBox(width: AppTheme.paddingSM),
               Text(
                 'Ações Rápidas',
-                style: Theme.of(context)
-                    .textTheme
-                    .titleMedium
-                    ?.copyWith(fontWeight: FontWeight.bold),
+                style: Theme.of(
+                  context,
+                ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
               ),
             ],
           ),
@@ -149,11 +148,11 @@ class QuickActionsPanel extends ConsumerWidget {
               Text(
                 label,
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: isEnabled
-                          ? color
-                          : AppTheme.mutedText.withValues(alpha: 0.5),
-                      fontWeight: FontWeight.w600,
-                    ),
+                  color: isEnabled
+                      ? color
+                      : AppTheme.mutedText.withValues(alpha: 0.5),
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             ],
           ),
@@ -176,10 +175,9 @@ class QuickActionsPanel extends ConsumerWidget {
       children: [
         Text(
           'Status do Sistema',
-          style: Theme.of(context)
-              .textTheme
-              .titleSmall
-              ?.copyWith(fontWeight: FontWeight.w600),
+          style: Theme.of(
+            context,
+          ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600),
         ),
         const SizedBox(height: AppTheme.paddingSM),
         // Status Items
@@ -224,28 +222,24 @@ class QuickActionsPanel extends ConsumerWidget {
         children: [
           Text(
             label,
-            style: Theme.of(context)
-                .textTheme
-                .bodySmall
-                ?.copyWith(color: AppTheme.mutedText),
+            style: Theme.of(
+              context,
+            ).textTheme.bodySmall?.copyWith(color: AppTheme.mutedText),
           ),
           Row(
             children: [
               Container(
                 width: 6,
                 height: 6,
-                decoration: BoxDecoration(
-                  color: color,
-                  shape: BoxShape.circle,
-                ),
+                decoration: BoxDecoration(color: color, shape: BoxShape.circle),
               ),
               const SizedBox(width: AppTheme.paddingXS),
               Text(
                 value,
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: color,
-                      fontWeight: FontWeight.w600,
-                    ),
+                  color: color,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             ],
           ),
@@ -264,10 +258,9 @@ class QuickActionsPanel extends ConsumerWidget {
       children: [
         Text(
           'Features',
-          style: Theme.of(context)
-              .textTheme
-              .titleSmall
-              ?.copyWith(fontWeight: FontWeight.w600),
+          style: Theme.of(
+            context,
+          ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600),
         ),
         const SizedBox(height: AppTheme.paddingSM),
         // Feature Toggles
@@ -315,10 +308,7 @@ class QuickActionsPanel extends ConsumerWidget {
           ),
           const SizedBox(width: AppTheme.paddingSM),
           Expanded(
-            child: Text(
-              label,
-              style: Theme.of(context).textTheme.bodySmall,
-            ),
+            child: Text(label, style: Theme.of(context).textTheme.bodySmall),
           ),
           Switch(
             value: isEnabled,
@@ -501,8 +491,8 @@ class QuickActionsPanel extends ConsumerWidget {
                 Text(
                   'Settings',
                   style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 IconButton(
                   onPressed: () => Navigator.pop(context),

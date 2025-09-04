@@ -1,5 +1,4 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:sensor_hub/features/sensors/data/models/sensor_data.dart';
 import 'package:sensor_hub/infrastructure/infrastructure.dart';
 
@@ -59,19 +58,20 @@ final proximityStreamProvider = StreamProvider<ProximityData>((ref) {
 });
 
 // Sensor Data History Provider (stores last N readings for each sensor)
-class SensorHistoryNotifier extends StateNotifier<Map<String, List<SensorData>>> {
+class SensorHistoryNotifier
+    extends StateNotifier<Map<String, List<SensorData>>> {
   static const int maxHistorySize = 100;
 
   SensorHistoryNotifier()
-      : super({
-          'accelerometer': [],
-          'gyroscope': [],
-          'magnetometer': [],
-          'location': [],
-          'battery': [],
-          'light': [],
-          'proximity': [],
-        });
+    : super({
+        'accelerometer': [],
+        'gyroscope': [],
+        'magnetometer': [],
+        'location': [],
+        'battery': [],
+        'light': [],
+        'proximity': [],
+      });
 
   void addData(String sensorType, SensorData data) {
     final currentList = state[sensorType] ?? [];
@@ -102,11 +102,12 @@ class SensorHistoryNotifier extends StateNotifier<Map<String, List<SensorData>>>
   }
 }
 
-final sensorHistoryProvider = StateNotifierProvider<SensorHistoryNotifier, Map<String, List<SensorData>>>(
-  (ref) {
-    return SensorHistoryNotifier();
-  },
-);
+final sensorHistoryProvider =
+    StateNotifierProvider<SensorHistoryNotifier, Map<String, List<SensorData>>>(
+      (ref) {
+        return SensorHistoryNotifier();
+      },
+    );
 
 // AI Insights Provider
 final aiInsightsProvider = FutureProvider.family<AIInsight, List<SensorData>>((
@@ -118,22 +119,24 @@ final aiInsightsProvider = FutureProvider.family<AIInsight, List<SensorData>>((
 });
 
 // Activity Summary Provider
-final activitySummaryProvider = FutureProvider.family<ActivitySummary, List<SensorData>>((
-  ref,
-  dailyData,
-) async {
-  final aiService = ref.watch(nvidiaAiServiceProvider);
-  return await aiService.generateActivitySummary(dailyData);
-});
+final activitySummaryProvider =
+    FutureProvider.family<ActivitySummary, List<SensorData>>((
+      ref,
+      dailyData,
+    ) async {
+      final aiService = ref.watch(nvidiaAiServiceProvider);
+      return await aiService.generateActivitySummary(dailyData);
+    });
 
 // Prediction Provider
-final sensorPredictionProvider = FutureProvider.family<Prediction, List<SensorData>>((
-  ref,
-  historicalData,
-) async {
-  final aiService = ref.watch(nvidiaAiServiceProvider);
-  return await aiService.predictSensorPatterns(historicalData);
-});
+final sensorPredictionProvider =
+    FutureProvider.family<Prediction, List<SensorData>>((
+      ref,
+      historicalData,
+    ) async {
+      final aiService = ref.watch(nvidiaAiServiceProvider);
+      return await aiService.predictSensorPatterns(historicalData);
+    });
 
 // Selected Sensor Category Provider
 final selectedSensorCategoryProvider = StateProvider<String>(
@@ -151,15 +154,15 @@ class ChartDataNotifier extends StateNotifier<Map<String, List<double>>> {
   static const int maxChartPoints = 50;
 
   ChartDataNotifier()
-      : super({
-          'accelerometer': [],
-          'gyroscope': [],
-          'magnetometer': [],
-          'location': [],
-          'battery': [],
-          'light': [],
-          'proximity': [],
-        });
+    : super({
+        'accelerometer': [],
+        'gyroscope': [],
+        'magnetometer': [],
+        'location': [],
+        'battery': [],
+        'light': [],
+        'proximity': [],
+      });
 
   void addDataPoint(String sensorType, double value) {
     final currentList = state[sensorType] ?? [];
@@ -178,9 +181,10 @@ class ChartDataNotifier extends StateNotifier<Map<String, List<double>>> {
   }
 }
 
-final chartDataProvider = StateNotifierProvider<ChartDataNotifier, Map<String, List<double>>>((ref) {
-  return ChartDataNotifier();
-});
+final chartDataProvider =
+    StateNotifierProvider<ChartDataNotifier, Map<String, List<double>>>((ref) {
+      return ChartDataNotifier();
+    });
 
 // Export Settings Provider
 class ExportSettings {

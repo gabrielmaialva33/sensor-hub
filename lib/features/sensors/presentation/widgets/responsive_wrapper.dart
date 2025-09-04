@@ -16,12 +16,12 @@ class ResponsiveWrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Widget content = child;
-    
+
     // Wrap in Flexible for Row/Column children
     if (useFlexible) {
       content = Flexible(child: content);
     }
-    
+
     // Wrap in ScrollView for overflow prevention
     if (wrapInScrollView) {
       content = SingleChildScrollView(
@@ -29,7 +29,7 @@ class ResponsiveWrapper extends StatelessWidget {
         child: content,
       );
     }
-    
+
     return content;
   }
 }

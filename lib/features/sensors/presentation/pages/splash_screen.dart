@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-
 import 'package:sensor_hub/core/core.dart';
 import 'package:sensor_hub/infrastructure/infrastructure.dart';
 
@@ -64,9 +63,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme
-        .of(context)
-        .brightness == Brightness.dark;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
       backgroundColor: isDark
           ? AppTheme.darkBackground
@@ -84,21 +81,14 @@ class _SplashScreenState extends State<SplashScreen> {
                 height: 120,
                 decoration: BoxDecoration(
                   gradient: const LinearGradient(
-                    colors: [
-                      AppTheme.primaryColor,
-                      AppTheme.secondaryColor,
-                    ],
+                    colors: [AppTheme.primaryColor, AppTheme.secondaryColor],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
                   borderRadius: BorderRadius.circular(AppTheme.radiusXL),
                   boxShadow: AppTheme.mediumShadow,
                 ),
-                child: const Icon(
-                  Icons.sensors,
-                  size: 60,
-                  color: Colors.white,
-                )
+                child: const Icon(Icons.sensors, size: 60, color: Colors.white)
                     .animate()
                     .scale(duration: 800.ms, curve: Curves.elasticOut)
                     .shimmer(delay: 400.ms, duration: 1200.ms),
@@ -106,16 +96,12 @@ class _SplashScreenState extends State<SplashScreen> {
               const SizedBox(height: AppTheme.paddingXL),
               // App Name
               Text(
-                AppConstants.appName,
-                style: Theme
-                    .of(context)
-                    .textTheme
-                    .headlineLarge
-                    ?.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: isDark ? AppTheme.darkText : AppTheme.lightText,
-                ),
-              )
+                    AppConstants.appName,
+                    style: Theme.of(context).textTheme.headlineLarge?.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: isDark ? AppTheme.darkText : AppTheme.lightText,
+                    ),
+                  )
                   .animate()
                   .fadeIn(delay: 200.ms, duration: 600.ms)
                   .slideY(begin: 0.3, end: 0),
@@ -124,25 +110,15 @@ class _SplashScreenState extends State<SplashScreen> {
               Text(
                 AppConstants.appDescription,
                 textAlign: TextAlign.center,
-                style: Theme
-                    .of(
+                style: Theme.of(
                   context,
-                )
-                    .textTheme
-                    .bodyMedium
-                    ?.copyWith(color: AppTheme.mutedText),
-              )
-                  .animate()
-                  .fadeIn(delay: 400.ms, duration: 600.ms),
+                ).textTheme.bodyMedium?.copyWith(color: AppTheme.mutedText),
+              ).animate().fadeIn(delay: 400.ms, duration: 600.ms),
               const SizedBox(height: AppTheme.paddingXL * 2),
               // Status Text
               Text(
                 _status,
-                style: Theme
-                    .of(context)
-                    .textTheme
-                    .bodyMedium
-                    ?.copyWith(
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   color: _hasError
                       ? AppTheme.errorColor
                       : AppTheme.primaryColor,
@@ -153,13 +129,16 @@ class _SplashScreenState extends State<SplashScreen> {
               // Loading Indicator
               if (!_hasError)
                 const SizedBox(
-                  width: 32,
-                  height: 32,
-                  child: CircularProgressIndicator(
-                    strokeWidth: 3,
-                    color: AppTheme.primaryColor,
-                  ),
-                ).animate().fadeIn(delay: 800.ms).scale(delay: 800.ms, duration: 400.ms),
+                      width: 32,
+                      height: 32,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 3,
+                        color: AppTheme.primaryColor,
+                      ),
+                    )
+                    .animate()
+                    .fadeIn(delay: 800.ms)
+                    .scale(delay: 800.ms, duration: 400.ms),
               // Error Icon
               if (_hasError)
                 const Icon(
@@ -174,25 +153,21 @@ class _SplashScreenState extends State<SplashScreen> {
                 children: [
                   Text(
                     'Version ${AppConstants.appVersion}',
-                    style: Theme
-                        .of(
+                    style: Theme.of(
                       context,
-                    )
-                        .textTheme
-                        .bodySmall
-                        ?.copyWith(color: AppTheme.mutedText),
+                    ).textTheme.bodySmall?.copyWith(color: AppTheme.mutedText),
                   ),
                   const SizedBox(width: AppTheme.paddingSM),
                   Container(
-                    width: 8,
-                    height: 8,
-                    decoration: BoxDecoration(
-                      color: _hasError
-                          ? AppTheme.errorColor
-                          : AppTheme.secondaryColor,
-                      shape: BoxShape.circle,
-                    ),
-                  )
+                        width: 8,
+                        height: 8,
+                        decoration: BoxDecoration(
+                          color: _hasError
+                              ? AppTheme.errorColor
+                              : AppTheme.secondaryColor,
+                          shape: BoxShape.circle,
+                        ),
+                      )
                       .animate(onPlay: (controller) => controller.repeat())
                       .fadeIn(duration: 800.ms)
                       .fadeOut(delay: 800.ms, duration: 800.ms),

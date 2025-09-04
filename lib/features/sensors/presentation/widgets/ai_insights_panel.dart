@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:sensor_hub/core/core.dart' hide Prediction;
 import 'package:sensor_hub/features/sensors/data/models/sensor_data.dart';
 import 'package:sensor_hub/infrastructure/infrastructure.dart';
+
 import '../providers/sensor_providers.dart';
 
 class AIInsightsPanel extends ConsumerStatefulWidget {
@@ -65,16 +65,15 @@ class _AIInsightsPanelState extends ConsumerState<AIInsightsPanel> {
               Text(
                 '🤖 Insights de IA',
                 style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               const SizedBox(height: AppTheme.paddingXS),
               Text(
                 'Desenvolvido com NVIDIA AI',
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyMedium
-                    ?.copyWith(color: AppTheme.mutedText),
+                style: Theme.of(
+                  context,
+                ).textTheme.bodyMedium?.copyWith(color: AppTheme.mutedText),
               ),
             ],
           ),
@@ -106,7 +105,9 @@ class _AIInsightsPanelState extends ConsumerState<AIInsightsPanel> {
       0,
       (sum, list) => sum + list.length,
     );
-    final activeSensors = sensorHistory.values.where((list) => list.isNotEmpty).length;
+    final activeSensors = sensorHistory.values
+        .where((list) => list.isNotEmpty)
+        .length;
 
     return Row(
       children: [
@@ -139,7 +140,9 @@ class _AIInsightsPanelState extends ConsumerState<AIInsightsPanel> {
             '⚡',
             'Status da IA',
             _currentInsight != null ? 'Pronto' : 'Inativo',
-            _currentInsight != null ? AppTheme.successColor : AppTheme.warningColor,
+            _currentInsight != null
+                ? AppTheme.successColor
+                : AppTheme.warningColor,
           ),
         ),
       ],
@@ -167,18 +170,17 @@ class _AIInsightsPanelState extends ConsumerState<AIInsightsPanel> {
           const SizedBox(height: AppTheme.paddingXS),
           Text(
             label,
-            style: Theme.of(context)
-                .textTheme
-                .bodySmall
-                ?.copyWith(color: AppTheme.mutedText),
+            style: Theme.of(
+              context,
+            ).textTheme.bodySmall?.copyWith(color: AppTheme.mutedText),
           ),
           const SizedBox(height: AppTheme.paddingXS),
           Text(
             value,
             style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: color,
-                ),
+              fontWeight: FontWeight.bold,
+              color: color,
+            ),
           ),
         ],
       ),
@@ -206,80 +208,94 @@ class _AIInsightsPanelState extends ConsumerState<AIInsightsPanel> {
     }
 
     return Container(
-      padding: const EdgeInsets.all(AppTheme.paddingLG),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: isDark
-              ? [
-                  AppTheme.primaryColor.withValues(alpha: 0.1),
-                  AppTheme.secondaryColor.withValues(alpha: 0.05),
-                ]
-              : [
-                  AppTheme.primaryColor.withValues(alpha: 0.05),
-                  AppTheme.secondaryColor.withValues(alpha: 0.02),
-                ],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
-        borderRadius: BorderRadius.circular(AppTheme.radiusLG),
-        border: Border.all(
-          color: AppTheme.primaryColor.withValues(alpha: 0.2),
-          width: 1,
-        ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
+          padding: const EdgeInsets.all(AppTheme.paddingLG),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: isDark
+                  ? [
+                      AppTheme.primaryColor.withValues(alpha: 0.1),
+                      AppTheme.secondaryColor.withValues(alpha: 0.05),
+                    ]
+                  : [
+                      AppTheme.primaryColor.withValues(alpha: 0.05),
+                      AppTheme.secondaryColor.withValues(alpha: 0.02),
+                    ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+            borderRadius: BorderRadius.circular(AppTheme.radiusLG),
+            border: Border.all(
+              color: AppTheme.primaryColor.withValues(alpha: 0.2),
+              width: 1,
+            ),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Icon(Icons.insights, color: AppTheme.primaryColor),
-              const SizedBox(width: AppTheme.paddingSM),
-              Text(
-                'Análise Atual',
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+              Row(
+                children: [
+                  const Icon(Icons.insights, color: AppTheme.primaryColor),
+                  const SizedBox(width: AppTheme.paddingSM),
+                  Text(
+                    'Análise Atual',
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
-              ),
-              const Spacer(),
-              Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: AppTheme.paddingSM,
-                  vertical: AppTheme.paddingXS,
-                ),
-                decoration: BoxDecoration(
-                  color: AppTheme.successColor.withValues(alpha: 0.1),
-                  borderRadius: BorderRadius.circular(AppTheme.radiusSM),
-                ),
-                child: Text(
-                  '${(_currentInsight!.confidence * 100).toInt()}% Confiança',
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  ),
+                  const Spacer(),
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: AppTheme.paddingSM,
+                      vertical: AppTheme.paddingXS,
+                    ),
+                    decoration: BoxDecoration(
+                      color: AppTheme.successColor.withValues(alpha: 0.1),
+                      borderRadius: BorderRadius.circular(AppTheme.radiusSM),
+                    ),
+                    child: Text(
+                      '${(_currentInsight!.confidence * 100).toInt()}% Confiança',
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
                         color: AppTheme.successColor,
                         fontWeight: FontWeight.w600,
                       ),
-                ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: AppTheme.paddingMD),
+              _buildInsightRow(
+                'Atividade',
+                _currentInsight!.activity,
+                Icons.directions_walk,
+              ),
+              _buildInsightRow(
+                'Ambiente',
+                _currentInsight!.environment,
+                Icons.wb_sunny,
+              ),
+              _buildInsightRow(
+                'Saúde do Dispositivo',
+                _currentInsight!.deviceHealth,
+                Icons.phone_android,
+              ),
+              const Divider(height: AppTheme.paddingLG),
+              Text(
+                'Padrões Detectados',
+                style: Theme.of(
+                  context,
+                ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600),
+              ),
+              const SizedBox(height: AppTheme.paddingSM),
+              Text(
+                _currentInsight!.patterns,
+                style: Theme.of(context).textTheme.bodyMedium,
               ),
             ],
           ),
-          const SizedBox(height: AppTheme.paddingMD),
-          _buildInsightRow('Atividade', _currentInsight!.activity, Icons.directions_walk),
-          _buildInsightRow('Ambiente', _currentInsight!.environment, Icons.wb_sunny),
-          _buildInsightRow('Saúde do Dispositivo', _currentInsight!.deviceHealth, Icons.phone_android),
-          const Divider(height: AppTheme.paddingLG),
-          Text(
-            'Padrões Detectados',
-            style: Theme.of(context).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600),
-          ),
-          const SizedBox(height: AppTheme.paddingSM),
-          Text(
-            _currentInsight!.patterns,
-            style: Theme.of(context).textTheme.bodyMedium,
-          ),
-        ],
-      ),
-    ).animate().fadeIn(duration: 600.ms).scale(
-          begin: const Offset(0.95, 0.95),
-          end: const Offset(1, 1),
-        );
+        )
+        .animate()
+        .fadeIn(duration: 600.ms)
+        .scale(begin: const Offset(0.95, 0.95), end: const Offset(1, 1));
   }
 
   Widget _buildPredictionsSection(BuildContext context, bool isDark) {
@@ -288,37 +304,56 @@ class _AIInsightsPanelState extends ConsumerState<AIInsightsPanel> {
     }
 
     return Container(
-      padding: const EdgeInsets.all(AppTheme.paddingLG),
-      decoration: BoxDecoration(
-        color: isDark ? AppTheme.darkCard : AppTheme.lightCard,
-        borderRadius: BorderRadius.circular(AppTheme.radiusLG),
-        border: Border.all(
-          color: isDark ? AppTheme.darkBorder : AppTheme.lightBorder,
-        ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
+          padding: const EdgeInsets.all(AppTheme.paddingLG),
+          decoration: BoxDecoration(
+            color: isDark ? AppTheme.darkCard : AppTheme.lightCard,
+            borderRadius: BorderRadius.circular(AppTheme.radiusLG),
+            border: Border.all(
+              color: isDark ? AppTheme.darkBorder : AppTheme.lightBorder,
+            ),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Icon(Icons.timeline, color: AppTheme.secondaryColor),
-              const SizedBox(width: AppTheme.paddingSM),
-              Text(
-                'Previsões',
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+              Row(
+                children: [
+                  const Icon(Icons.timeline, color: AppTheme.secondaryColor),
+                  const SizedBox(width: AppTheme.paddingSM),
+                  Text(
+                    'Previsões',
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: AppTheme.paddingMD),
+              _buildPredictionCard(
+                'Próxima Atividade',
+                _currentPrediction!.nextActivity,
+                Icons.next_plan,
+              ),
+              _buildPredictionCard(
+                'Previsão da Bateria',
+                _currentPrediction!.batteryPrediction,
+                Icons.battery_full,
+              ),
+              _buildPredictionCard(
+                'Padrão de Movimento',
+                _currentPrediction!.movementForecast,
+                Icons.pattern,
+              ),
+              _buildPredictionCard(
+                'Mudanças Ambientais',
+                _currentPrediction!.environmentalChanges,
+                Icons.cloud,
               ),
             ],
           ),
-          const SizedBox(height: AppTheme.paddingMD),
-          _buildPredictionCard('Próxima Atividade', _currentPrediction!.nextActivity, Icons.next_plan),
-          _buildPredictionCard('Previsão da Bateria', _currentPrediction!.batteryPrediction, Icons.battery_full),
-          _buildPredictionCard('Padrão de Movimento', _currentPrediction!.movementForecast, Icons.pattern),
-          _buildPredictionCard('Mudanças Ambientais', _currentPrediction!.environmentalChanges, Icons.cloud),
-        ],
-      ),
-    ).animate().fadeIn(delay: 200.ms, duration: 600.ms).slideX(begin: 0.1, end: 0);
+        )
+        .animate()
+        .fadeIn(delay: 200.ms, duration: 600.ms)
+        .slideX(begin: 0.1, end: 0);
   }
 
   Widget _buildActivitySummarySection(BuildContext context, bool isDark) {
@@ -327,99 +362,105 @@ class _AIInsightsPanelState extends ConsumerState<AIInsightsPanel> {
     }
 
     return Container(
-      padding: const EdgeInsets.all(AppTheme.paddingLG),
-      decoration: BoxDecoration(
-        color: isDark ? AppTheme.darkCard : AppTheme.lightCard,
-        borderRadius: BorderRadius.circular(AppTheme.radiusLG),
-        border: Border.all(
-          color: isDark ? AppTheme.darkBorder : AppTheme.lightBorder,
-        ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
+          padding: const EdgeInsets.all(AppTheme.paddingLG),
+          decoration: BoxDecoration(
+            color: isDark ? AppTheme.darkCard : AppTheme.lightCard,
+            borderRadius: BorderRadius.circular(AppTheme.radiusLG),
+            border: Border.all(
+              color: isDark ? AppTheme.darkBorder : AppTheme.lightBorder,
+            ),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Icon(Icons.assessment, color: AppTheme.warningColor),
-              const SizedBox(width: AppTheme.paddingSM),
-              Text(
-                'Resumo de Atividades',
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
-              ),
-              const Spacer(),
-              Container(
-                width: 60,
-                height: 60,
-                padding: const EdgeInsets.all(AppTheme.paddingSM),
-                decoration: BoxDecoration(
-                  gradient: const LinearGradient(
-                    colors: [
-                      AppTheme.primaryColor,
-                      AppTheme.secondaryColor,
-                    ],
-                  ),
-                  shape: BoxShape.circle,
-                ),
-                child: Center(
-                  child: Text(
-                    '${_activitySummary!.score}',
-                    style: const TextStyle(
-                      color: Colors.white,
+              Row(
+                children: [
+                  const Icon(Icons.assessment, color: AppTheme.warningColor),
+                  const SizedBox(width: AppTheme.paddingSM),
+                  Text(
+                    'Resumo de Atividades',
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                ),
+                  const Spacer(),
+                  Container(
+                    width: 60,
+                    height: 60,
+                    padding: const EdgeInsets.all(AppTheme.paddingSM),
+                    decoration: BoxDecoration(
+                      gradient: const LinearGradient(
+                        colors: [
+                          AppTheme.primaryColor,
+                          AppTheme.secondaryColor,
+                        ],
+                      ),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Center(
+                      child: Text(
+                        '${_activitySummary!.score}',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: AppTheme.paddingMD),
+              // Activity breakdown
+              if (_activitySummary!.activities.isNotEmpty)
+                ...(_activitySummary!.activities.entries.map(
+                  (entry) => _buildActivityBar(context, entry.key, entry.value),
+                )),
+              const SizedBox(height: AppTheme.paddingMD),
+              Row(
+                children: [
+                  Expanded(
+                    child: _buildSummaryDetail(
+                      'Movimento',
+                      _activitySummary!.movement,
+                      Icons.directions_run,
+                    ),
+                  ),
+                  Expanded(
+                    child: _buildSummaryDetail(
+                      'Ambiente',
+                      _activitySummary!.environment,
+                      Icons.location_on,
+                    ),
+                  ),
+                  Expanded(
+                    child: _buildSummaryDetail(
+                      'Status de Saúde',
+                      _activitySummary!.health,
+                      Icons.favorite,
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
-          const SizedBox(height: AppTheme.paddingMD),
-          // Activity breakdown
-          if (_activitySummary!.activities.isNotEmpty)
-            ...(_activitySummary!.activities.entries.map(
-              (entry) => _buildActivityBar(context, entry.key, entry.value),
-            )),
-          const SizedBox(height: AppTheme.paddingMD),
-          Row(
-            children: [
-              Expanded(
-                child: _buildSummaryDetail(
-                  'Movimento',
-                  _activitySummary!.movement,
-                  Icons.directions_run,
-                ),
-              ),
-              Expanded(
-                child: _buildSummaryDetail(
-                  'Ambiente',
-                  _activitySummary!.environment,
-                  Icons.location_on,
-                ),
-              ),
-              Expanded(
-                child: _buildSummaryDetail(
-                  'Status de Saúde',
-                  _activitySummary!.health,
-                  Icons.favorite,
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    ).animate().fadeIn(delay: 400.ms, duration: 600.ms).slideY(begin: 0.1, end: 0);
+        )
+        .animate()
+        .fadeIn(delay: 400.ms, duration: 600.ms)
+        .slideY(begin: 0.1, end: 0);
   }
 
   Widget _buildRecommendationsSection(BuildContext context, bool isDark) {
     final recommendations = <String>[];
-    if (_currentInsight != null && _currentInsight!.recommendations.isNotEmpty) {
+    if (_currentInsight != null &&
+        _currentInsight!.recommendations.isNotEmpty) {
       recommendations.addAll(_currentInsight!.recommendations);
     }
-    if (_currentPrediction != null && _currentPrediction!.recommendations.isNotEmpty) {
+    if (_currentPrediction != null &&
+        _currentPrediction!.recommendations.isNotEmpty) {
       recommendations.addAll(_currentPrediction!.recommendations);
     }
-    if (_activitySummary != null && _activitySummary!.recommendations.isNotEmpty) {
+    if (_activitySummary != null &&
+        _activitySummary!.recommendations.isNotEmpty) {
       recommendations.addAll(_activitySummary!.recommendations);
     }
 
@@ -444,9 +485,7 @@ class _AIInsightsPanelState extends ConsumerState<AIInsightsPanel> {
           end: Alignment.bottomRight,
         ),
         borderRadius: BorderRadius.circular(AppTheme.radiusLG),
-        border: Border.all(
-          color: AppTheme.successColor.withValues(alpha: 0.2),
-        ),
+        border: Border.all(color: AppTheme.successColor.withValues(alpha: 0.2)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -457,9 +496,9 @@ class _AIInsightsPanelState extends ConsumerState<AIInsightsPanel> {
               const SizedBox(width: AppTheme.paddingSM),
               Text(
                 'Recomendações',
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
+                style: Theme.of(
+                  context,
+                ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
               ),
             ],
           ),
@@ -548,7 +587,11 @@ class _AIInsightsPanelState extends ConsumerState<AIInsightsPanel> {
     );
   }
 
-  Widget _buildActivityBar(BuildContext context, String activity, int percentage) {
+  Widget _buildActivityBar(
+    BuildContext context,
+    String activity,
+    int percentage,
+  ) {
     return Padding(
       padding: const EdgeInsets.only(bottom: AppTheme.paddingSM),
       child: Column(
@@ -599,10 +642,7 @@ class _AIInsightsPanelState extends ConsumerState<AIInsightsPanel> {
           ),
           Text(
             value,
-            style: const TextStyle(
-              fontSize: 13,
-              fontWeight: FontWeight.w600,
-            ),
+            style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
           ),
         ],
       ),
@@ -637,13 +677,17 @@ class _AIInsightsPanelState extends ConsumerState<AIInsightsPanel> {
           const SizedBox(height: AppTheme.paddingMD),
           Text(
             title,
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+            style: Theme.of(
+              context,
+            ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: AppTheme.paddingSM),
           Text(
             message,
             textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppTheme.mutedText),
+            style: Theme.of(
+              context,
+            ).textTheme.bodyMedium?.copyWith(color: AppTheme.mutedText),
           ),
         ],
       ),
@@ -661,9 +705,7 @@ class _AIInsightsPanelState extends ConsumerState<AIInsightsPanel> {
       decoration: BoxDecoration(
         color: AppTheme.errorColor.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(AppTheme.radiusLG),
-        border: Border.all(
-          color: AppTheme.errorColor.withValues(alpha: 0.3),
-        ),
+        border: Border.all(color: AppTheme.errorColor.withValues(alpha: 0.3)),
       ),
       child: Row(
         children: [
@@ -676,16 +718,16 @@ class _AIInsightsPanelState extends ConsumerState<AIInsightsPanel> {
                 Text(
                   title,
                   style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                        fontWeight: FontWeight.bold,
-                        color: AppTheme.errorColor,
-                      ),
+                    fontWeight: FontWeight.bold,
+                    color: AppTheme.errorColor,
+                  ),
                 ),
                 const SizedBox(height: AppTheme.paddingXS),
                 Text(
                   message,
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: AppTheme.errorColor.withValues(alpha: 0.8),
-                      ),
+                    color: AppTheme.errorColor.withValues(alpha: 0.8),
+                  ),
                 ),
               ],
             ),

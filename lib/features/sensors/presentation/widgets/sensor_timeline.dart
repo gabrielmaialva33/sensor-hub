@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-
 import 'package:sensor_hub/core/core.dart';
 import 'package:sensor_hub/features/sensors/data/models/sensor_data.dart';
+
 import '../providers/sensor_providers.dart';
 
 class SensorTimeline extends ConsumerStatefulWidget {
@@ -69,10 +69,9 @@ class _SensorTimelineState extends ConsumerState<SensorTimeline> {
         children: [
           Text(
             '📈 Linha do Tempo dos Sensores',
-            style: Theme.of(context)
-                .textTheme
-                .headlineMedium
-                ?.copyWith(fontWeight: FontWeight.bold),
+            style: Theme.of(
+              context,
+            ).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: AppTheme.paddingMD),
           Row(
@@ -87,7 +86,9 @@ class _SensorTimelineState extends ConsumerState<SensorTimeline> {
                     color: isDark ? AppTheme.darkCard : AppTheme.lightCard,
                     borderRadius: BorderRadius.circular(AppTheme.radiusMD),
                     border: Border.all(
-                      color: isDark ? AppTheme.darkBorder : AppTheme.lightBorder,
+                      color: isDark
+                          ? AppTheme.darkBorder
+                          : AppTheme.lightBorder,
                     ),
                   ),
                   child: DropdownButton<String>(
@@ -102,7 +103,8 @@ class _SensorTimelineState extends ConsumerState<SensorTimeline> {
                     },
                     items: AppConstants.availableSensors.map((sensor) {
                       final icon = AppConstants.sensorIcons[sensor] ?? '📊';
-                      final name = AppConstants.sensorDisplayNames[sensor] ?? sensor;
+                      final name =
+                          AppConstants.sensorDisplayNames[sensor] ?? sensor;
                       return DropdownMenuItem(
                         value: sensor,
                         child: Row(
@@ -133,7 +135,9 @@ class _SensorTimelineState extends ConsumerState<SensorTimeline> {
                     color: isDark ? AppTheme.darkCard : AppTheme.lightCard,
                     borderRadius: BorderRadius.circular(AppTheme.radiusMD),
                     border: Border.all(
-                      color: isDark ? AppTheme.darkBorder : AppTheme.lightBorder,
+                      color: isDark
+                          ? AppTheme.darkBorder
+                          : AppTheme.lightBorder,
                     ),
                   ),
                   child: DropdownButton<String>(
@@ -161,8 +165,12 @@ class _SensorTimelineState extends ConsumerState<SensorTimeline> {
                   });
                 },
                 icon: Icon(
-                  _showLegend ? Icons.legend_toggle : Icons.legend_toggle_outlined,
-                  color: _showLegend ? AppTheme.primaryColor : AppTheme.mutedText,
+                  _showLegend
+                      ? Icons.legend_toggle
+                      : Icons.legend_toggle_outlined,
+                  color: _showLegend
+                      ? AppTheme.primaryColor
+                      : AppTheme.mutedText,
                 ),
                 tooltip: 'Alternar Legenda',
               ),
@@ -198,18 +206,17 @@ class _SensorTimelineState extends ConsumerState<SensorTimeline> {
             const SizedBox(height: AppTheme.paddingMD),
             Text(
               'Nenhum dado disponível',
-              style: Theme.of(context)
-                  .textTheme
-                  .titleMedium
-                  ?.copyWith(color: AppTheme.mutedText),
+              style: Theme.of(
+                context,
+              ).textTheme.titleMedium?.copyWith(color: AppTheme.mutedText),
             ),
             const SizedBox(height: AppTheme.paddingSM),
             Text(
               'Inicie o monitoramento para ver a linha do tempo dos sensores',
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: AppTheme.mutedText.withValues(alpha: 0.7),
-                  ),
+                color: AppTheme.mutedText.withValues(alpha: 0.7),
+              ),
             ),
           ],
         ),
@@ -225,76 +232,73 @@ class _SensorTimelineState extends ConsumerState<SensorTimeline> {
     }).toList();
 
     return Container(
-      decoration: BoxDecoration(
-        color: isDark ? AppTheme.darkCard : AppTheme.lightCard,
-        borderRadius: BorderRadius.circular(AppTheme.radiusLG),
-        border: Border.all(
-          color: isDark ? AppTheme.darkBorder : AppTheme.lightBorder,
-          width: 1,
-        ),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(AppTheme.paddingLG),
-        child: Column(
-          children: [
-            // Chart Title
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          decoration: BoxDecoration(
+            color: isDark ? AppTheme.darkCard : AppTheme.lightCard,
+            borderRadius: BorderRadius.circular(AppTheme.radiusLG),
+            border: Border.all(
+              color: isDark ? AppTheme.darkBorder : AppTheme.lightBorder,
+              width: 1,
+            ),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(AppTheme.paddingLG),
+            child: Column(
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                // Chart Title
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      AppConstants.sensorDisplayNames[_selectedSensor] ?? _selectedSensor,
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleMedium
-                          ?.copyWith(fontWeight: FontWeight.bold),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          AppConstants.sensorDisplayNames[_selectedSensor] ??
+                              _selectedSensor,
+                          style: Theme.of(context).textTheme.titleMedium
+                              ?.copyWith(fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          '${filteredData.length} pontos de dados',
+                          style: Theme.of(context).textTheme.bodySmall
+                              ?.copyWith(color: AppTheme.mutedText),
+                        ),
+                      ],
                     ),
-                    Text(
-                      '${filteredData.length} pontos de dados',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodySmall
-                          ?.copyWith(color: AppTheme.mutedText),
-                    ),
-                  ],
-                ),
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: AppTheme.paddingSM,
-                    vertical: AppTheme.paddingXS,
-                  ),
-                  decoration: BoxDecoration(
-                    color: AppTheme.primaryColor.withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(AppTheme.radiusSM),
-                  ),
-                  child: Text(
-                    DateFormat('MMM dd, HH:mm').format(now),
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: AppTheme.paddingSM,
+                        vertical: AppTheme.paddingXS,
+                      ),
+                      decoration: BoxDecoration(
+                        color: AppTheme.primaryColor.withValues(alpha: 0.1),
+                        borderRadius: BorderRadius.circular(AppTheme.radiusSM),
+                      ),
+                      child: Text(
+                        DateFormat('MMM dd, HH:mm').format(now),
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
                           color: AppTheme.primaryColor,
                           fontWeight: FontWeight.w600,
                         ),
-                  ),
+                      ),
+                    ),
+                  ],
                 ),
+                const SizedBox(height: AppTheme.paddingLG),
+                // The Chart
+                Expanded(child: _buildChart(filteredData, isDark)),
+                // Legend
+                if (_showLegend)
+                  Container(
+                    margin: const EdgeInsets.only(top: AppTheme.paddingMD),
+                    child: _buildLegend(context),
+                  ),
               ],
             ),
-            const SizedBox(height: AppTheme.paddingLG),
-            // The Chart
-            Expanded(child: _buildChart(filteredData, isDark)),
-            // Legend
-            if (_showLegend)
-              Container(
-                margin: const EdgeInsets.only(top: AppTheme.paddingMD),
-                child: _buildLegend(context),
-              ),
-          ],
-        ),
-      ),
-    ).animate().fadeIn(duration: 500.ms).scale(
-          begin: const Offset(0.98, 0.98),
-          end: const Offset(1, 1),
-        );
+          ),
+        )
+        .animate()
+        .fadeIn(duration: 500.ms)
+        .scale(begin: const Offset(0.98, 0.98), end: const Offset(1, 1));
   }
 
   Widget _buildChart(List<SensorData> data, bool isDark) {
@@ -344,8 +348,12 @@ class _SensorTimelineState extends ConsumerState<SensorTimeline> {
           },
         ),
         titlesData: FlTitlesData(
-          rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-          topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+          rightTitles: const AxisTitles(
+            sideTitles: SideTitles(showTitles: false),
+          ),
+          topTitles: const AxisTitles(
+            sideTitles: SideTitles(showTitles: false),
+          ),
           leftTitles: AxisTitles(
             sideTitles: SideTitles(
               showTitles: true,
@@ -495,61 +503,65 @@ class _SensorTimelineState extends ConsumerState<SensorTimeline> {
         itemBuilder: (context, index) {
           final event = events[index];
           return Container(
-            width: 200,
-            margin: const EdgeInsets.only(right: AppTheme.paddingMD),
-            padding: const EdgeInsets.all(AppTheme.paddingSM),
-            decoration: BoxDecoration(
-              color: isDark ? AppTheme.darkCard : AppTheme.lightCard,
-              borderRadius: BorderRadius.circular(AppTheme.radiusMD),
-              border: Border.all(color: event['color'] as Color, width: 1),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
+                width: 200,
+                margin: const EdgeInsets.only(right: AppTheme.paddingMD),
+                padding: const EdgeInsets.all(AppTheme.paddingSM),
+                decoration: BoxDecoration(
+                  color: isDark ? AppTheme.darkCard : AppTheme.lightCard,
+                  borderRadius: BorderRadius.circular(AppTheme.radiusMD),
+                  border: Border.all(color: event['color'] as Color, width: 1),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Icon(
-                      event['icon'] as IconData,
-                      size: 16,
-                      color: event['color'] as Color,
+                    Row(
+                      children: [
+                        Icon(
+                          event['icon'] as IconData,
+                          size: 16,
+                          color: event['color'] as Color,
+                        ),
+                        const SizedBox(width: AppTheme.paddingXS),
+                        Text(
+                          event['type'] as String,
+                          style: Theme.of(context).textTheme.labelSmall
+                              ?.copyWith(
+                                fontWeight: FontWeight.w600,
+                                color: event['color'] as Color,
+                              ),
+                        ),
+                      ],
                     ),
-                    const SizedBox(width: AppTheme.paddingXS),
+                    const SizedBox(height: AppTheme.paddingXS),
                     Text(
-                      event['type'] as String,
+                      event['title'] as String,
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    Text(
+                      event['description'] as String,
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        color: AppTheme.mutedText,
+                      ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    const Spacer(),
+                    Text(
+                      event['time'] as String,
                       style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                            fontWeight: FontWeight.w600,
-                            color: event['color'] as Color,
-                          ),
+                        color: AppTheme.mutedText,
+                      ),
                     ),
                   ],
                 ),
-                const SizedBox(height: AppTheme.paddingXS),
-                Text(
-                  event['title'] as String,
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        fontWeight: FontWeight.w600,
-                      ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                Text(
-                  event['description'] as String,
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: AppTheme.mutedText,
-                      ),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                const Spacer(),
-                Text(
-                  event['time'] as String,
-                  style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                        color: AppTheme.mutedText,
-                      ),
-                ),
-              ],
-            ),
-          ).animate().fadeIn(delay: Duration(milliseconds: 100 * index)).slideX(begin: 0.2, end: 0);
+              )
+              .animate()
+              .fadeIn(delay: Duration(milliseconds: 100 * index))
+              .slideX(begin: 0.2, end: 0);
         },
       ),
     );
