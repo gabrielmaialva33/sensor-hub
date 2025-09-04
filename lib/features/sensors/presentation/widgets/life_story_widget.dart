@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../../../infrastructure/ai/life_narrative_service.dart';
 import '../../../../infrastructure/ai/predictive_insights_engine.dart';
-import '../../../../core/constants/app_constants.dart';
 
 class LifeStoryWidget extends StatefulWidget {
   const LifeStoryWidget({Key? key}) : super(key: key);
