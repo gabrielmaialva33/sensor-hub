@@ -158,8 +158,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
               padding: const EdgeInsets.all(AppTheme.paddingSM),
               decoration: BoxDecoration(
                 color: _isMonitoring 
-                  ? AppTheme.secondaryColor.withOpacity(0.1)
-                  : AppTheme.errorColor.withOpacity(0.1),
+                  ? AppTheme.secondaryColor.withValues(alpha: 0.1)
+                  : AppTheme.errorColor.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(AppTheme.radiusMD),
                 border: Border.all(
                   color: _isMonitoring ? AppTheme.secondaryColor : AppTheme.errorColor,
@@ -225,11 +225,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                         padding: const EdgeInsets.all(AppTheme.paddingSM),
                         decoration: BoxDecoration(
                           color: isSelected
-                            ? AppTheme.primaryColor.withOpacity(0.1)
+                            ? AppTheme.primaryColor.withValues(alpha: 0.1)
                             : Colors.transparent,
                           borderRadius: BorderRadius.circular(AppTheme.radiusMD),
                           border: isSelected
-                            ? Border.all(color: AppTheme.primaryColor.withOpacity(0.3))
+                            ? Border.all(color: AppTheme.primaryColor.withValues(alpha: 0.3))
                             : null,
                         ),
                         child: Row(
@@ -249,8 +249,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                               ),
                               decoration: BoxDecoration(
                                 color: isSelected
-                                  ? AppTheme.primaryColor.withOpacity(0.2)
-                                  : AppTheme.mutedText.withOpacity(0.1),
+                                  ? AppTheme.primaryColor.withValues(alpha: 0.2)
+                                  : AppTheme.mutedText.withValues(alpha: 0.1),
                                 borderRadius: BorderRadius.circular(AppTheme.radiusSM),
                               ),
                               child: Text(
@@ -367,9 +367,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
             isScrollable: true,
             labelPadding: const EdgeInsets.symmetric(horizontal: AppTheme.paddingMD),
             indicator: BoxDecoration(
-              color: AppTheme.primaryColor.withOpacity(0.1),
+              color: AppTheme.primaryColor.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(AppTheme.radiusMD),
-              border: Border.all(color: AppTheme.primaryColor.withOpacity(0.3)),
+              border: Border.all(color: AppTheme.primaryColor.withValues(alpha: 0.3)),
             ),
             tabs: const [
               Tab(text: '📊 Dashboard'),
