@@ -191,7 +191,7 @@ class PredictiveInsightsEngine {
         'sleep_quality': sleepQuality,
         'recent_activity': recentActivity,
       },
-      actionable_suggestions: suggestions,
+      actionableSuggestions: suggestions,
     );
   }
 
@@ -237,7 +237,7 @@ class PredictiveInsightsEngine {
         'indicators': primaryIndicators,
         'pattern_deviations': stressIndicators['deviations'],
       },
-      actionable_suggestions: suggestions,
+      actionableSuggestions: suggestions,
     );
   }
 
@@ -264,7 +264,7 @@ class PredictiveInsightsEngine {
           'optimal_time': walkingOptimalTime.toIso8601String(),
           'activity_type': 'walking',
         },
-        actionable_suggestions: [
+        actionableSuggestions: [
           "Consider planning your daily walk around this time",
           "Your energy and movement patterns align well with this timing",
         ],
@@ -284,7 +284,7 @@ class PredictiveInsightsEngine {
           'optimal_time': restOptimalTime.toIso8601String(),
           'activity_type': 'rest',
         },
-        actionable_suggestions: [
+        actionableSuggestions: [
           "This might be a good time for quiet activities or reflection",
           "Consider avoiding demanding tasks during this natural lull",
         ],
@@ -343,7 +343,7 @@ class PredictiveInsightsEngine {
         'indicators': indicators,
         'time_span': '2-4 weeks',
       },
-      actionable_suggestions: suggestions,
+      actionableSuggestions: suggestions,
     );
   }
 
@@ -370,7 +370,7 @@ class PredictiveInsightsEngine {
         'likely_disruptions': likelyDisruptions,
         'forecast_date': tomorrow.toIso8601String(),
       },
-      actionable_suggestions: [
+      actionableSuggestions: [
         "Consider preparing for a more flexible day than usual",
         "Having backup plans might help maintain balance",
         "Remember that disruptions can sometimes bring positive surprises",
