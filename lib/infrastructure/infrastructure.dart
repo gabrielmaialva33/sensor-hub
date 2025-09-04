@@ -1,4 +1,4 @@
-/// Infrastructure module barrel export
+// Infrastructure module barrel export
 export 'ai/advanced_sensor_llm_service.dart';
 export 'nvidia_ai/nvidia_ai_service.dart';
 export 'sensors/permission_service.dart';
