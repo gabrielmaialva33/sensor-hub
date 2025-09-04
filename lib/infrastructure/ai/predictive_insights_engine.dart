@@ -14,7 +14,7 @@ class Prediction {
   final double confidence;
   final DateTime validUntil;
   final Map<String, dynamic> parameters;
-  final List<String> actionable_suggestions;
+  final List<String> actionableSuggestions;
 
   Prediction({
     required this.id,
@@ -25,7 +25,7 @@ class Prediction {
     required this.confidence,
     required this.validUntil,
     required this.parameters,
-    required this.actionable_suggestions,
+    required this.actionableSuggestions,
   });
 
   Map<String, dynamic> toJson() => {
@@ -37,7 +37,7 @@ class Prediction {
     'confidence': confidence,
     'validUntil': validUntil.toIso8601String(),
     'parameters': parameters,
-    'actionable_suggestions': actionable_suggestions,
+    'actionable_suggestions': actionableSuggestions,
   };
 
   factory Prediction.fromJson(Map<String, dynamic> json) => Prediction(
@@ -49,7 +49,7 @@ class Prediction {
     confidence: json['confidence'],
     validUntil: DateTime.parse(json['validUntil']),
     parameters: Map<String, dynamic>.from(json['parameters']),
-    actionable_suggestions: List<String>.from(json['actionable_suggestions']),
+    actionableSuggestions: List<String>.from(json['actionable_suggestions']),
   );
 }
 
@@ -85,7 +85,7 @@ class PredictiveInsightsEngine {
   PredictiveInsightsEngine._internal();
 
   final Map<String, List<SensorData>> _sensorHistory = {};
-  final List<BehaviorPattern> _patterns = [];
+  // final List<BehaviorPattern> _patterns = []; // For future use
   final List<Prediction> _predictions = [];
   final StreamController<Prediction> _predictionStreamController = StreamController.broadcast();
 
@@ -249,7 +249,7 @@ class PredictiveInsightsEngine {
     // Analyze patterns for different activities
     final walkingOptimalTime = await _findOptimalTimeForActivity('walking');
     final restOptimalTime = await _findOptimalTimeForActivity('rest');
-    final activeOptimalTime = await _findOptimalTimeForActivity('active');
+    // final activeOptimalTime = await _findOptimalTimeForActivity('active'); // For future use
 
     if (walkingOptimalTime != null) {
       suggestions.add(Prediction(
