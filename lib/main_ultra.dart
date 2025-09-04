@@ -4,16 +4,10 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import 'core/constants/app_constants.dart';
-import 'core/theme/app_theme.dart';
-import 'core/utils/logger.dart';
-import 'core/performance/performance_optimizer.dart';
-import 'core/ai/predictive_rendering.dart';
-import 'data/services/nvidia_ai_service.dart';
-import 'data/services/supabase_service.dart';
-import 'data/services/advanced_sensor_llm_service.dart';
-import 'presentation/screens/home_screen.dart';
-import 'presentation/screens/splash_screen.dart';
+import 'core/core.dart';
+import 'infrastructure/infrastructure.dart';
+import 'features/sensors/presentation/pages/home_screen.dart';
+import 'features/sensors/presentation/pages/splash_screen.dart';
 
 /// Main entry point for SensorHub 2025 - Ultra Performance Edition
 void main() async {
