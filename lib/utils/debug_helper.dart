@@ -217,7 +217,7 @@ class DebugHelper {
 
     try {
       // Test sensor service initialization
-      final sensorService = SensorService();
+      SensorService();
       results['sensor_service_init'] = 'success';
 
       // Test permission requests (don't actually request, just check if available)

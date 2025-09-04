@@ -330,7 +330,7 @@ class AIInsight {
     activity: 'Mixed Activity',
     environment: 'Variable',
     deviceHealth: 'Good',
-    patterns: content.length > 200 ? content.substring(0, 200) + '...' : content,
+    patterns: content.length > 200 ? '${content.substring(0, 200)}...' : content,
     recommendations: ['Check detailed analysis', 'Monitor patterns'],
     confidence: 0.7,
   );
