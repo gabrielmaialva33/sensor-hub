@@ -1,4 +1,41 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Camera permissions -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+
+    <!-- Location permissions -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+
+    <!-- Sensor permissions -->
+    <uses-permission android:name="android.permission.HIGH_SAMPLING_RATE_SENSORS" />
+    <uses-permission android:name="android.permission.BODY_SENSORS" />
+
+    <!-- Microphone permission -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
+    <!-- Storage permissions (for data export) -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
+
+    <!-- Network permissions (for Supabase/NVIDIA API) -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <!-- Battery optimization exclusion -->
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
+
+    <!-- Wake lock to keep sensors active -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <!-- Foreground service for continuous sensor monitoring -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_LOCATION" />
+
     <application
         android:label="sensor_hub"
         android:name="${applicationName}"

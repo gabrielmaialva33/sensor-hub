@@ -236,7 +236,7 @@ class _SensorCardState extends ConsumerState<SensorCard> {
                         spots: _chartData,
                         isCurved: true,
                         color: sensorColor,
-                        strokeWidth: 2,
+                        barWidth: 2,
                         dotData: const FlDotData(show: false),
                         belowBarData: BarAreaData(
                           show: true,
