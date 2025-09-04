@@ -103,9 +103,10 @@ class _SplashScreenState extends State<SplashScreen> {
                           .animate()
                           .scale(duration: 800.ms, curve: Curves.elasticOut)
                           .shimmer(delay: 400.ms, duration: 1200.ms),
-                      const SizedBox(height: AppTheme.paddingXL),
-                      // App Name
-                      Text(
+                  ),
+                  const SizedBox(height: AppTheme.paddingXL),
+                  // App Name
+                  Text(
                         AppConstants.appName,
                         style: Theme
                             .of(context)
