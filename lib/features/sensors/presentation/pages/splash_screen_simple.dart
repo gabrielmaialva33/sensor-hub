@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../../../../core/core.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -30,26 +31,19 @@ class _SplashScreenState extends State<SplashScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(
-              Icons.sensors,
-              size: 100,
-              color: Colors.white,
-            ),
+            const Icon(Icons.sensors, size: 100, color: Colors.white),
             const SizedBox(height: 24),
             Text(
               AppConstants.appName,
               style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
             ),
             const SizedBox(height: 8),
             const Text(
               'AI-Powered Sensor Monitoring',
-              style: TextStyle(
-                color: Colors.white70,
-                fontSize: 16,
-              ),
+              style: TextStyle(color: Colors.white70, fontSize: 16),
             ),
           ],
         ),

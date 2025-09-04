@@ -50,10 +50,10 @@
     </g>
 
     <!-- Text -->
-    <text fill="#1E293B" font-family="SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif" font-size="24"
-        font-weight="600" x="80" y="35">SensorHub
+    <text fill="#1E293B" font-family="SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif"
+        font-size="24" font-weight="600" x="80" y="35">SensorHub
     </text>
-    <text fill="#64748B" font-family="SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif" font-size="12"
-        font-weight="400" opacity="0.8" x="80" y="55">AI-Powered Sensor Monitoring
+    <text fill="#64748B" font-family="SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif"
+        font-size="12" font-weight="400" opacity="0.8" x="80" y="55">AI-Powered Sensor Monitoring
     </text>
 </svg>
