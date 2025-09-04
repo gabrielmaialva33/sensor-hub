@@ -4,7 +4,6 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/constants/app_constants.dart';
-import '../../data/models/sensor_data.dart';
 import '../providers/sensor_providers.dart';
 
 class SensorCard extends ConsumerStatefulWidget {

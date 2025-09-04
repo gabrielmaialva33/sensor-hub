@@ -9,7 +9,6 @@ import '../../data/services/sensor_service.dart';
 import '../widgets/sensor_card.dart';
 import '../widgets/ai_insights_panel.dart';
 import '../widgets/sensor_timeline.dart';
-import '../widgets/quick_actions_panel.dart';
 import '../providers/sensor_providers.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {

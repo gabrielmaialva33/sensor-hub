@@ -5,7 +5,6 @@ import 'core/theme/app_theme.dart';
 import 'core/constants/app_constants.dart';
 import 'core/utils/logger.dart';
 import 'data/services/supabase_service.dart';
-import 'data/services/sensor_service.dart';
 import 'data/services/nvidia_ai_service.dart';
 import 'presentation/screens/home_screen.dart';
 import 'presentation/screens/splash_screen.dart';
@@ -64,7 +63,7 @@ class SensorHubApp extends StatelessWidget {
         return MediaQuery(
           // Ensure text scaling doesn't break the UI
           data: MediaQuery.of(context).copyWith(
-            textScaleFactor: MediaQuery.of(context).textScaleFactor.clamp(0.8, 1.2),
+            textScaler: TextScaler.linear(MediaQuery.of(context).textScaler.scale(1.0).clamp(0.8, 1.2)),
           ),
           child: child ?? const SizedBox(),
         );
