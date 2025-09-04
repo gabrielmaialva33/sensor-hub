@@ -1,6 +1,6 @@
 <h1 align="center">
   <br>
-  <img src="https://raw.githubusercontent.com/gabrielmaialva33/sensor-hub/refs/heads/main/assets/logo/sensorhub_icon.svg" alt="SensorHub" width="400">
+  <img src="https://raw.githubusercontent.com/gabrielmaialva33/sensor-hub/refs/heads/main/assets/logo/sensorhub_icon.svg" alt="SensorHub" width="200">
   <br>
   SensorHub - AI-Powered Comprehensive Sensor Monitoring Platform 🎯
   <br>
