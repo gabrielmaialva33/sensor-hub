@@ -248,22 +248,26 @@ class _SensorTimelineState extends ConsumerState<SensorTimeline> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          AppConstants.sensorDisplayNames[_selectedSensor] ??
-                              _selectedSensor,
-                          style: Theme.of(context).textTheme.titleMedium
-                              ?.copyWith(fontWeight: FontWeight.bold),
-                        ),
-                        Text(
-                          '${filteredData.length} pontos de dados',
-                          style: Theme.of(context).textTheme.bodySmall
-                              ?.copyWith(color: AppTheme.mutedText),
-                        ),
-                      ],
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            AppConstants.sensorDisplayNames[_selectedSensor] ??
+                                _selectedSensor,
+                            style: Theme.of(context).textTheme.titleMedium
+                                ?.copyWith(fontWeight: FontWeight.bold),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          Text(
+                            '${filteredData.length} pontos de dados',
+                            style: Theme.of(context).textTheme.bodySmall
+                                ?.copyWith(color: AppTheme.mutedText),
+                          ),
+                        ],
+                      ),
                     ),
+                    const SizedBox(width: AppTheme.paddingSM),
                     Container(
                       padding: const EdgeInsets.symmetric(
                         horizontal: AppTheme.paddingSM,
