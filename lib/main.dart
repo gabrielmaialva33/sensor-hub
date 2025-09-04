@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'core/theme/app_theme.dart';
 import 'core/constants/app_constants.dart';
+import 'core/utils/logger.dart';
 import 'data/services/supabase_service.dart';
 import 'data/services/sensor_service.dart';
 import 'data/services/nvidia_ai_service.dart';
@@ -23,9 +24,9 @@ void main() async {
     SupabaseService().initialize();
     NvidiaAiService().initialize();
     
-    print('🚀 SensorHub initialized successfully');
+    Logger.success('SensorHub initialized successfully');
   } catch (e) {
-    print('❌ Failed to initialize SensorHub: $e');
+    Logger.error('Failed to initialize SensorHub', e);
   }
 
   runApp(

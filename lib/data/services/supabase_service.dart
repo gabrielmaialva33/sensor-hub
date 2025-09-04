@@ -1,5 +1,6 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../models/sensor_data.dart';
+import '../../core/utils/logger.dart';
 
 /// Service for Supabase integration and cloud storage
 class SupabaseService {
@@ -31,9 +32,9 @@ class SupabaseService {
       _client = Supabase.instance.client;
       _initialized = true;
       
-      print('✅ Supabase initialized successfully');
+      Logger.success('Supabase initialized successfully');
     } catch (e) {
-      print('❌ Failed to initialize Supabase: $e');
+      Logger.error('Failed to initialize Supabase', e);
       throw Exception('Failed to initialize Supabase: $e');
     }
   }
@@ -54,10 +55,10 @@ class SupabaseService {
     _ensureInitialized();
     try {
       final response = await _client.auth.signInAnonymously();
-      print('✅ Anonymous authentication successful');
+      Logger.success('Anonymous authentication successful');
       return response;
     } catch (e) {
-      print('❌ Anonymous authentication failed: $e');
+      Logger.error('Anonymous authentication failed', e);
       rethrow;
     }
   }
@@ -70,10 +71,10 @@ class SupabaseService {
         email: email,
         password: password,
       );
-      print('✅ Email authentication successful');
+      Logger.success('Email authentication successful');
       return response;
     } catch (e) {
-      print('❌ Email authentication failed: $e');
+      Logger.error('Email authentication failed', e);
       rethrow;
     }
   }
@@ -86,10 +87,10 @@ class SupabaseService {
         email: email,
         password: password,
       );
-      print('✅ Email signup successful');
+      Logger.success('Email signup successful');
       return response;
     } catch (e) {
-      print('❌ Email signup failed: $e');
+      Logger.error('Email signup failed', e);
       rethrow;
     }
   }
@@ -99,9 +100,9 @@ class SupabaseService {
     _ensureInitialized();
     try {
       await _client.auth.signOut();
-      print('✅ Sign out successful');
+      Logger.success('Sign out successful');
     } catch (e) {
-      print('❌ Sign out failed: $e');
+      Logger.error('Sign out failed', e);
       rethrow;
     }
   }
@@ -127,9 +128,9 @@ class SupabaseService {
 
       await _client.from('sensor_data').insert(dataToInsert);
       
-      print('✅ Stored ${sensorDataList.length} sensor data points');
+      Logger.success('Stored ${sensorDataList.length} sensor data points');
     } catch (e) {
-      print('❌ Failed to store sensor data: $e');
+      Logger.error('Failed to store sensor data', e);
       rethrow;
     }
   }
@@ -162,10 +163,10 @@ class SupabaseService {
       final response = await query
           .order('timestamp', ascending: false)
           .limit(limit ?? 1000);
-      print('✅ Retrieved ${response.length} $sensorType data points');
+      Logger.success('Retrieved ${response.length} $sensorType data points');
       return response;
     } catch (e) {
-      print('❌ Failed to retrieve sensor data: $e');
+      Logger.error('Failed to retrieve sensor data', e);
       return [];
     }
   }
@@ -225,9 +226,9 @@ class SupabaseService {
         'timestamp': DateTime.now().toIso8601String(),
       });
 
-      print('✅ Stored AI insight: $insightType');
+      Logger.success('Stored AI insight: $insightType');
     } catch (e) {
-      print('❌ Failed to store AI insight: $e');
+      Logger.error('Failed to store AI insight', e);
       rethrow;
     }
   }
@@ -253,10 +254,10 @@ class SupabaseService {
       final response = await query
           .order('timestamp', ascending: false)
           .limit(limit ?? 100);
-      print('✅ Retrieved ${response.length} AI insights');
+      Logger.success('Retrieved ${response.length} AI insights');
       return response;
     } catch (e) {
-      print('❌ Failed to retrieve AI insights: $e');
+      Logger.error('Failed to retrieve AI insights', e);
       return [];
     }
   }
@@ -280,9 +281,9 @@ class SupabaseService {
         'last_seen': DateTime.now().toIso8601String(),
       });
 
-      print('✅ Device info stored/updated');
+      Logger.success('Device info stored/updated');
     } catch (e) {
-      print('❌ Failed to store device info: $e');
+      Logger.error('Failed to store device info', e);
     }
   }
 
@@ -308,7 +309,7 @@ class SupabaseService {
         'last_updated': DateTime.now().toIso8601String(),
       };
     } catch (e) {
-      print('❌ Failed to get user statistics: $e');
+      Logger.error('Failed to get user statistics', e);
       return {};
     }
   }
@@ -376,9 +377,9 @@ class SupabaseService {
           .eq('user_id', currentUser!.id)
           .lt('timestamp', thirtyDaysAgo.toIso8601String());
 
-      print('✅ Old sensor data cleaned up');
+      Logger.success('Old sensor data cleaned up');
     } catch (e) {
-      print('❌ Failed to cleanup old data: $e');
+      Logger.error('Failed to cleanup old data', e);
     }
   }
 
@@ -389,10 +390,10 @@ class SupabaseService {
       
       // Try a simple query
       await _client.from('sensor_data').select('id').limit(1);
-      print('✅ Supabase connection test successful');
+      Logger.success('Supabase connection test successful');
       return true;
     } catch (e) {
-      print('❌ Supabase connection test failed: $e');
+      Logger.error('Supabase connection test failed', e);
       return false;
     }
   }
@@ -409,7 +410,7 @@ class SupabaseService {
 
       return Map<String, int>.from(result);
     } catch (e) {
-      print('❌ Failed to get storage usage: $e');
+      Logger.error('Failed to get storage usage', e);
       return {};
     }
   }

@@ -4,6 +4,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/constants/app_constants.dart';
+import '../../core/utils/logger.dart';
 import '../../data/services/sensor_service.dart';
 import '../widgets/sensor_card.dart';
 import '../widgets/ai_insights_panel.dart';
@@ -45,7 +46,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
         setState(() => _isMonitoring = true);
       }
     } catch (e) {
-      print('Error initializing sensors: $e');
+      Logger.error('Error initializing sensors', e);
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
