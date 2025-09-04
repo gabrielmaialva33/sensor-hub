@@ -1,4 +1,4 @@
-/// Core module barrel export
+// Core module barrel export
 export 'ai/predictive_rendering.dart';
 export 'constants/app_constants.dart';
 export 'performance/performance_optimizer.dart';
