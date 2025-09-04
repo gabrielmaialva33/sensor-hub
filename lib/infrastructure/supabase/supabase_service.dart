@@ -86,17 +86,250 @@ class SupabaseService {
   }
 
   /// Sign up with email and password
-  Future<AuthResponse> signUpWithEmail(String email, String password) async {
+  Future<AuthResponse> signUpWithEmail(String email, String password, {
+    Map<String, dynamic>? metadata,
+  }) async {
     _ensureInitialized();
     try {
       final response = await _client.auth.signUp(
         email: email,
         password: password,
+        data: metadata,
       );
       Logger.success('Email signup successful');
       return response;
     } catch (e) {
       Logger.error('Email signup failed', e);
+      rethrow;
+    }
+  }
+
+  /// Sign in with Google OAuth
+  Future<AuthResponse> signInWithGoogle() async {
+    _ensureInitialized();
+    try {
+      final response = await _client.auth.signInWithOAuth(
+        OAuthProvider.google,
+        redirectTo: 'com.sensorhub.app://auth-callback',
+      );
+      Logger.success('Google OAuth initiated');
+      return response;
+    } catch (e) {
+      Logger.error('Google OAuth failed', e);
+      rethrow;
+    }
+  }
+
+  /// Sign in with Apple OAuth
+  Future<AuthResponse> signInWithApple() async {
+    _ensureInitialized();
+    try {
+      final response = await _client.auth.signInWithOAuth(
+        OAuthProvider.apple,
+        redirectTo: 'com.sensorhub.app://auth-callback',
+      );
+      Logger.success('Apple OAuth initiated');
+      return response;
+    } catch (e) {
+      Logger.error('Apple OAuth failed', e);
+      rethrow;
+    }
+  }
+
+  /// Reset password for email
+  Future<void> resetPasswordForEmail(String email) async {
+    _ensureInitialized();
+    try {
+      await _client.auth.resetPasswordForEmail(
+        email,
+        redirectTo: 'com.sensorhub.app://reset-password',
+      );
+      Logger.success('Password reset email sent to: $email');
+    } catch (e) {
+      Logger.error('Password reset failed', e);
+      rethrow;
+    }
+  }
+
+  /// Update user attributes
+  Future<UserResponse> updateUser({
+    String? email,
+    String? password,
+    Map<String, dynamic>? data,
+  }) async {
+    _ensureInitialized();
+    try {
+      final response = await _client.auth.updateUser(
+        UserAttributes(
+          email: email,
+          password: password,
+          data: data,
+        ),
+      );
+      Logger.success('User updated successfully');
+      return response;
+    } catch (e) {
+      Logger.error('User update failed', e);
+      rethrow;
+    }
+  }
+
+  /// Get user profile from user_profiles table
+  Future<Map<String, dynamic>?> getUserProfile() async {
+    _ensureInitialized();
+    if (!isAuthenticated) return null;
+
+    try {
+      final response = await _client
+          .from('user_profiles')
+          .select()
+          .eq('user_id', currentUser!.id)
+          .single();
+      
+      Logger.success('User profile retrieved');
+      return response;
+    } catch (e) {
+      Logger.error('Failed to get user profile', e);
+      return null;
+    }
+  }
+
+  /// Update user profile in user_profiles table
+  Future<void> updateUserProfile(Map<String, dynamic> profileData) async {
+    _ensureInitialized();
+    if (!isAuthenticated) throw Exception('User not authenticated');
+
+    try {
+      await _client
+          .from('user_profiles')
+          .update({
+        ...profileData,
+        'updated_at': DateTime.now().toIso8601String(),
+      })
+          .eq('user_id', currentUser!.id);
+      
+      Logger.success('User profile updated');
+    } catch (e) {
+      Logger.error('Failed to update user profile', e);
+      rethrow;
+    }
+  }
+
+  /// Check if user exists with email
+  Future<bool> checkUserExists(String email) async {
+    _ensureInitialized();
+    try {
+      final response = await _client.rpc('check_user_exists', params: {
+        'email_param': email,
+      });
+      return response as bool? ?? false;
+    } catch (e) {
+      Logger.error('Failed to check if user exists', e);
+      return false;
+    }
+  }
+
+  /// Validate invite code
+  Future<Map<String, dynamic>> validateInviteCode(String code) async {
+    _ensureInitialized();
+    try {
+      final response = await _client.rpc('validate_invite_code', params: {
+        'invite_code': code,
+      });
+      
+      Logger.success('Invite code validated');
+      return response.first as Map<String, dynamic>;
+    } catch (e) {
+      Logger.error('Failed to validate invite code', e);
+      rethrow;
+    }
+  }
+
+  /// Use invite code
+  Future<void> useInviteCode(String code) async {
+    _ensureInitialized();
+    if (!isAuthenticated) throw Exception('User not authenticated');
+
+    try {
+      await _client.rpc('use_invite_code', params: {
+        'invite_code': code,
+        'user_id': currentUser!.id,
+      });
+      
+      Logger.success('Invite code used');
+    } catch (e) {
+      Logger.error('Failed to use invite code', e);
+      rethrow;
+    }
+  }
+
+  /// Create invite code (admin only)
+  Future<Map<String, dynamic>> createInviteCode({
+    String? email,
+    DateTime? expiresAt,
+    int maxUses = 1,
+    Map<String, dynamic>? metadata,
+  }) async {
+    _ensureInitialized();
+    if (!isAuthenticated) throw Exception('User not authenticated');
+
+    try {
+      final response = await _client.rpc('create_invite_code', params: {
+        'p_email': email,
+        'p_expires_at': expiresAt?.toIso8601String(),
+        'p_max_uses': maxUses,
+        'p_metadata': metadata ?? {},
+      });
+      
+      Logger.success('Invite code created');
+      return response.first as Map<String, dynamic>;
+    } catch (e) {
+      Logger.error('Failed to create invite code', e);
+      rethrow;
+    }
+  }
+
+  /// Get user's invite codes
+  Future<List<Map<String, dynamic>>> getUserInviteCodes() async {
+    _ensureInitialized();
+    if (!isAuthenticated) return [];
+
+    try {
+      final response = await _client
+          .from('invite_codes')
+          .select()
+          .eq('created_by', currentUser!.id)
+          .order('created_at', ascending: false);
+      
+      Logger.success('Retrieved ${response.length} invite codes');
+      return response;
+    } catch (e) {
+      Logger.error('Failed to get invite codes', e);
+      return [];
+    }
+  }
+
+  /// Complete user onboarding
+  Future<void> completeOnboarding(Map<String, dynamic> onboardingData) async {
+    _ensureInitialized();
+    if (!isAuthenticated) throw Exception('User not authenticated');
+
+    try {
+      // Update user profile
+      await updateUserProfile({
+        ...onboardingData,
+        'onboarding_completed': true,
+        'onboarding_completed_at': DateTime.now().toIso8601String(),
+      });
+
+      // Create default health goals
+      await _client.rpc('create_default_health_goals', params: {
+        'p_user_id': currentUser!.id,
+      });
+      
+      Logger.success('Onboarding completed');
+    } catch (e) {
+      Logger.error('Failed to complete onboarding', e);
       rethrow;
     }
   }

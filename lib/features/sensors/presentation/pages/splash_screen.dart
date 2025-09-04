@@ -1,6 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:go_router/go_router.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:sensor_hub/core/core.dart';
 import 'package:sensor_hub/infrastructure/infrastructure.dart';
 
@@ -61,10 +63,15 @@ class _SplashScreenState extends State<SplashScreen> {
         setState(() => _status = 'Pronto para monitorar sensores!');
       }
       
-      // Navigate to home screen
+      // Check authentication status
       await Future.delayed(const Duration(milliseconds: 800));
       if (mounted) {
-        Navigator.pushReplacementNamed(context, '/home');
+        final user = Supabase.instance.client.auth.currentUser;
+        if (user != null) {
+          context.go('/home');
+        } else {
+          context.go('/auth/welcome');
+        }
       }
     } catch (e) {
       setState(() {
@@ -73,10 +80,10 @@ class _SplashScreenState extends State<SplashScreen> {
             : 'Falha ao inicializar: ${e.toString()}';
         _hasError = true;
       });
-      // After showing error, still navigate to home (offline mode)
+      // After showing error, navigate to auth
       await Future.delayed(const Duration(seconds: 3));
       if (mounted) {
-        Navigator.pushReplacementNamed(context, '/home');
+        context.go('/auth/welcome');
       }
     }
   }

@@ -4,8 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'core/core.dart';
-import 'features/sensors/presentation/pages/home_screen.dart';
-import 'features/sensors/presentation/pages/splash_screen.dart';
+import 'app/app_router.dart';
 import 'infrastructure/infrastructure.dart';
 
 void main() async {
@@ -38,28 +37,22 @@ void main() async {
   runApp(const ProviderScope(child: SensorHubApp()));
 }
 
-class SensorHubApp extends StatelessWidget {
+class SensorHubApp extends ConsumerWidget {
   const SensorHubApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
+  Widget build(BuildContext context, WidgetRef ref) {
+    final router = ref.watch(appRouterProvider);
+    
+    return MaterialApp.router(
       title: AppConstants.appName,
       debugShowCheckedModeBanner: false,
+      routerConfig: router,
 
       // Theme configuration
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       themeMode: ThemeMode.system,
-
-      // Initial route
-      home: const SplashScreen(),
-
-      // Route configuration
-      routes: {
-        '/home': (context) => const HomeScreen(),
-        '/splash': (context) => const SplashScreen(),
-      },
 
       // Builder for additional configuration
       builder: (context, child) {
