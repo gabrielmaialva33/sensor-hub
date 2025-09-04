@@ -114,13 +114,16 @@ class _SplashScreenState extends State<SplashScreen> {
                             .headlineLarge
                             ?.copyWith(
                           fontWeight: FontWeight.bold,
-                          color: isDark ? AppTheme.darkText : AppTheme
-                              .lightText,
-                              .fadeIn(delay: 200.ms, duration: 600.ms)
-                              .slideY(begin: 0.3, end: 0),
-                          const SizedBox(height: AppTheme.paddingSM),
-                          // App Description
-                          AppConstants.appDescription,
+                          color: isDark ? AppTheme.darkText : AppTheme.lightText,
+                        ),
+                      )
+                          .animate()
+                          .fadeIn(delay: 200.ms, duration: 600.ms)
+                          .slideY(begin: 0.3, end: 0),
+                  const SizedBox(height: AppTheme.paddingSM),
+                  // App Description
+                  Text(
+                        AppConstants.appDescription,
                           textAlign: TextAlign.center,
                           style: Theme
                               .of(
@@ -132,8 +135,9 @@ class _SplashScreenState extends State<SplashScreen> {
                         )
                             .animate()
                             .fadeIn(delay: 400.ms, duration: 600.ms),
-                        const SizedBox(height: AppTheme.paddingXL * 2),
-                        // Status Text
+                  const SizedBox(height: AppTheme.paddingXL * 2),
+                  // Status Text
+                  Text(
                         _status,
                         style: Theme
                             .of(context)
@@ -146,10 +150,10 @@ class _SplashScreenState extends State<SplashScreen> {
                           fontWeight: FontWeight.w500,
                         ),
                       ).animate().fadeIn(delay: 600.ms, duration: 400.ms),
-                      const SizedBox(height: AppTheme.paddingLG),
-                      // Loading Indicator
-                      if (!_hasError)
-                  const SizedBox(
+                  const SizedBox(height: AppTheme.paddingLG),
+                  // Loading Indicator
+                  if (!_hasError)
+                    const SizedBox(
                       width: 32,
                       height: 32,
                       child: CircularProgressIndicator(
