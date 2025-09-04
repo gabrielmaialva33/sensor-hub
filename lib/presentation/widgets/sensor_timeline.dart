@@ -226,7 +226,6 @@ class _SensorTimelineState extends ConsumerState<SensorTimeline> {
               ),
             ),
           ],
-          ),
         ),
       );
     }
