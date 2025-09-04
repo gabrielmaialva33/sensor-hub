@@ -20,7 +20,7 @@ class PerformanceOptimizer {
 
   // Frame timing
   static const Duration _target60fps = Duration(microseconds: 16667);
-  static const Duration _target120fps = Duration(microseconds: 8333);
+  // static const Duration _target120fps = Duration(microseconds: 8333); // Reserved for 120fps support
 
   // Performance metrics
   final Map<String, PerformanceMetric> _metrics = {};
@@ -28,7 +28,7 @@ class PerformanceOptimizer {
   bool _isMonitoring = false;
 
   // Frame callback ID for cleanup
-  int? _frameCallbackId;
+  // int? _frameCallbackId; // Reserved for frame callback tracking
 
   /// Initialize performance monitoring
   void initialize() {
