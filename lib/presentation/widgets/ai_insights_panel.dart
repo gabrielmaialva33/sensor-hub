@@ -724,23 +724,27 @@ class _AIInsightsPanelState extends ConsumerState<AIInsightsPanel> {
         _isAnalyzing = false;
       });
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('AI analysis completed successfully!'),
-          backgroundColor: AppTheme.successColor,
-        ),
-      );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('AI analysis completed successfully!'),
+            backgroundColor: AppTheme.successColor,
+          ),
+        );
+      }
     } catch (e) {
       setState(() {
         _isAnalyzing = false;
       });
       
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Analysis failed: ${e.toString()}'),
-          backgroundColor: AppTheme.errorColor,
-        ),
-      );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Analysis failed: ${e.toString()}'),
+            backgroundColor: AppTheme.errorColor,
+          ),
+        );
+      }
     }
   }
 }
