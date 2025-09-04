@@ -23,35 +23,54 @@ class _SplashScreenState extends State<SplashScreen> {
 
   Future<void> _initializeApp() async {
     try {
-      // Step 1: Initialize Supabase
-      setState(() => _status = 'Conectando aos serviços na nuvem...');
-      await Future.delayed(const Duration(milliseconds: 800));
-      final supabaseService = SupabaseService();
-      if (!supabaseService.isInitialized) {
-        await supabaseService.initialize();
-      }
-      // Step 2: Test connections
-      setState(() => _status = 'Testando serviços de IA...');
-      await Future.delayed(const Duration(milliseconds: 600));
-      final aiService = NvidiaAiService();
-      aiService.initialize();
-      // Optional: Test API connection (non-blocking)
-      aiService.testConnection().then((isConnected) {
-        if (!isConnected) {
-          Logger.warning(
-            'AI services temporarily unavailable, app will work in offline mode',
-          );
+      // Platform-specific initialization
+      if (kIsWeb) {
+        // Web platform initialization
+        setState(() => _status = 'Inicializando demo web...');
+        await Future.delayed(const Duration(milliseconds: 800));
+        
+        setState(() => _status = 'Configurando sensores simulados...');
+        await Future.delayed(const Duration(milliseconds: 600));
+        
+        setState(() => _status = 'Preparando visualizações...');
+        await Future.delayed(const Duration(milliseconds: 600));
+        
+        setState(() => _status = 'Demo web pronto! Sensores simulados ativos');
+      } else {
+        // Mobile platform initialization
+        setState(() => _status = 'Conectando aos serviços na nuvem...');
+        await Future.delayed(const Duration(milliseconds: 800));
+        final supabaseService = SupabaseService();
+        if (!supabaseService.isInitialized) {
+          await supabaseService.initialize();
         }
-      });
-      // Step 3: Setup complete
-      setState(() => _status = 'Pronto para monitorar sensores!');
+        
+        setState(() => _status = 'Testando serviços de IA...');
+        await Future.delayed(const Duration(milliseconds: 600));
+        final aiService = NvidiaAiService();
+        aiService.initialize();
+        // Optional: Test API connection (non-blocking)
+        aiService.testConnection().then((isConnected) {
+          if (!isConnected) {
+            Logger.warning(
+              'AI services temporarily unavailable, app will work in offline mode',
+            );
+          }
+        });
+        
+        setState(() => _status = 'Pronto para monitorar sensores!');
+      }
+      
       // Navigate to home screen
+      await Future.delayed(const Duration(milliseconds: 800));
       if (mounted) {
         Navigator.pushReplacementNamed(context, '/home');
       }
     } catch (e) {
       setState(() {
-        _status = 'Falha ao inicializar: ${e.toString()}';
+        _status = kIsWeb
+            ? 'Erro no demo web: ${e.toString()}'
+            : 'Falha ao inicializar: ${e.toString()}';
         _hasError = true;
       });
       // After showing error, still navigate to home (offline mode)
