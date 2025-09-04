@@ -469,7 +469,7 @@ class QuickActionsPanel extends ConsumerWidget {
     }
 
     // Navigate to AI Insights tab
-    DefaultTabController.of(context)?.animateTo(2);
+    DefaultTabController.of(context).animateTo(2);
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text('Navigating to AI Insights...'),
