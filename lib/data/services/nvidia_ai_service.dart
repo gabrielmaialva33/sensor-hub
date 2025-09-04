@@ -338,10 +338,10 @@ class AIInsight {
   });
 
   factory AIInsight.error(String message) => AIInsight(
-    activity: 'Unknown',
-    environment: 'Unknown',
-    deviceHealth: 'Unknown',
-    patterns: 'Unknown',
+    activity: 'Desconhecido',
+    environment: 'Desconhecido',
+    deviceHealth: 'Desconhecido',
+    patterns: 'Desconhecido',
     recommendations: [],
     confidence: 0.0,
     isError: true,
@@ -349,20 +349,20 @@ class AIInsight {
   );
 
   factory AIInsight.fromJson(Map<String, dynamic> json, List<SensorData> data) => AIInsight(
-    activity: json['activity'] ?? 'Unknown',
-    environment: json['environment'] ?? 'Unknown',
-    deviceHealth: json['deviceHealth'] ?? 'Good',
-    patterns: json['patterns'] ?? 'No patterns detected',
+    activity: json['activity'] ?? 'Desconhecido',
+    environment: json['environment'] ?? 'Desconhecido',
+    deviceHealth: json['deviceHealth'] ?? 'Bom',
+    patterns: json['patterns'] ?? 'Nenhum padrão detectado',
     recommendations: List<String>.from(json['recommendations'] ?? []),
     confidence: (json['confidence'] ?? 0.5).toDouble(),
   );
 
   factory AIInsight.fromText(String content, List<SensorData> data) => AIInsight(
-    activity: 'Mixed Activity',
-    environment: 'Variable',
-    deviceHealth: 'Good',
+    activity: 'Atividade Mista',
+    environment: 'Variável',
+    deviceHealth: 'Bom',
     patterns: content.length > 200 ? '${content.substring(0, 200)}...' : content,
-    recommendations: ['Check detailed analysis', 'Monitor patterns'],
+    recommendations: ['Verificar análise detalhada', 'Monitorar padrões'],
     confidence: 0.7,
   );
 }
@@ -390,10 +390,10 @@ class Prediction {
   });
 
   factory Prediction.error(String message) => Prediction(
-    nextActivity: 'Unknown',
-    batteryPrediction: 'Unknown',
-    movementForecast: 'Unknown',
-    environmentalChanges: 'Unknown',
+    nextActivity: 'Desconhecido',
+    batteryPrediction: 'Desconhecido',
+    movementForecast: 'Desconhecido',
+    environmentalChanges: 'Desconhecido',
     recommendations: [],
     confidence: 0.0,
     isError: true,
@@ -401,20 +401,20 @@ class Prediction {
   );
 
   factory Prediction.fromJson(Map<String, dynamic> json) => Prediction(
-    nextActivity: json['nextActivity'] ?? 'Unknown',
-    batteryPrediction: json['batteryPrediction'] ?? 'Stable',
-    movementForecast: json['movementForecast'] ?? 'Similar patterns',
-    environmentalChanges: json['environmentalChanges'] ?? 'No changes',
+    nextActivity: json['nextActivity'] ?? 'Desconhecido',
+    batteryPrediction: json['batteryPrediction'] ?? 'Estável',
+    movementForecast: json['movementForecast'] ?? 'Padrões similares',
+    environmentalChanges: json['environmentalChanges'] ?? 'Sem mudanças',
     recommendations: List<String>.from(json['recommendations'] ?? []),
     confidence: (json['confidence'] ?? 0.5).toDouble(),
   );
 
   factory Prediction.fromText(String content) => Prediction(
-    nextActivity: 'Predicted Activity',
-    batteryPrediction: 'Normal usage',
-    movementForecast: 'Continued patterns',
-    environmentalChanges: 'Stable environment',
-    recommendations: ['Monitor trends'],
+    nextActivity: 'Atividade Prevista',
+    batteryPrediction: 'Uso normal',
+    movementForecast: 'Padrões contínuos',
+    environmentalChanges: 'Ambiente estável',
+    recommendations: ['Monitorar tendências'],
     confidence: 0.6,
   );
 }
@@ -443,9 +443,9 @@ class ActivitySummary {
 
   factory ActivitySummary.error(String message) => ActivitySummary(
     activities: {},
-    movement: 'Unknown',
-    environment: 'Unknown',
-    health: 'Unknown',
+    movement: 'Desconhecido',
+    environment: 'Desconhecido',
+    health: 'Desconhecido',
     recommendations: [],
     score: 0,
     isError: true,
@@ -454,19 +454,19 @@ class ActivitySummary {
 
   factory ActivitySummary.fromJson(Map<String, dynamic> json) => ActivitySummary(
     activities: Map<String, int>.from(json['activities'] ?? {}),
-    movement: json['movement'] ?? 'Moderate',
-    environment: json['environment'] ?? 'Indoor',
-    health: json['health'] ?? 'Good',
+    movement: json['movement'] ?? 'Moderado',
+    environment: json['environment'] ?? 'Interno',
+    health: json['health'] ?? 'Bom',
     recommendations: List<String>.from(json['recommendations'] ?? []),
     score: json['score'] ?? 75,
   );
 
   factory ActivitySummary.fromText(String content) => ActivitySummary(
-    activities: {'Mixed': 100},
-    movement: 'Varied',
-    environment: 'Mixed',
-    health: 'Good',
-    recommendations: ['Stay active'],
+    activities: {'Misto': 100},
+    movement: 'Variado',
+    environment: 'Misto',
+    health: 'Bom',
+    recommendations: ['Mantenha-se ativo'],
     score: 75,
   );
 }
