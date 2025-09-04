@@ -145,11 +145,11 @@ class AppConstants {
   // Error Messages
   static const Map<String, String> errorMessages = {
     'permission_denied':
-        'Permission denied. Please grant required permissions.',
-    'sensor_unavailable': 'Sensor not available on this device.',
-    'api_error': 'AI analysis service temporarily unavailable.',
-    'storage_full': 'Storage limit reached. Please clear old data.',
-    'network_error': 'Network connection required for AI features.',
+        'Permissão negada. Por favor, conceda as permissões necessárias.',
+    'sensor_unavailable': 'Sensor não disponível neste dispositivo.',
+    'api_error': 'Serviço de análise de IA temporariamente indisponível.',
+    'storage_full': 'Limite de armazenamento atingido. Por favor, limpe dados antigos.',
+    'network_error': 'Conexão de rede necessária para recursos de IA.',
   };
 
   // Success Messages
