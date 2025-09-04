@@ -128,7 +128,8 @@ class _SensorTimelineState extends ConsumerState<SensorTimeline> {
               const SizedBox(width: AppTheme.paddingMD),
 
               // Time Range Selector
-              Container(
+              Expanded(
+                child: Container(
                 padding: const EdgeInsets.symmetric(
                   horizontal: AppTheme.paddingSM,
                 ),
@@ -151,6 +152,7 @@ class _SensorTimelineState extends ConsumerState<SensorTimeline> {
                   items: _timeRanges.keys.map((range) {
                     return DropdownMenuItem(value: range, child: Text(range));
                   }).toList(),
+                ),
                 ),
               ),
 
