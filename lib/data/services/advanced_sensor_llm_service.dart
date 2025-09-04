@@ -67,7 +67,7 @@ class AdvancedSensorLLMService {
       } else if (d is LocationData) {
         values.add(d.speed ?? 0);
       } else if (d is BatteryData) {
-        values.add(d.level.toDouble());
+        values.add(d.batteryLevel.toDouble());
       } else if (d is LightData) {
         values.add(d.luxValue);
       } else if (d is ProximityData) {
