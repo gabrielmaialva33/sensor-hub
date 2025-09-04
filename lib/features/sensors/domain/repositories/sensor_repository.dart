@@ -1,15 +1,15 @@
-import 'package:dartz/dartz.dart';
 import '../entities/sensor_entity.dart';
+import '../use_cases/stream_sensor_data.dart';
 
 /// Repository abstrato - Domain Layer (2025 Clean Architecture)
 abstract class SensorRepository {
   /// Stream de dados do sensor em tempo real
-  Stream<Either<SensorFailure, List<SensorEntity>>> getSensorStream(
+  Stream<SensorResult<List<SensorEntity>>> getSensorStream(
     SensorType type,
   );
   
   /// Obter dados históricos do sensor
-  Future<Either<SensorFailure, List<SensorEntity>>> getHistoricalData({
+  Future<SensorResult<List<SensorEntity>>> getHistoricalData({
     required SensorType type,
     required DateTime startDate,
     required DateTime endDate,
@@ -17,15 +17,15 @@ abstract class SensorRepository {
   });
   
   /// Salvar dados do sensor
-  Future<Either<SensorFailure, void>> saveSensorData(SensorEntity data);
+  Future<SensorResult<void>> saveSensorData(SensorEntity data);
   
   /// Limpar dados antigos
-  Future<Either<SensorFailure, int>> clearOldData({
+  Future<SensorResult<int>> clearOldData({
     required Duration olderThan,
   });
   
   /// Exportar dados
-  Future<Either<SensorFailure, String>> exportData({
+  Future<SensorResult<String>> exportData({
     required SensorType type,
     required ExportFormat format,
     DateTime? startDate,
@@ -33,7 +33,7 @@ abstract class SensorRepository {
   });
   
   /// Análise com IA
-  Future<Either<SensorFailure, SensorAnalysis>> analyzeWithAI(
+  Future<SensorResult<SensorAnalysis>> analyzeWithAI(
     List<SensorEntity> data,
   );
 }
