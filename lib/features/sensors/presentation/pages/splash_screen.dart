@@ -134,6 +134,38 @@ class _SplashScreenState extends State<SplashScreen> {
                   context,
                 ).textTheme.bodyMedium?.copyWith(color: AppTheme.mutedText),
               ).animate().fadeIn(delay: 400.ms, duration: 600.ms),
+              // Web demo indicator
+              if (kIsWeb) ...[
+                const SizedBox(height: AppTheme.paddingMD),
+                Container(
+                  padding: const EdgeInsets.all(AppTheme.paddingSM),
+                  decoration: BoxDecoration(
+                    color: AppTheme.secondaryColor.withValues(alpha: 0.1),
+                    borderRadius: BorderRadius.circular(AppTheme.radiusMD),
+                    border: Border.all(
+                      color: AppTheme.secondaryColor.withValues(alpha: 0.3),
+                    ),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(
+                        Icons.web,
+                        color: AppTheme.secondaryColor,
+                        size: 16,
+                      ),
+                      const SizedBox(width: AppTheme.paddingXS),
+                      Text(
+                        'Web Demo - Sensores Simulados',
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: AppTheme.secondaryColor,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
+                  ),
+                ).animate().fadeIn(delay: 600.ms, duration: 400.ms),
+              ],
               const SizedBox(height: AppTheme.paddingXL * 2),
               // Status Text
               Text(
